@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="windows-1252"?>
+<root>
+    <!-- Bing Account Settings // -->
+    <bing>
+        <key>9KZiwjJnD/BbaJHp+Jg9ZUBXPhShsmNNcAfiXrH2hCw</key>
+        <id>ab8b82d7-5574-43df-ba48-d9b68cbc4b94</id>
+        <url>http://www.bing.com/search?q=</url>
+        <url_api>https://api.datamarket.azure.com/Bing/Search/Web?Query=</url_api>
+    </bing>
+    
+    <!-- Google Account Settings // -->
+    <google>
+        <url>http://ajax.googleapis.com/ajax/services/search/web?v=1.0&amp;rsz=large&amp;q=</url>
+        <url_api></url_api>
+    </google>
+    
+    <!-- Yahoo Account Settings // -->
+    <yahoo>
+        <clientID>dj0yJmk9TTd6Q1piR1dzVlVpJmQ9WVdrOWN6SXljSEJ0TjJVbWNHbzlNQS0tJnM9Y29uc3VtZXJzZWNyZXQmeD01MQ--</clientID>
+        <clientSecret>50cc6ef99b61beabb3edc2a6971d95d2914e4c8c</clientSecret>
+        <url>http://search.yahoo.com/search?p=</url>
+        <url_api>https://yboss.yahooapis.com/ysearch/web?</url_api>
+    </yahoo>
+</root>
