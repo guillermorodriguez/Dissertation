@@ -15,8 +15,9 @@ from rauth import OAuth2Service
 import urllib.request
 from xml.dom import minidom
 from htmlHelper import *
+from extract import *
 
-class pyYahoo():
+class pyYahoo(Extract):
     
     """ """
     
@@ -30,30 +31,20 @@ class pyYahoo():
         _config.yahoo()
 
         try:
-            if use_api in ("True", "T", "Yes", "Y", 1, True):
-                # API Call
-                _params = urllib.parse.urlencode({'q': query, 'sites': '', 'format': 'xml'})
-                _headers = {'consumer_key': _config.yahoo_settings['clientID'], 'consumer_secret': _config.yahoo_settings['clientSecret'] }
-                _query = _config.yahoo_settings['url_api'] + _params
-                
-                _request = urllib.request.Request(_query)
-                _request.add_header('oauth', urllib.parse.urlencode( _headers ) )
-    
-                _response = urllib.request.urlopen(_request)
-                _content = _response.read()
-            else:         
-                # Direct Call
-                _request = urllib.request.Request(_config.yahoo_settings['url'] + query) 
-                _response = urllib.request.urlopen(_request)
-               
-                
-                _html = HTMLhelper()
-                _html.engine('YAHOO', 'URLS')
-                _html.feed( _response.read().decode("utf-8")  )
+            # Direct Call
+            _html = self.extract_links(_config.yahoo_settings['url'] + query, 'YAHOO')
+            for _entry in _html.links:
+                print(_entry)
+                print(self.extract_indexes(_entry, {'lubbock'}))
+
+                _html = self.extract_links(_html.next, 'YAHOO')
                 for _entry in _html.links:
                     print(_entry)
+                    print(self.extract_indexes(_entry, {'lubbock'}))
 
         except urllib.request.URLError as e:
             print("Error: %s" % e.reason )
         except ValueError as v:
             print("Non urllib Error: %s" % v)
+
+    

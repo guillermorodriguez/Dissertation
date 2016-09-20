@@ -12,36 +12,91 @@ class HTMLhelper(HTMLParser):
         type = BING | GOOGLE | YAHOO
         operation = URLS | KEYS | INDEX
     """
-    def engine(self, type, operation):
-        self.type = type
-        self.operation = operation        
+    
+    indexes = { 'description': 0, 'div': 0, 'outbound_links': 0, 'h1': 0, 'h2': 0, 'h3': 0, 'h4': 0, 'h5': 0, 'h6': 0, 'inbound_links': 0, 'keywords': 0, 'p': 0, 'title': 0, 'url': 0 }
+    links = []
+    operation = ''
+    next = ''
+    tag = ''
+    type = ''
+    url = ''
+    words = {}    
+    
+    def search_engine(self, type, operation):
         self.links = []
-        self.keys = {'DESCRIPTION': 0, 'H1': 0, 'H2': 0, 'H3': 0, 'H4': 0, 'H5': 0, 'H6': 0, 'KEYWORDS': 0, 'P': 0, 'TITLE': 0, 'URL': 0}
-        self.totals = {'DESCRIPTION': 0, 'H1': 0, 'H2': 0, 'H3': 0, 'H4': 0, 'H5': 0, 'H6': 0, 'KEYWORDS': 0, 'P': 0, 'TITLE': 0, 'URL': 0}
+        self.operation = operation               
+        self.next = ''
+        self.type = type        
+        
+    def search_indexes(self, url, operation, words):
+        self.indexes = { 'description': 0, 'div': 0, 'outbound_links': 0, 'h1': 0, 'h2': 0, 'h3': 0, 'h4': 0, 'h5': 0, 'h6': 0, 'inbound_links': 0, 'keywords': 0, 'p': 0, 'title': 0, 'url': 0 }
+        self.operation = operation
+        self.url = url      
+        self.words = words
 
     def handle_starttag(self, tag, attrs):
         self.tag = tag
-
-        if self.tag == 'a' and self.type.upper() == 'GOOGLE':
-            print(attrs)
-            print()
-        elif self.tag == 'a' and self.type.upper() == 'BING':
-            print(attrs)
-            print()
-        elif self.tag == 'a' and self.type.upper() == 'YAHOO':
-            print(attrs)
-            print()
+        self.attrs = attrs
+        
+        if self.operation.upper() == 'URLS':
+            if self.tag == 'a' and self.type.upper() == 'GOOGLE':
+                print(attrs)
+            elif self.tag == 'a' and self.type.upper() == 'BING':
+                print(attrs)
+            elif self.tag == 'a' and self.type.upper() == 'YAHOO':
+                _hasClass = False
+                _hasLink = False
+                _hasTarget = False
+                _hasData = False
+                _link = ''
+                for items in attrs:
+                    for key in items:
+                        if 'class' == key and items[1].strip() != '':
+                            _hasClass = True
+                        elif  'href' == key and items[1].strip() != '#' and 'yahoo.com' not in items[1].strip().lower():
+                            _hasLink = True
+                            _link = items[1]
+                        elif 'target' == key:
+                            _hasTarget = True
+                        elif 'data' in key:
+                            _hasData = True
+                if _hasClass and _hasLink and _hasTarget and _hasData:
+                    self.links.append(_link)
+        elif self.operation.upper() == 'KEYS':
+            if self.tag.lower().strip() == 'meta':
+                # Meta Tags
+                _attrs = dict(attrs)            
+                if 'name' in _attrs and 'content' in _attrs and len(_attrs) == 2:
+                    for _word in self.words:
+                        if _attrs['name'].lower().strip() == 'description':
+                            self.indexes['description'] += ( _attrs['content'].lower().count(_word) * len(_word) ) / len(_attr['content'])
+                        elif _attrs['name'].lower().strip() == 'keywords':
+                            self.indexes['keywords'] += (_attrs['content'].lower().count(_word) * len(_word) ) / len(_attr['content'])
+                elif self.tag.lower().strip() == 'a':
+                    # Outbound Links
+                    pass       
         
     def handle_endtag(self, tag):
         self.tag = ''
 
     def handle_data(self, data):
         if self.operation.upper() == 'URLS':
+            # Extract Search Engine URLS
             if self.tag == 'd:url' and self.type.upper() == 'BING':
                 print(data)
                 self.links.append( {'url': data} )
             elif self.tag == 'd:url' and self.type.upper() == 'GOOGLE':
                 self.links.append( {'url': ''} )
-            elif self.tag == 'd:url' and self.type.upper() == 'YAHOO':
-                print(data)
-                self.links.append( {'url': ''} )
+            elif self.tag == 'a' and self.type.upper() == 'YAHOO':
+                if data == 'Next':
+                    _hasLink = False
+                    for items in self.attrs:
+                        for key in items:
+                            if key == 'href':
+                                self.next = items[1]
+        elif self.operation.upper() == 'KEYS':
+            # Keywords in Content Elements
+            for _key in self.indexes:
+                if _key == self.tag:
+                    for _word in self.words:              
+                        self.indexes[_key] += ( data.lower().count(_word)*len(_word) ) / len(data) 

@@ -40,13 +40,11 @@ class pyBing():
                 _response = request.urlopen(_query)
 
                 _html = HTMLhelper()
-                _html.engine('BING', 'URLS')
+                _html.search_engine('BING', 'URLS')
                 _html.feed( _response.read().decode("utf-8") )
                 for _entry in _html.links:
                     print(_entry)
-            else:
-                pass
-            
+
         except request.URLError as e:
             print("Error: %s" % e.reason )
         except ValueError as v:

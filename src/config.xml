@@ -9,9 +9,9 @@
     </bing>
     
     <!-- Google Account Settings // -->
-    <google>
-        <url>http://ajax.googleapis.com/ajax/services/search/web?v=1.0&amp;rsz=large&amp;q=</url>
-        <url_api></url_api>
+    <google>        
+        <url>https://www.google.com/#q=</url>
+        <url_api>http://ajax.googleapis.com/ajax/services/search/web?v=1.0&amp;rsz=large&amp;q=</url_api>
     </google>
     
     <!-- Yahoo Account Settings // -->
