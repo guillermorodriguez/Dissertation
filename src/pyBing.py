@@ -12,8 +12,9 @@ from config import *
 import urllib.request as request
 from xml.dom import minidom
 from htmlHelper import *
+from extract import *
 
-class pyBing():
+class pyBing(Extract):
     
     def __init__(self, query, results = 100, use_api = True):
         print('\n==================================================================')
@@ -44,6 +45,7 @@ class pyBing():
                 _html.feed( _response.read().decode("utf-8") )
                 for _entry in _html.links:
                     print(_entry)
+                    print(self.extract_indexes(_entry, {'lubbock'}))
 
         except request.URLError as e:
             print("Error: %s" % e.reason )

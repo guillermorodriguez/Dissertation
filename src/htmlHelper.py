@@ -83,8 +83,8 @@ class HTMLhelper(HTMLParser):
         if self.operation.upper() == 'URLS':
             # Extract Search Engine URLS
             if self.tag == 'd:url' and self.type.upper() == 'BING':
-                print(data)
-                self.links.append( {'url': data} )
+                if 'http' in data:
+                    self.links.append( data )
             elif self.tag == 'd:url' and self.type.upper() == 'GOOGLE':
                 self.links.append( {'url': ''} )
             elif self.tag == 'a' and self.type.upper() == 'YAHOO':
