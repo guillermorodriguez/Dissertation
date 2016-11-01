@@ -6,19 +6,18 @@
         <id>ab8b82d7-5574-43df-ba48-d9b68cbc4b94</id>
         <url>http://www.bing.com/search?q=</url>
         <url_api>https://api.datamarket.azure.com/Bing/Search/Web?Query=</url_api>
+        <externallinks>http://bing.com/search?q=link:[URL]</externallinks>
     </bing>
     
     <!-- Google Account Settings // -->
     <google>        
-        <url>https://www.google.com/#q=</url>
-        <url_api>http://ajax.googleapis.com/ajax/services/search/web?v=1.0&amp;rsz=large&amp;q=</url_api>
+        <url>http://www.google.com/search?q=</url>
+        <externallinks>http://www.google.com/search?q=link:[URL]+-site:[URL]</externallinks>
     </google>
     
     <!-- Yahoo Account Settings // -->
     <yahoo>
-        <clientID>dj0yJmk9TTd6Q1piR1dzVlVpJmQ9WVdrOWN6SXljSEJ0TjJVbWNHbzlNQS0tJnM9Y29uc3VtZXJzZWNyZXQmeD01MQ--</clientID>
-        <clientSecret>50cc6ef99b61beabb3edc2a6971d95d2914e4c8c</clientSecret>
         <url>http://search.yahoo.com/search?p=</url>
-        <url_api>https://yboss.yahooapis.com/ysearch/web?</url_api>
+        <externallinks>http://search.yahoo.com/search?p=link:[URL]</externallinks>
     </yahoo>
 </root>

@@ -17,6 +17,8 @@ import argparse
 from pyBing import *
 from pyGoogle import *
 from pyYahoo import *
+import os
+import time
 
 print("Starting Search ......")
 
@@ -24,28 +26,37 @@ print("Starting Search ......")
 # Global Configuration
 # --------------------------------------------------------------------------
 _MODE = "DEBUG"
+_source = os.getcwd()+'\\inputs\\californiaCities.txt'
 # --------------------------------------------------------------------------
 
 parser = argparse.ArgumentParser(prog='pySearch.py')
 parser.add_argument('-engine', help='Search Engine [BING | GOOGLE | YAHOO]')
-parser.add_argument('-search', help='Search Term')
-parser.add_argument('-results', help='Search Results')
-parser.add_argument('-api', help='Use API [True | False]')
+
 parse = parser.parse_args()
 
-if parse.engine and parse.search and parse.results and parse.api:
+if parse.engine:
     if _MODE == "DEBUG":
         print("Engine: %s" % parse.engine)
-        print("Search: %s" % parse.search)
-        print("Results: %s" % parse.results)
-        print("API: %s" % parse.api)
+    
+    if not os.path.exists(os.getcwd()+'\\'+parse.engine.upper()):
+        os.makedirs(os.getcwd()+'\\'+parse.engine.upper())
+    
+    _file = open(_source, 'r')
+    _term = _file.readline().strip()
+    while _term:
+        print("Searching: %s" % _term)
         
-    if parse.engine.upper() == 'BING':
-        _bing = pyBing(parse.search, parse.results, parse.api)
-    elif parse.engine.upper() == 'GOOGLE':
-        _google = pyGoogle(parse.search, parse.results, parse.api)
-    elif parse.engine.upper() == 'YAHOO':
-        _yahoo = pyYahoo(parse.search, parse.results, parse.api)
+        if parse.engine.upper() == 'BING':
+            _bing = pyBing(_term)
+        elif parse.engine.upper() == 'GOOGLE':
+            _google = pyGoogle(_term)
+        elif parse.engine.upper() == 'YAHOO':
+            _yahoo = pyYahoo(_term)
+            
+        _term = _file.readline().strip()
+        
+    _file.close()
+    
 else:
     parser.print_help()
 
