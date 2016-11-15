@@ -6,18 +6,18 @@
         <id>ab8b82d7-5574-43df-ba48-d9b68cbc4b94</id>
         <url>http://www.bing.com/search?q=</url>
         <url_api>https://api.datamarket.azure.com/Bing/Search/Web?Query=</url_api>
-        <externallinks>http://bing.com/search?q=link:[URL]</externallinks>
+        <externallinks>http://bing.com/search?q=link: [URL] -site:[BASE_URL]</externallinks>
     </bing>
     
     <!-- Google Account Settings // -->
     <google>        
         <url>http://www.google.com/search?q=</url>
-        <externallinks>http://www.google.com/search?q=link:[URL]+-site:[URL]</externallinks>
+        <externallinks>http://www.google.com/search?q=link:[URL]+-site:[BASE_URL]</externallinks>
     </google>
     
     <!-- Yahoo Account Settings // -->
     <yahoo>
         <url>http://search.yahoo.com/search?p=</url>
-        <externallinks>http://search.yahoo.com/search?p=link:[URL]</externallinks>
+        <externallinks>http://search.yahoo.com/search?p=link: [URL] -site:[BASE_URL]</externallinks>
     </yahoo>
 </root>

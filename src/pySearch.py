@@ -33,7 +33,6 @@ parser = argparse.ArgumentParser(prog='pySearch.py')
 parser.add_argument('-engine', help='Search Engine [BING | GOOGLE | YAHOO]')
 
 parse = parser.parse_args()
-
 if parse.engine:
     if _MODE == "DEBUG":
         print("Engine: %s" % parse.engine)
@@ -44,19 +43,18 @@ if parse.engine:
     _file = open(_source, 'r')
     _term = _file.readline().strip()
     while _term:
-        print("Searching: %s" % _term)
-        
+        print("Searching: %s" % _term)        
         if parse.engine.upper() == 'BING':
-            _bing = pyBing(_term)
-        elif parse.engine.upper() == 'GOOGLE':
-            _google = pyGoogle(_term)
+            _bing = pyBing()
+            _bing.getLinks(_term)
+        elif parse.engine.upper() == 'GOOGLE':            
+            _google = pyGoogle()
+            _google.getLinks(_term)
         elif parse.engine.upper() == 'YAHOO':
-            _yahoo = pyYahoo(_term)
-            
-        _term = _file.readline().strip()
-        
-    _file.close()
-    
+            _yahoo = pyYahoo()            
+            _yahoo.getLinks(_term)
+        _term = _file.readline().strip()        
+    _file.close()    
 else:
     parser.print_help()
 

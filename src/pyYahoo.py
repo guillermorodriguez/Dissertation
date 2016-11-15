@@ -19,12 +19,34 @@ import os
 class pyYahoo(Extract):
     
     """ """
-    
-    def __init__(self, query):
+    def __init__(self):
         print('\n==================================================================')
         print( '%s Initialized' % self.__class__.__name__ )
         print('==================================================================')
         
+    def getBackLinks(self, url):
+        _backlinks = 0
+        try:
+            _config = config()
+            _config.yahoo()
+            
+            _source = url.replace('https', '').replace('http', '').replace(':', '').replace('//', '').replace('www.', '')
+            if _source.find('/') != -1:
+                _source = _source[:_source.find('/')]
+            
+            _url = _config.yahoo_settings['externallinks'].replace('[URL]', url).replace('[BASE_URL]', _source )
+            print( "Back Links Query: %s" % (_url) )
+            _backlinks = self.external_links(_url, 'YAHOO')
+            if _backlinks is None:
+                _backlinks = 0            
+        except request.URLError as e:
+            print("Error: %s" % e.reason )
+        except ValueError as v:
+            print("Non urllib Error: %s" % v)
+            
+        return _backlinks
+    
+    def getLinks(self, query):
         # Obtain API Settings
         _config = config()
         _config.yahoo()
@@ -33,7 +55,7 @@ class pyYahoo(Extract):
             # Keywords
             _keywords = {}
             _keywords[query] = '' 
-            
+
             # Set Repository Structure
             _name = os.getcwd()+'\\YAHOO\\'+query+'_'+time.strftime("%Y%m%d%H%M%S")+".data"
             _file = open( _name, "w" )   
@@ -54,13 +76,13 @@ class pyYahoo(Extract):
                             _file.write('\t'+str(_index[1]))
                         _file.write('\n')    
                         _file.close()
-                    
+
                 if _html.next != '':
                     print("Next: %s" % _html.next)
                     _html = self.extract_links(_html.next, 'YAHOO') 
                     print("Pausing for 3 seconds")
                     time.sleep(3)
-                        
+
         except urllib.request.URLError as e:
             print("Error: %s" % e.reason )
         except ValueError as v:

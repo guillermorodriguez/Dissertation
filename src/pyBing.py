@@ -16,28 +16,57 @@ from extract import *
 import time
 import os
 
+
 class pyBing(Extract):
     
-    def __init__(self, query):
+    def __init__(self):
         print('\n==================================================================')
         print( '%s Initialized' % self.__class__.__name__ )
         print('==================================================================')
         
+    def getBackLinks(self, url):
+        _backlinks = 0
+        try:
+            _config = config()
+            _config.bing()
+            
+            _source = url.replace('https', '').replace('http', '').replace(':', '').replace('//', '').replace('www.', '')
+            if _source.find('/') != -1:
+                _source = _source[:_source.find('/')]
+                
+            _url = _config.bing_settings['externallinks'].replace('[URL]', url).replace('[BASE_URL]', _source )
+
+            _html = self.external_links(_url, 'BING')
+            _backlinks = len(_html.backlinks)
+            while _html.next != '':
+                time.sleep(3)
+                _html = self.external_links(_html.next, 'BING')
+                _backlinks += len(_html.backlinks)
+       
+            print("Backlinks: %s" % _backlinks)
+        except request.URLError as e:
+            print("Error: %s" % e.reason )
+        except ValueError as v:
+            print("Non urllib Error: %s" % v)
+            
+        return _backlinks
+    
+    def getLinks(self, query):
         # Obtain API Settings
         _config = config()
         _config.bing()
-        
+
         try:            
             # Keywords
             _keywords = {}
             _keywords[query] = ''
-            
+
             # Set Repository Structure
             _name = os.getcwd()+'\\BING\\'+query+'_'+time.strftime("%Y%m%d%H%M%S")+".data"
             _file = open( _name, "w" )   
             _file.write('index\turl\tdescription\tdiv\th1\th2\th3\th4\th5\th6\tinbound_links\tkeywords\toutbound_links\tp\troot\tspan\ttitle\n')
             _file.close()
-            
+
             _query = _config.bing_settings['url_api'] + request.quote("'%s'" % query)
             _passmgr = request.HTTPPasswordMgrWithDefaultRealm()
             _passmgr.add_password(None, _query, _config.bing_settings['id'], _config.bing_settings['key'])
@@ -50,7 +79,7 @@ class pyBing(Extract):
             request.install_opener(_opener)
 
             _response = request.urlopen(_query)
-
+            
             _html = HTMLhelper()
             _html.search_engine('BING', 'URLS')
             _html.feed( _response.read().decode("utf-8") )
@@ -71,11 +100,5 @@ class pyBing(Extract):
             print("Error: %s" % e.reason )
         except ValueError as v:
             print("Non urllib Error: %s" % v)
-        
-        
-        
-        
-        
-        
-        
-        
+            
+                

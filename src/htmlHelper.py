@@ -25,12 +25,13 @@ class HTMLhelper(HTMLParser):
     type = ''
     url = ''
     words = {}    
+    backlinks = []
     
     def search_engine(self, type, operation):
         self.links = []
         self.operation = operation               
         self.next = ''
-        self.type = type        
+        self.type = type      
         
     def search_indexes(self, url, operation, words):
         self.indexes = { 'description': 0, 'div': 0, 'outbound_links': 0, 'h1': 0, 'h2': 0, 'h3': 0, 'h4': 0, 'h5': 0, 'h6': 0, 'inbound_links': 0, 'keywords': 0, 'p': 0, 'span': 0, 'title': 0, 'root': 0 }
@@ -45,16 +46,53 @@ class HTMLhelper(HTMLParser):
 
     def get_backlinks(self, url, type):
         self.url = url
+        self.next = ''
         self.type = type
-        
+        self.backlinks = []
         self.operation = 'INDEX'
+        self.valid_results = False
         
     def handle_starttag(self, tag, attrs):
         self.tag = tag
         self.attrs = attrs
         if self.operation.upper() == 'URLS':
             if self.tag == 'a' and self.type.upper() == 'GOOGLE':
-                print(attrs)
+                if len(attrs) == 2:
+                    _hasMouseDown = False
+                    _hasHref = False
+                    _link = ''
+                    _iterate = True
+                    for items in attrs:
+                        for key in items:
+                            if _iterate:
+                                if 'href' in key and items[1].strip() != '#' and ('google' not in items[1].strip() and items[1][0] != '/'):
+                                    _hasHref = True
+                                    _link = items[1]
+                                elif 'onmousedown' in key and 'return' in items[1] and 'rwt(this' in items[1]:
+                                    _hasMouseDown = True
+                                elif ('class' == key.strip() and 'fl' == items[1].strip()) or ('data-' in key.strip()):
+                                    _hasMouseDown = False
+                                    _hasHref = False
+                                    _iterate = False
+                    if _hasHref and _hasMouseDown:
+                        self.links.append({'url': _link, 'count': len(self.links) + 1 })   
+                else:
+                    _hasClass = False
+                    _hasHref = False
+                    _hasId = False
+                    _link = ''
+                    for items in attrs:
+                        for key in items:
+                            if 'class' in key and 'pn' in items[1]:
+                                _hasClass = True
+                            elif 'href' in key:
+                                _hasHref = True
+                                _link = items[1]
+                            elif 'id' in key and 'pnnext' in items[1]:
+                                _hasId = True
+                    if _hasClass and _hasHref and _hasId and _link != '':
+                        self.next = 'https://www.google.com'+_link
+                    
             elif self.tag == 'a' and self.type.upper() == 'BING':
                 pass
             elif self.tag == 'a' and self.type.upper() == 'YAHOO':
@@ -99,8 +137,41 @@ class HTMLhelper(HTMLParser):
                         elif 'rel' == key and items[1].strip().lower() == '':
                             _nofollow = True
                 if not _nofollow and _validLink:
-                    self.indexes['outbound_links'] += 1
-                    
+                    self.indexes['outbound_links'] += 1                    
+        elif self.operation.upper() == 'INDEX':
+            if self.type.upper() == 'BING':
+                _hasLink = False
+                _hasH = False
+                _hasNext = False
+                _hasNextLink = False
+                _link = ''
+                for items in attrs:
+                    for key in items:
+                        if 'href' == key and 'http' == items[1][:4] and 'go.microsoft.com' not in items[1]:
+                            _hasLink = True
+                            _link = items[1]
+                        elif 'href' == key and '/search?q=' == items[1][:10]:
+                            _hasNextLink = True
+                            _link = items[1]
+                        elif 'title' == key and 'NEXT PAGE' == items[1].upper():
+                            _hasNext = True
+                        elif 'h' == key and 'SERP' in items[1]:
+                            _hasH = True
+                
+                if _hasLink and _hasH:
+                    _hasParent = False
+                    if len(self.backlinks) > 0:
+                        for _elem in self.backlinks:
+                            if _elem['url'] in _link:
+                                _hasParent = True
+                                break
+                        
+                    if not _hasParent:
+                        self.backlinks.append({'url': _link, 'count': len(self.backlinks) + 1 })
+                        print(self.backlinks[len(self.backlinks) -1]['url'] )               
+                elif _hasNextLink and _hasNext: 
+                    self.next = 'http://www.bing.com' + _link
+                
     def handle_endtag(self, tag):
         self.tag = ''
 
@@ -110,8 +181,8 @@ class HTMLhelper(HTMLParser):
             if self.tag == 'd:url' and self.type.upper() == 'BING':
                 if 'http' in data:
                     self.links.append( data )
-            elif self.tag == 'd:url' and self.type.upper() == 'GOOGLE':
-                self.links.append( {'url': ''} )
+            elif self.tag == 'a' and self.type.upper() == 'GOOGLE':
+                pass
             elif self.tag == 'a' and self.type.upper() == 'YAHOO':
                 if data == 'Next':
                     _hasLink = False
@@ -126,10 +197,8 @@ class HTMLhelper(HTMLParser):
                     for _word in self.words:    
                         if len(data) > 0:
                             self.indexes[_key] += ( data.lower().count(_word.lower()) *len(_word) ) / len(data) 
-        elif self.operation.upper() == 'INDEX':
+        elif self.operation.upper() == 'INDEX':            
             if self.type.upper() == 'BING':
                 pass
             elif self.type.upper() == 'GOOGLE':
-                pass
-            elif self.type.upper() == 'YAHOO':
                 pass
