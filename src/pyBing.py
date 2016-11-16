@@ -26,6 +26,8 @@ class pyBing(Extract):
         
     def getBackLinks(self, url):
         _backlinks = 0
+        _repository = []
+        _page = 1
         try:
             _config = config()
             _config.bing()
@@ -38,10 +40,24 @@ class pyBing(Extract):
 
             _html = self.external_links(_url, 'BING')
             _backlinks = len(_html.backlinks)
+            _repository.append(_html.backlinks)
+            print("Page %i" % _page)
+            print(_repository)
             while _html.next != '':
                 time.sleep(3)
                 _html = self.external_links(_html.next, 'BING')
+                
+                _repeats = 0
+                for _entry in _html.backlinks:
+                    for 
+                    
+                if _repeats > 2:
+                    break
+                
+                _repository.append(_html.backlinks)
                 _backlinks += len(_html.backlinks)
+                _page += 1
+                print("Page %i" % _page)
        
             print("Backlinks: %s" % _backlinks)
         except request.URLError as e:

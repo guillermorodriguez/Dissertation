@@ -18,7 +18,7 @@ parse = parser.parse_args()
 
 _out = os.getcwd()+'\\'+parse.engine.upper()+'\\_clean_'+time.strftime("%Y%m%d%H%M%S")+".dat"
 if parse.engine:
-    source = os.getcwd()+'\\'+parse.engine.upper()+'\\_compiled_20161114.dat'    
+    source = os.getcwd()+'\\'+parse.engine.upper()+'\\_compiled.dat'    
     with open(source) as _source:
         for _line in _source:
             if 'index' in _line and 'url' in _line and 'description' in _line and 'div' in _line:                              
