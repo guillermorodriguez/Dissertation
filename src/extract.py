@@ -47,7 +47,7 @@ class Extract:
         _html = HTMLhelper()
         try:
             url = url.replace(' ', '%20')
-            print("URL: %s" % url)
+            print("Back Links: %s" % url)
             _request = urllib.request.Request(url)
             _request.add_header('User-agent', 'Mozilla/5.0 (Windows NT 6.3; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/53.0.2785.116 Safari/537.36')
             _response = urllib.request.urlopen(_request, timeout=180)     

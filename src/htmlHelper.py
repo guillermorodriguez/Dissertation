@@ -159,16 +159,9 @@ class HTMLhelper(HTMLParser):
                             _hasH = True
                 
                 if _hasLink and _hasH:
-                    _hasParent = False
-                    if len(self.backlinks) > 0:
-                        for _elem in self.backlinks:
-                            if _elem['url'] in _link:
-                                _hasParent = True
-                                break
-                        
-                    if not _hasParent:
-                        self.backlinks.append({'url': _link, 'count': len(self.backlinks) + 1 })
-                        print(self.backlinks[len(self.backlinks) -1]['url'] )               
+                    if _link not in self.backlinks:
+                        self.backlinks.append(_link)
+                        print("Added Back Link: %s" % _link)                                       
                 elif _hasNextLink and _hasNext: 
                     self.next = 'http://www.bing.com' + _link
                 

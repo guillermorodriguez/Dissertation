@@ -15,7 +15,7 @@ from htmlHelper import *
 from extract import *
 import time
 import os
-
+import math
 
 class pyBing(Extract):
     
@@ -25,10 +25,11 @@ class pyBing(Extract):
         print('==================================================================')
         
     def getBackLinks(self, url):
-        _backlinks = 0
-        _repository = []
+        _repository = {}
         _page = 1
+        _iteration = "&first=[ITERATION_STEP]&FORM=PORE"
         try:
+            print("Page %i" % _page)
             _config = config()
             _config.bing()
             
@@ -37,35 +38,38 @@ class pyBing(Extract):
                 _source = _source[:_source.find('/')]
                 
             _url = _config.bing_settings['externallinks'].replace('[URL]', url).replace('[BASE_URL]', _source )
-
+            _base = _url
+            
             _html = self.external_links(_url, 'BING')
-            _backlinks = len(_html.backlinks)
-            _repository.append(_html.backlinks)
-            print("Page %i" % _page)
-            print(_repository)
+            _repository = _html.backlinks
+            
+            print("Extracted Back Links: %s" % _repository)
+            _position = len(_repository)
+            _lastchange = _page
             while _html.next != '':
-                time.sleep(3)
-                _html = self.external_links(_html.next, 'BING')
-                
-                _repeats = 0
-                for _entry in _html.backlinks:
-                    for 
-                    
-                if _repeats > 2:
+                if _page == 500 or _lastchange == _page - 100:
                     break
                 
-                _repository.append(_html.backlinks)
-                _backlinks += len(_html.backlinks)
+                _position += 1
+                time.sleep(3)
+                _html = self.external_links(_base + _iteration.replace("[ITERATION_STEP]", str( _position )), 'BING')                     
+                for _link in _html.backlinks:
+                    if _link not in _repository:
+                        _repository.append(_link)
+                        _lastchange = _page
+                        
                 _page += 1
-                print("Page %i" % _page)
-       
-            print("Backlinks: %s" % _backlinks)
+                _position += len(_html.backlinks)
+                print("Page = %i & Links = %i" % (_page, len(_html.backlinks)))
+                
+            print("Total Links = %i" % len(_repository))
+            
         except request.URLError as e:
             print("Error: %s" % e.reason )
         except ValueError as v:
             print("Non urllib Error: %s" % v)
             
-        return _backlinks
+        return len(_repository)
     
     def getLinks(self, query):
         # Obtain API Settings
