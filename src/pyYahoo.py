@@ -25,26 +25,52 @@ class pyYahoo(Extract):
         print('==================================================================')
         
     def getBackLinks(self, url):
-        _backlinks = 0
+        
+        _repository = {}
+        _page = 1
+        _iteration = "&b=[ITERATION_STEP]&pz=10&bct=0&xargs=0"
         try:
+            print("Page %i" % _page)
             _config = config()
             _config.yahoo()
             
             _source = url.replace('https', '').replace('http', '').replace(':', '').replace('//', '').replace('www.', '')
             if _source.find('/') != -1:
                 _source = _source[:_source.find('/')]
-            
+                
             _url = _config.yahoo_settings['externallinks'].replace('[URL]', url).replace('[BASE_URL]', _source )
-            print( "Back Links Query: %s" % (_url) )
-            _backlinks = self.external_links(_url, 'YAHOO')
-            if _backlinks is None:
-                _backlinks = 0            
+            _base = _url
+            
+            _html = self.external_links(_url, 'YAHOO')
+            _repository = _html.backlinks
+            
+            print("Extracted Back Links: %s" % _repository)
+            _position = len(_repository)
+            _lastchange = _page
+            while _html.next != '':
+                if _page == 500 or _lastchange == _page - 100:
+                    break
+                
+                _position += 1
+                time.sleep(3)
+                _html = self.external_links(_base + _iteration.replace("[ITERATION_STEP]", str( _position )), 'YAHOO')                     
+                for _link in _html.backlinks:
+                    if _link not in _repository:
+                        _repository.append(_link)
+                        _lastchange = _page
+                        
+                _page += 1
+                _position += len(_html.backlinks)
+                print("Page = %i & Links = %i" % (_page, len(_html.backlinks)))
+                
+            print("Total Links = %i" % len(_repository))
+            
         except request.URLError as e:
             print("Error: %s" % e.reason )
         except ValueError as v:
             print("Non urllib Error: %s" % v)
             
-        return _backlinks
+        return len(_repository)
     
     def getLinks(self, query):
         # Obtain API Settings

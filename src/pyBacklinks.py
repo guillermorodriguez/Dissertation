@@ -31,7 +31,7 @@ if parse.engine:
                     _bing = pyBing()                  
                     _data[10] = _bing.getBackLinks(_data[1])                  
                 elif parse.engine.upper() == 'YAHOO':
-                    _yahoo = pyYahoo('')
+                    _yahoo = pyYahoo()
                     _data[10] = _yahoo.getBackLinks(_data[1])
                     
                 _file = open(_out, 'a')

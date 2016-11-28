@@ -19,7 +19,7 @@ Type 'q()' to quit R.
 
 > lm.data <- read.table("C:\\University Work\\Dissertation\\Dissertation\\pySearch\\src\\BING\\_clean_process.dat", sep="\t", header=TRUE)
 > attach(lm.data)
-> lm.fit <- lm(1/index~description*(div+h1+h2+h3+h4+h5+h6+p+span)*(inbound_links*outbound_links)*keywords*root*title)
+> lm.fit <- lm(1/index^2~description*(div+h1+h2+h3+h4+h5+h6+p+span)*(inbound_links*outbound_links)*keywords*root*title)
 > summary(lm.fit)
 
 Call:

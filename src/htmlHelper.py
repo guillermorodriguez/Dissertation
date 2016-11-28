@@ -164,6 +164,30 @@ class HTMLhelper(HTMLParser):
                         print("Added Back Link: %s" % _link)                                       
                 elif _hasNextLink and _hasNext: 
                     self.next = 'http://www.bing.com' + _link
+            elif self.type.upper() == 'YAHOO':
+                _hasClass = False
+                _hasLink = False
+                _hasTarget = False
+                _hasData = False
+                _hasReferrer = False
+                _link = ''
+                for items in attrs:
+                    for key in items:
+                        if 'class' == key and items[1].strip() != '' and 'thmb' not in items[1]:
+                            _hasClass = True
+                        elif  'href' == key and items[1].strip() != '#' and 'yahoo' not in items[1].strip().lower() and '/search/' not in items[1].strip().lower():
+                            _hasLink = True
+                            _link = items[1]
+                        elif 'target' == key:
+                            _hasTarget = True
+                        elif 'data' in key:
+                            _hasData = True
+                        elif 'referrerpolicy' == key and items[1].strip() == 'origin':
+                            _hasReferrer = True
+                if _hasClass and _hasLink and _hasTarget and _hasData and _hasReferrer:
+                    if _link not in self.backlinks:
+                        self.backlinks.append(_link)
+                        print("Added Back Link: %s" % _link)               
                 
     def handle_endtag(self, tag):
         self.tag = ''
@@ -195,3 +219,10 @@ class HTMLhelper(HTMLParser):
                 pass
             elif self.type.upper() == 'GOOGLE':
                 pass
+            elif self.type.upper() == 'YAHOO':
+                if data == 'Next':
+                    _hasLink = False
+                    for items in self.attrs:
+                        for key in items:
+                            if key == 'href':
+                                self.next = items[1]
