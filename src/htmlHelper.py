@@ -26,12 +26,14 @@ class HTMLhelper(HTMLParser):
     url = ''
     words = {}    
     backlinks = []
-    
+    need_proxy = False
+ 
     def search_engine(self, type, operation):
         self.links = []
         self.operation = operation               
         self.next = ''
         self.type = type      
+        self.need_proxy = False
         
     def search_indexes(self, url, operation, words):
         self.indexes = { 'description': 0, 'div': 0, 'outbound_links': 0, 'h1': 0, 'h2': 0, 'h3': 0, 'h4': 0, 'h5': 0, 'h6': 0, 'inbound_links': 0, 'keywords': 0, 'p': 0, 'span': 0, 'title': 0, 'root': 0 }
@@ -39,6 +41,7 @@ class HTMLhelper(HTMLParser):
         self.url = url      
         self.root_url = self.url.replace('https', '').replace('http', '').replace(':', '').replace('//', '').replace('www.', '').replace('/', '')
         self.words = words
+        self.need_proxy = False
         
         for _word in self.words:  
             if len(self.root_url) > 0:
@@ -50,7 +53,7 @@ class HTMLhelper(HTMLParser):
         self.type = type
         self.backlinks = []
         self.operation = 'INDEX'
-        self.valid_results = False
+        self.need_proxy = False
         
     def handle_starttag(self, tag, attrs):
         self.tag = tag
@@ -193,6 +196,17 @@ class HTMLhelper(HTMLParser):
         self.tag = ''
 
     def handle_data(self, data):
+        
+        if self.type.upper() == 'BING':
+            pass
+        elif self.type.upper() == 'GOOGLE':
+            pass
+        elif self.type.upper() == 'YAHOO':
+            if 'error 999' in data:
+                print("Proxy Required")
+                self.need_proxy = True
+        
+        
         if self.operation.upper() == 'URLS':
             # Extract Search Engine URLS
             if self.tag == 'd:url' and self.type.upper() == 'BING':
