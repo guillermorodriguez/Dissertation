@@ -15,6 +15,7 @@ from htmlHelper import *
 from extract import *
 import time
 import os
+from nltk.corpus import wordnet 
 
 class pyYahoo(Extract):
     
@@ -79,8 +80,10 @@ class pyYahoo(Extract):
 
         try:
             # Keywords
-            _keywords = {}
-            _keywords[query] = '' 
+            _keywords = []
+            for _synonyms in wordnet.synsets(query):
+                for _s in _synonyms.lemmas():
+                    _keywords.append(_s.name().replace('_', ' '))
 
             # Set Repository Structure
             _name = os.getcwd()+'\\YAHOO\\'+query+'_'+time.strftime("%Y%m%d%H%M%S")+".data"
@@ -93,15 +96,16 @@ class pyYahoo(Extract):
             while _html.next != '':
                 for _entry in _html.links:
                     _indexValue += 1
-                    print("Searching: %s" % _entry['url'])
-                    _indexes = sorted(self.extract_indexes(_entry['url'], _keywords).items())
-                    if _indexes:
-                        _file = open(_name, 'a')
-                        _file.write(str(_indexValue) + '\t' + _entry['url'] )
-                        for _index in _indexes:
-                            _file.write('\t'+str(_index[1]))
-                        _file.write('\n')    
-                        _file.close()
+                    if '.pdf' not in _entry:
+                        print("Searching: %s" % _entry['url'])
+                        _indexes = sorted(self.extract_indexes(_entry['url'], _keywords).items())
+                        if _indexes:
+                            _file = open(_name, 'a')
+                            _file.write(str(_indexValue) + '\t' + _entry['url'] )
+                            for _index in _indexes:
+                                _file.write('\t'+str(_index[1]))
+                            _file.write('\n')    
+                            _file.close()
 
                 if _html.next != '':
                     print("Next: %s" % _html.next)

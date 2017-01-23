@@ -26,26 +26,30 @@ class HTMLhelper(HTMLParser):
     url = ''
     words = {}    
     backlinks = []
-    need_proxy = False
+    need_proxy = False    
+    previous_tag = ''
  
+    # Extract Links From Search Engine
     def search_engine(self, type, operation):
         self.links = []
         self.operation = operation               
         self.next = ''
         self.type = type      
         self.need_proxy = False
+        self.previous_tag = ''
         
     def search_indexes(self, url, operation, words):
         self.indexes = { 'description': 0, 'div': 0, 'outbound_links': 0, 'h1': 0, 'h2': 0, 'h3': 0, 'h4': 0, 'h5': 0, 'h6': 0, 'inbound_links': 0, 'keywords': 0, 'p': 0, 'span': 0, 'title': 0, 'root': 0 }
         self.operation = operation
         self.url = url      
-        self.root_url = self.url.replace('https', '').replace('http', '').replace(':', '').replace('//', '').replace('www.', '').replace('/', '')
+        self.root_url = self.url.lower().replace('https', '').replace('http', '').replace(':', '').replace('//', '').replace('www.', '')
         self.words = words
         self.need_proxy = False
         
         for _word in self.words:  
             if len(self.root_url) > 0:
-                self.indexes['root'] += ( self.root_url.lower().replace('-', '').replace('_', '').count(_word.lower().replace(' ', '')) * len(_word.replace(' ', '')) ) / len(self.root_url) 
+                self.indexes['root'] += ( self.root_url.lower().count(_word.lower()) * len(_word) ) / len(self.root_url) 
+
 
     def get_backlinks(self, url, type):
         self.url = url
@@ -97,7 +101,25 @@ class HTMLhelper(HTMLParser):
                         self.next = 'https://www.google.com'+_link
                     
             elif self.tag == 'a' and self.type.upper() == 'BING':
-                pass
+                _hasHref = False
+                _hasH = False
+                _link = ''
+                for items in attrs:
+                    for key in items:
+                        if 'href' == key and 'bing.com' not in items[1] and 'go.microsoft.com' not in items[1] and items[1][0] != '/' and 'javascript:' not in items[1] and '#' != items[1][0]:
+                            _hasHref = True
+                            _link = items[1]
+                        elif 'h' == key and 'Ads' not in items[1].strip():
+                            _hasH = True
+                if _hasHref and _hasH:
+                    _exists = False
+                    for _element in self.links:
+                        if 'url' in _element and _element.get('url').strip().lower().replace('https', '').replace('http','') == _link.strip().lower().replace('https', '').replace('http',''):
+                            _exists = True
+                            break
+                    if not _exists:
+                        self.links.append({'url': _link, 'count': len(self.links)+1})              
+                    
             elif self.tag == 'a' and self.type.upper() == 'YAHOO':
                 _hasClass = False
                 _hasLink = False
@@ -120,22 +142,30 @@ class HTMLhelper(HTMLParser):
                             _hasReferrer = True
                 if _hasClass and _hasLink and _hasTarget and _hasData and _hasReferrer:
                     self.links.append({'url': _link, 'count': len(self.links) + 1 })
+                    
+                    
+                    
         elif self.operation.upper() == 'KEYS':
+            # Meta Tag Indexes - description and keywords
             if self.tag.lower().strip() == 'meta':
                 _attrs = dict(attrs)            
                 if 'name' in _attrs and 'content' in _attrs and len(_attrs) == 2:
                     # Meta Tags
                     for _word in self.words:
-                        if _attrs['name'].lower().strip() == 'description' and len(_attrs['content']) > 0:
-                            self.indexes['description'] += ( _attrs['content'].lower().count(_word.lower()) * len(_word) ) / len(_attrs['content'])
-                        elif _attrs['name'].lower().strip() == 'keywords' and len(_attrs['content']) > 0:
-                            self.indexes['keywords'] += (_attrs['content'].lower().count(_word.lower()) * len(_word) ) / len(_attrs['content'])
+                        if _attrs['name'].lower().strip() == 'description' and len(_attrs['content'].strip()) > 0:
+                            self.indexes['description'] += ( _attrs['content'].lower().count(_word.lower()) * len(_word) ) / len(_attrs['content'].strip())
+                        elif _attrs['name'].lower().strip() == 'keywords' and len(_attrs['content'].strip()) > 0:
+                            self.indexes['keywords'] += (_attrs['content'].lower().count(_word.lower()) * len(_word) ) / len(_attrs['content'].strip())
             elif self.tag.lower().strip() == 'a':
+                # Outbound Links
                 _nofollow = False
                 _validLink = False
                 for items in attrs:
                     for key in items:
-                        if 'href' == key and 'http' in items[1] and self.root_url not in items[1]:
+                        _baseURL = self.root_url
+                        if self.root_url.find('/') != -1:
+                            _baseURL = self.root_url[:self.root_url.find('/')]
+                        if 'href' == key and _baseURL not in items[1] and '#' != items[1][:1] and '/' != items[1][:1] and 'javascript' not in items[1]:
                             _validLink = True
                         elif 'rel' == key and items[1].strip().lower() == '':
                             _nofollow = True
@@ -144,13 +174,12 @@ class HTMLhelper(HTMLParser):
         elif self.operation.upper() == 'INDEX':
             if self.type.upper() == 'BING':
                 _hasLink = False
-                _hasH = False
                 _hasNext = False
                 _hasNextLink = False
                 _link = ''
                 for items in attrs:
                     for key in items:
-                        if 'href' == key and 'http' == items[1][:4] and 'go.microsoft.com' not in items[1]:
+                        if 'href' == key and 'http' == items[1][:4] and 'go.microsoft.com' not in items[1] and 'bing.com' not in items[1]:
                             _hasLink = True
                             _link = items[1]
                         elif 'href' == key and '/search?q=' == items[1][:10]:
@@ -158,15 +187,15 @@ class HTMLhelper(HTMLParser):
                             _link = items[1]
                         elif 'title' == key and 'NEXT PAGE' == items[1].upper():
                             _hasNext = True
-                        elif 'h' == key and 'SERP' in items[1]:
-                            _hasH = True
                 
-                if _hasLink and _hasH:
+                if _hasLink and not _hasNextLink and not _hasNext:
                     if _link not in self.backlinks:
                         self.backlinks.append(_link)
                         print("Added Back Link: %s" % _link)                                       
                 elif _hasNextLink and _hasNext: 
                     self.next = 'http://www.bing.com' + _link
+            elif self.type.upper() == 'GOOGLE':
+                pass
             elif self.type.upper() == 'YAHOO':
                 _hasClass = False
                 _hasLink = False
@@ -191,12 +220,13 @@ class HTMLhelper(HTMLParser):
                     if _link not in self.backlinks:
                         self.backlinks.append(_link)
                         print("Added Back Link: %s" % _link)               
-                
+     
     def handle_endtag(self, tag):
+        self.previous_tag = self.tag.lower()
         self.tag = ''
 
-    def handle_data(self, data):
-        
+    def handle_data(self, data):        
+        # Search Engine Prevents Response
         if self.type.upper() == 'BING':
             pass
         elif self.type.upper() == 'GOOGLE':
@@ -205,13 +235,11 @@ class HTMLhelper(HTMLParser):
             if 'error 999' in data:
                 print("Proxy Required")
                 self.need_proxy = True
-        
-        
+                
         if self.operation.upper() == 'URLS':
             # Extract Search Engine URLS
             if self.tag == 'd:url' and self.type.upper() == 'BING':
-                if 'http' in data:
-                    self.links.append( data )
+                pass
             elif self.tag == 'a' and self.type.upper() == 'GOOGLE':
                 pass
             elif self.tag == 'a' and self.type.upper() == 'YAHOO':
@@ -222,14 +250,16 @@ class HTMLhelper(HTMLParser):
                             if key == 'href':
                                 self.next = items[1]
         elif self.operation.upper() == 'KEYS':
-            # Keywords in Content Elements
+            # Keywords in Text Tag Elements - div, h1, h2, h3, h4, h5, h6, p, span, title
             for _key in self.indexes:
                 if _key == self.tag:
                     for _word in self.words:    
-                        if len(data) > 0:
-                            self.indexes[_key] += ( data.lower().count(_word.lower()) *len(_word) ) / len(data) 
-        elif self.operation.upper() == 'INDEX':            
+                        if len(data.strip()) > 0:
+                            self.indexes[_key] += ( data.lower().count(_word.lower()) *len(_word) ) / len(data.strip()) 
+        elif self.operation.upper() == 'INDEX':   
+            # Backlinks - Next Link on Page
             if self.type.upper() == 'BING':
+                # Found in Anchor Tag
                 pass
             elif self.type.upper() == 'GOOGLE':
                 pass

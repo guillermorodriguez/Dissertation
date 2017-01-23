@@ -8,34 +8,63 @@ import urllib.request
 from htmlHelper import *
 import sys
 import random
+import os
 
 class Extract:
     
     _proxies = []
+    _agents = []
     
     def __init__(self):
         print('\n==================================================================')
         print( '%s Initialized' % self.__class__.__name__ )
         print('==================================================================')
     
-        _file = os.path.dirname(os.path.abspath(__file__)) + '\\' + 'proxies.txt'
-        _proxy = _file.readline().strip()
-        while _proxy:
-            self._proxies.append(_proxy)
-            _proxy = _file.readline().strip()
-        _file.close() 
+        _proxies = []
+        _source = os.path.dirname(os.path.realpath(__file__)) + '\\proxies.txt'  
+        with open(_source, 'r') as _file:
+            for _line in _file:
+                _proxies.append(_line.strip())
         
-    def extract_links(self, url, engine):
+    def extract_links(self, url, engine, use_proxy = False):
         _html = HTMLhelper()
-        try:
-            _request = urllib.request.Request(url.replace(' ', '%20'))
-            _request.add_header('User-Agent', 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/39.0.2171.95 Safari/537.36')
-            _response = urllib.request.urlopen(_request)
+        _html.search_engine(engine, 'URLS')  
+                            
+        try:            
+            if len( self._agents ) == 0:
+                _source = os.path.dirname(os.path.abspath(__file__)) + '\\' + 'agents.txt'
+                _file = open(_source, 'r')
+                _agent = _file.readline().strip()
+                while _agent:
+                    self._agents.append(_agent)
+                    _agent = _file.readline().strip()
+                _file.close() 
             
-            _html.search_engine(engine, 'URLS')            
-            _html.feed( _response.read().decode('utf-8')  )
+            _request = None
+            url = url.replace(' ', '%20')
+            if use_proxy:                
+                if len(self._proxies) == 0:
+                    _source = os.path.dirname(os.path.realpath(__file__)) + '\\proxies.txt'  
+                    with open(_source, 'r') as _file:
+                        for _line in _file:
+                            _proxies.append(_line.strip())
+                
+                _prox = random.choice(_proxies)
+                print("Using Proxy: %s" % _prox)
+                proxy_support = urllib.request.ProxyHandler({'http' : _prox })
+                opener = urllib.request.build_opener(proxy_support)
+                opener.addheaders = [random.choice(_agents)]
+                urllib.request.install_opener(opener)
+                with urllib.request.urlopen(url) as response:
+                    _html.feed(response.read().decode('utf-8'))
+            else:    
+                _request = urllib.request.Request(url)                
+                _request.add_header('User-Agent', random.choice(self._agents))           
+                _response = urllib.request.urlopen(_request)                     
+                _html.feed( _response.read().decode('utf-8') )            
         except ValueError as v:
             print("Error: %s" % v)
+            exit()
             
         return _html
     
@@ -67,7 +96,7 @@ class Extract:
             _html.feed(_response.read().decode('utf-8'))
             
             while _html.need_proxy:
-                _proxy = random.choice(self.proxies)
+                _proxy = random.choice(self._proxies)
                 print("Using Proxy: %s" % _proxy)
                 
                 _request = urllib.request.Request(url, proxies={'http': _proxy})

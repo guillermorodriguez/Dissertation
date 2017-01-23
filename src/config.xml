@@ -2,10 +2,7 @@
 <root>
     <!-- Bing Account Settings // -->
     <bing>
-        <key>9KZiwjJnD/BbaJHp+Jg9ZUBXPhShsmNNcAfiXrH2hCw</key>
-        <id>ab8b82d7-5574-43df-ba48-d9b68cbc4b94</id>
         <url>http://www.bing.com/search?q=</url>
-        <url_api>https://api.datamarket.azure.com/Bing/Search/Web?Query=</url_api>
         <externallinks>http://bing.com/search?q=link: [URL] -site:[BASE_URL]</externallinks>
     </bing>
     
