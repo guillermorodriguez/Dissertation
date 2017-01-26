@@ -93,7 +93,11 @@ class pyYahoo(Extract):
             # Direct Call        
             _html = self.extract_links(_config.yahoo_settings['url'] + query, 'YAHOO')
             _indexValue = 0
-            while _html.next != '':
+            _page = 1
+            _maxPages = 6
+            print(_html.links)
+            sys.exit()
+            while _html.next != '' and _page < _maxPages:
                 for _entry in _html.links:
                     _indexValue += 1
                     if '.pdf' not in _entry:
@@ -112,6 +116,8 @@ class pyYahoo(Extract):
                     _html = self.extract_links(_html.next, 'YAHOO') 
                     print("Pausing for 3 seconds")
                     time.sleep(3)
+                    
+                    _page += 1
 
         except urllib.request.URLError as e:
             print("Error: %s" % e.reason )

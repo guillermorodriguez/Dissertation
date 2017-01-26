@@ -47,19 +47,13 @@ parse = parser.parse_args()
 # Global Configuration
 # --------------------------------------------------------------------------
 _MODE = "DEBUG"
-_source = os.getcwd()+'\\words.txt'
+_source = os.getcwd()+'\\words_chosen.txt'
 _use_proxy = False
 _words = []
 
 # Ensure Default Search Engine Directory Exists
 if not os.path.exists(os.getcwd()+'\\'+parse.engine.upper()):
     os.makedirs(os.getcwd()+'\\'+parse.engine.upper())
-        
-_archive = os.getcwd()+'\\'+parse.engine.upper()+'\\queries.input'
-if not os.path.isfile(_archive):
-    # Create Query History File
-    _queries = open(_archive, 'w')
-    _queries.close()
 # --------------------------------------------------------------------------
 
 if parse.engine:
@@ -68,33 +62,23 @@ if parse.engine:
     
     with open(_source, 'r') as _file:
         for _line in _file:
-            if len(_line.strip()) > 1:
-                _words.append(_line.strip())
-        _file.close()
-        
-    _term = random.choice(_words)
-    with open(_archive, 'a') as _file:
-        _file.write(_term)
-        _file.write('\n')
-        _file.close()
-        
-    if _term:
-        print("Searching: %s" % _term)        
-        if parse.engine.upper() == 'BING':
-            _bing = pyBing()
-            _bing.getLinks(_term)
-                        
-        elif parse.engine.upper() == 'GOOGLE':            
-            _google = pyGoogle()
-            _google.getLinks(_term, _use_proxy)
-            
-            _use_proxy = _google._proxy
-            if _use_proxy:
-                print("Retrieving Google Content Through Proxy Now")
+            _term = _line.strip()
+            print("Searching: %s" % _term)  
+
+            if parse.engine.upper() == 'BING':
+                _bing = pyBing()
+                _bing.getLinks(_term)
+            elif parse.engine.upper() == 'GOOGLE':            
+                _google = pyGoogle()
                 _google.getLinks(_term, _use_proxy)
-        elif parse.engine.upper() == 'YAHOO':
-            _yahoo = pyYahoo()            
-            _yahoo.getLinks(_term)
+
+                _use_proxy = _google._proxy
+                if _use_proxy:
+                    print("Retrieving Google Content Through Proxy Now")
+                    _google.getLinks(_term, _use_proxy)
+            elif parse.engine.upper() == 'YAHOO':
+                _yahoo = pyYahoo()            
+                _yahoo.getLinks(_term)
 else:
     parser.print_help()
 

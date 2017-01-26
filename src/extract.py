@@ -59,7 +59,10 @@ class Extract:
                     _html.feed(response.read().decode('utf-8'))
             else:    
                 _request = urllib.request.Request(url)                
-                _request.add_header('User-Agent', random.choice(self._agents))           
+                if engine.upper() == 'YAHOO':
+                    _request.add_header('User-agent', 'Mozilla/5.0 (Windows NT 6.3; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/53.0.2785.116 Safari/537.36')
+                else:
+                    _request.add_header('User-Agent', random.choice(self._agents))           
                 _response = urllib.request.urlopen(_request)                     
                 _html.feed( _response.read().decode('utf-8') )            
         except ValueError as v:

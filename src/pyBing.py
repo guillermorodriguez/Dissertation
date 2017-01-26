@@ -70,8 +70,8 @@ class pyBing(Extract):
             
         return len(_repository)
     
-    def getLinks(self, query, useAPI = False):
-        # Obtain API Settings
+    def getLinks(self, query):
+        # Obtain Configuration Settings
         _config = config()
         _config.bing()
 
@@ -91,19 +91,30 @@ class pyBing(Extract):
             # Direct Call
             _html = self.extract_links(_config.bing_settings['url']+query, 'BING')
             _indexValue = 0
-            for _entry in _html.links:
-                _indexValue += 1
-                if '.pdf' not in _entry:
-                    print("Searching: %s" % _entry.get('url'))
-                    _indexes = sorted(self.extract_indexes(_entry.get('url'), _keywords ).items())
-                    if _indexes:
-                        _file = open(_name, 'a')
-                        _file.write(str(_indexValue) + '\t' + _entry.get('url') )
-                        for _index in _indexes:
-                            _file.write('\t'+str(_index[1]))
-                        _file.write('\n')    
-                        _file.close()
-
+            _page = 1
+            _maxPages = 6
+            while _html.next != '' and _page < _maxPages:
+                for _entry in _html.links:
+                    _indexValue += 1
+                    if '.pdf' not in _entry:
+                        print("Searching: %s" % _entry.get('url'))
+                        _indexes = sorted(self.extract_indexes(_entry.get('url'), _keywords ).items())
+                        if _indexes:
+                            _file = open(_name, 'a')
+                            _file.write(str(_indexValue) + '\t' + _entry.get('url') )
+                            for _index in _indexes:
+                                _file.write('\t'+str(_index[1]))
+                            _file.write('\n')    
+                            _file.close()
+                if _html.next != '':
+                    print("Next: %s" % _html.next)
+                    print("Page: %i" % _page)
+                    _html = self.extract_links(_html.next, 'BING') 
+                    print("Pausing for 3 seconds")
+                    time.sleep(3)
+                    
+                    _page += 1
+                
         except request.URLError as e:
             print("Error: %s" % e.reason )
         except ValueError as v:
