@@ -95,8 +95,6 @@ class pyYahoo(Extract):
             _indexValue = 0
             _page = 1
             _maxPages = 6
-            print(_html.links)
-            sys.exit()
             while _html.next != '' and _page < _maxPages:
                 for _entry in _html.links:
                     _indexValue += 1

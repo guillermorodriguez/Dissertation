@@ -50,7 +50,9 @@ class pyGoogle(Extract):
             # Direct Call                  
             _html = self.extract_links(_config.google_settings['url']+query, 'GOOGLE', use_proxy)
             _indexValue = 0
-            while _html.next != '':
+            _page = 1
+            _maxPages = 11
+            while _html.next != '' and _page < _maxPages:
                 for _entry in _html.links:
                     _indexValue += 1
                     if '.pdf' not in _entry:
@@ -69,6 +71,9 @@ class pyGoogle(Extract):
                     _html = self.extract_links(_html.next, 'GOOGLE') 
                     print("Pausing for 3 seconds")
                     time.sleep(3)
+                    
+                    _page += 1
+                    
         except urllib.request.URLError as e:
             print("URL Error: %s" % e.reason )
             self._proxy = True
