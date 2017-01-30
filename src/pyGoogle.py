@@ -40,7 +40,11 @@ class pyGoogle(Extract):
             _keywords = []
             for _synonyms in wordnet.synsets(query):
                 for _s in _synonyms.lemmas():
-                    _keywords.append(_s.name().replace('_', ' '))
+                    _s = _s.name().replace('_', ' ')
+                    if _s not in _keywords:
+                        _keywords.append(_s)
+            if len(_keywords) == 0:
+                _keywords.append(query)
             
             # Set Repository Structure
             _name = os.getcwd()+'\\GOOGLE\\'+query+'_'+time.strftime("%Y%m%d%H%M%S")+".data"
@@ -77,6 +81,7 @@ class pyGoogle(Extract):
         except urllib.request.URLError as e:
             print("URL Error: %s" % e.reason )
             self._proxy = True
+            self.getLinks(query, True)
         except ValueError as v:
             print("Value Error: %s" % v)
 

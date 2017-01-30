@@ -47,19 +47,26 @@ class Extract:
                     _source = os.path.dirname(os.path.realpath(__file__)) + '\\proxies.txt'  
                     with open(_source, 'r') as _file:
                         for _line in _file:
-                            _proxies.append(_line.strip())
+                            self._proxies.append(_line.strip())
                 
-                _prox = random.choice(_proxies)
-                print("Using Proxy: %s" % _prox)
-                proxy_support = urllib.request.ProxyHandler({'http' : _prox })
-                opener = urllib.request.build_opener(proxy_support)
-                opener.addheaders = [random.choice(_agents)]
-                urllib.request.install_opener(opener)
-                with urllib.request.urlopen(url) as response:
-                    _html.feed(response.read().decode('utf-8'))
+                _prox = random.choice(self._proxies)
+                print("Using Proxy: %s" % _prox)      
+                
+                proxies = {'http': 'http://'+_prox}
+                opener = urllib.request.FancyURLopener(proxies)
+                with opener.open(url) as f:
+                    print(f.read().decode('utf-8'))
+                
+                
+#                proxy_support = urllib.request.ProxyHandler({'http' : _prox })
+#                opener = urllib.request.build_opener(proxy_support)
+#                opener.addheaders = [random.choice(self._agents)]
+#                urllib.request.install_opener(opener)
+#                with urllib.request.urlopen(url) as response:
+#                    _html.feed(response.read().decode('utf-8'))
             else:    
                 _request = urllib.request.Request(url)                
-                if engine.upper() == 'YAHOO':
+                if engine.upper() == 'YAHOO' or engine.upper() == 'GOOGLE':
                     _request.add_header('User-agent', 'Mozilla/5.0 (Windows NT 6.3; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/53.0.2785.116 Safari/537.36')
                 else:
                     _request.add_header('User-Agent', random.choice(self._agents))           
@@ -88,7 +95,6 @@ class Extract:
     def external_links(self, url, engine):
         _html = HTMLhelper()
         try:
-
             url = url.replace(' ', '%20')
             print("Back Links: %s" % url)
             _request = urllib.request.Request(url)

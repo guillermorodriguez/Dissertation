@@ -63,22 +63,25 @@ if parse.engine:
     with open(_source, 'r') as _file:
         for _line in _file:
             _term = _line.strip()
-            print("Searching: %s" % _term)  
+            if _term[0:1] != "#":
+                print("Searching: %s" % _term)  
 
-            if parse.engine.upper() == 'BING':
-                _bing = pyBing()
-                _bing.getLinks(_term)
-            elif parse.engine.upper() == 'GOOGLE':            
-                _google = pyGoogle()
-                _google.getLinks(_term, _use_proxy)
-
-                _use_proxy = _google._proxy
-                if _use_proxy:
-                    print("Retrieving Google Content Through Proxy Now")
+                if parse.engine.upper() == 'BING':
+                    _bing = pyBing()
+                    _bing.getLinks(_term)
+                elif parse.engine.upper() == 'GOOGLE':            
+                    _google = pyGoogle()
                     _google.getLinks(_term, _use_proxy)
-            elif parse.engine.upper() == 'YAHOO':
-                _yahoo = pyYahoo()            
-                _yahoo.getLinks(_term)
+                    
+    #                _use_proxy = _google._proxy
+    #                if _use_proxy:
+    #                    print("Retrieving Google Content Through Proxy Now")
+    #                    _google.getLinks(_term, _use_proxy)
+            
+                    time.sleep(10)
+                elif parse.engine.upper() == 'YAHOO':
+                    _yahoo = pyYahoo()            
+                    _yahoo.getLinks(_term)
 else:
     parser.print_help()
 

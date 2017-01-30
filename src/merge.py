@@ -14,7 +14,7 @@ parse = parser.parse_args()
 
 if parse.engine:
     
-    path = os.getcwd()+'\\'+parse.engine
+    path = os.getcwd()+'\\'+parse.engine+'\\data'
     type = '.data'
     destination = path + '\\_compiled.dat'
     
