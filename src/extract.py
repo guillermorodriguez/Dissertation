@@ -25,7 +25,8 @@ class Extract:
         with open(_source, 'r') as _file:
             for _line in _file:
                 _proxies.append(_line.strip())
-        
+    
+    # Retrieve series of links from search engine query
     def extract_links(self, url, engine, use_proxy = False):
         _html = HTMLhelper()
         _html.search_engine(engine, 'URLS')  
@@ -78,6 +79,7 @@ class Extract:
             
         return _html
     
+    # Extract indexes from end point URL given keywords array
     def extract_indexes(self, url, keywords):
         _html = HTMLhelper()
         try:
@@ -92,6 +94,7 @@ class Extract:
             return {}
         return _html.indexes
     
+    # Extract embedded links from search engine
     def external_links(self, url, engine):
         _html = HTMLhelper()
         try:
@@ -104,17 +107,18 @@ class Extract:
             _html.get_backlinks(url, engine)
             _html.feed(_response.read().decode('utf-8'))
             
-            while _html.need_proxy:
-                _proxy = random.choice(self._proxies)
-                print("Using Proxy: %s" % _proxy)
-                
-                _request = urllib.request.Request(url, proxies={'http': _proxy})
-                _request.add_header('User-agent', 'Mozilla/5.0 (Windows NT 6.3; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/53.0.2785.116 Safari/537.36')
-                _response = urllib.request.urlopen(_request, timeout=180)     
-
-                _html.get_backlinks(url, engine)
-                _html.feed(_response.read().decode('utf-8'))
+#            while _html.need_proxy:
+#                _proxy = random.choice(self._proxies)
+#                print("Using Proxy: %s" % _proxy)
+#                
+#                _request = urllib.request.Request(url, proxies={'http': _proxy})
+#                _request.add_header('User-agent', 'Mozilla/5.0 (Windows NT 6.3; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/53.0.2785.116 Safari/537.36')
+#                _response = urllib.request.urlopen(_request, timeout=180)     
+#
+#                _html.get_backlinks(url, engine)
+#                _html.feed(_response.read().decode('utf-8'))
             
         except:
-            pass
+            print(sys.exc_info()[1])
+            return {}
         return _html

@@ -12,7 +12,7 @@ class HTMLhelper(HTMLParser):
         type = BING | GOOGLE | YAHOO
         operation = URLS | KEYS | INDEX
                     URLS = Links on search engine
-                    KEYS = Primary indexing attributes on result links
+                    KEYS = Primary indexing attributes on result link for each individual link extracted from main query to search engine
                     INDEX = Backlinks to main URL
     """
     
@@ -28,7 +28,8 @@ class HTMLhelper(HTMLParser):
     backlinks = []
     need_proxy = False    
  
-    # Extract Links From Search Engine
+    # Extract links from search engine query. Base search to retrieve series of URLs that match a given query to search engine.
+    # operation = URLS
     def search_engine(self, type, operation):
         self.links = []
         self.operation = operation               
@@ -36,7 +37,9 @@ class HTMLhelper(HTMLParser):
         self.type = type      
         self.need_proxy = False
         self.previous_tag = ''
-        
+    
+    # Retrieve individual indexes from keywords for a specific end point, i.e. URL
+    # operation = KEYS
     def search_indexes(self, url, operation, words):
         self.indexes = { 'description': 0, 'div': 0, 'outbound_links': 0, 'h1': 0, 'h2': 0, 'h3': 0, 'h4': 0, 'h5': 0, 'h6': 0, 'inbound_links': 0, 'keywords': 0, 'p': 0, 'span': 0, 'title': 0, 'root': 0 }
         self.operation = operation
@@ -49,7 +52,7 @@ class HTMLhelper(HTMLParser):
             if len(self.root_url) > 0:
                 self.indexes['root'] += ( self.root_url.lower().count(_word.lower()) * len(_word) ) / len(self.root_url) 
 
-
+    # Get backlinks to main URL found from the invocation of the search_engine(). 
     def get_backlinks(self, url, type):
         self.url = url
         self.next = ''
@@ -151,10 +154,7 @@ class HTMLhelper(HTMLParser):
                         elif 'data' in key and 'beacon' in items[1].strip().lower():
                             _hasData = True
                 if _hasClass and _hasLink and _hasTarget and _hasData and _hasReferrerPolicy:                    
-                    self.links.append({'url': _link, 'count': len(self.links) + 1 })
-                    
-                    
-                    
+                    self.links.append({'url': _link, 'count': len(self.links) + 1 })                                                           
         elif self.operation.upper() == 'KEYS':
             # Meta Tag Indexes - description and keywords
             if self.tag.lower().strip() == 'meta':
@@ -183,27 +183,35 @@ class HTMLhelper(HTMLParser):
                     self.indexes['outbound_links'] += 1                    
         elif self.operation.upper() == 'INDEX':
             if self.type.upper() == 'BING':
-                _hasLink = False
-                _hasNext = False
-                _hasNextLink = False
+                _hasHref = False
+                _hasH = False
+                _hasTitle = False
+                _hasClass = False
                 _link = ''
                 for items in attrs:
                     for key in items:
-                        if 'href' == key and 'http' == items[1][:4] and 'go.microsoft.com' not in items[1] and 'bing.com' not in items[1]:
-                            _hasLink = True
+                        if 'href' == key and ('bing.com' not in items[1] ) and ('go.microsoft.com' not in items[1] ) and items[1][0] != '/' and 'javascript:' not in items[1] and '#' != items[1][0]:
+                            _hasHref = True
                             _link = items[1]
-                        elif 'href' == key and '/search?q=' == items[1][:10]:
-                            _hasNextLink = True
-                            _link = items[1]
-                        elif 'title' == key and 'NEXT PAGE' == items[1].upper():
-                            _hasNext = True
-                
-                if _hasLink and not _hasNextLink and not _hasNext:
-                    if _link not in self.backlinks:
-                        self.backlinks.append(_link)
-                        print("Added Back Link: %s" % _link)                                       
-                elif _hasNextLink and _hasNext: 
-                    self.next = 'http://www.bing.com' + _link
+                        elif 'h' == key and 'Ads' not in items[1].strip():
+                            _hasH = True
+                        elif 'title' == key and 'next page' == items[1].strip().lower():
+                            _hasTitle = True
+                        elif 'class' == key and 'sb_pagn' == items[1].strip().lower():
+                            _hasClass = True
+                        elif 'href' == key and '/search?q=' == items[1][:10].strip().lower() and '&first=' in items[1] and 'FORM=PORE' in items[1]:
+                            _hasHref = True
+                            _link = 'http://www.bing.com' + items[1]
+                if _hasHref and _hasH and (not _hasTitle) and (not _hasClass):
+                    _exists = False
+                    for _element in self.links:
+                        if 'url' in _element and ( _element.get('url').strip().lower().replace('https', '').replace('http','') == _link.strip().lower().replace('https', '').replace('http','') or _link.strip().lower().replace('https', '').replace('http','') in _element.get('url').strip().lower().replace('https', '').replace('http','') or _element.get('url').strip().lower().replace('https', '').replace('http','') in _link.strip().lower().replace('https', '').replace('http','')):
+                            _exists = True
+                            break
+                    if not _exists:
+                        self.links.append({'url': _link, 'count': len(self.links)+1})              
+                elif _hasHref and _hasH and _hasTitle and _hasClass:
+                    self.next = _link
             elif self.type.upper() == 'GOOGLE':
                 pass
             elif self.type.upper() == 'YAHOO':
@@ -211,26 +219,24 @@ class HTMLhelper(HTMLParser):
                 _hasLink = False
                 _hasTarget = False
                 _hasData = False
-                _hasReferrer = False
+                _hasReferrerPolicy = False
                 _link = ''
                 for items in attrs:
                     for key in items:
-                        if 'class' == key and items[1].strip() != '' and 'thmb' not in items[1]:
+                        if 'class' == key:
                             _hasClass = True
-                        elif  'href' == key and items[1].strip() != '#' and 'yahoo' not in items[1].strip().lower() and '/search/' not in items[1].strip().lower():
+                        elif  'href' == key and 'javascript' not in items[1].strip().lower() and '#' not in items[1].strip().lower() and 'search' not in items[1].strip().lower() and 'yahoo.com' not in items[1].strip().lower():
                             _hasLink = True
                             _link = items[1]
+                        elif 'referrerpolicy' == key and 'origin' == items[1].strip().lower():
+                            _hasReferrerPolicy = True
                         elif 'target' == key:
                             _hasTarget = True
-                        elif 'data' in key:
+                        elif 'data' in key and 'beacon' in items[1].strip().lower():
                             _hasData = True
-                        elif 'referrerpolicy' == key and items[1].strip() == 'origin':
-                            _hasReferrer = True
-                if _hasClass and _hasLink and _hasTarget and _hasData and _hasReferrer:
-                    if _link not in self.backlinks:
-                        self.backlinks.append(_link)
-                        print("Added Back Link: %s" % _link)               
-     
+                if _hasClass and _hasLink and _hasTarget and _hasData and _hasReferrerPolicy:                    
+                    self.links.append({'url': _link, 'count': len(self.links) + 1 })                   
+                    
     def handle_endtag(self, tag):
         self.tag = ''
 

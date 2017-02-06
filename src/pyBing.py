@@ -43,23 +43,19 @@ class pyBing(Extract):
             _repository = _html.backlinks
             
             print("Extracted Back Links: %s" % _repository)
-            _position = len(_repository)
-            _lastchange = _page
             while _html.next != '':
-                if _page == 500 or _lastchange == _page - 100:
+                # Will go maximum 100 pages deep in search ... 1000 links approximately
+                if 100 - _page > 0:
                     break
-                
-                _position += 1
+
                 time.sleep(3)
-                _html = self.external_links(_base + _iteration.replace("[ITERATION_STEP]", str( _position )), 'BING')                     
+                _html = self.external_links(_base + _iteration.replace("[ITERATION_STEP]", str( len(_repository) +1 )), 'BING')                     
                 for _link in _html.backlinks:
                     if _link not in _repository:
                         _repository.append(_link)
-                        _lastchange = _page
                         
                 _page += 1
-                _position += len(_html.backlinks)
-                print("Page = %i & Links = %i" % (_page, len(_html.backlinks)))
+                print("Page %i Contains %i Links" % (_page, len(_html.backlinks)))
                 
             print("Total Links = %i" % len(_repository))
             
@@ -68,7 +64,7 @@ class pyBing(Extract):
         except ValueError as v:
             print("Non urllib Error: %s" % v)
             
-        return len(_repository)
+        return _repository
     
     def getLinks(self, query):
         # Obtain Configuration Settings
