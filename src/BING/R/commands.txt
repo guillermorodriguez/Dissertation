@@ -2,12 +2,26 @@ http://www.ddiez.com/teac/r/linear_models.php
 
 Load Data
 --------------------
-lm.data <- read.table("D:\\R\\sample.dat", sep="\t", header=TRUE)
+lm.data <- read.table("C:\\University Work\\Dissertation\\Dissertation\\pySearch\\src\\BING\\data\\_complete_r.dat", sep="\t", header=TRUE)
 attach(lm.data)
 
 Model
-lm.fit <- lm(1/index~description*(div+h1+h2+h3+h4+h5+h6+p+span)*(inbound_links*outbound_links)*keywords*root*title)
+--------------------
+lm.fit <- lm(1/index^15~keywords*root*title*(inbound_links-outbound_links)/outbound_links*description*(div+h1+h2+h3+h4+h5+h6+p+span))
 summary(lm.fit)
+
+Residual standard error: 0.07292 on 4156 degrees of freedom
+Multiple R-squared:  0.3254,    Adjusted R-squared:  0.2764 
+F-statistic: 6.639 on 302 and 4156 DF,  p-value: < 2.2e-16
+
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+
+
+
+
+
 
 
 Fit Line

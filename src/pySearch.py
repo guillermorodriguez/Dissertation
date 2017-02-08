@@ -71,13 +71,7 @@ if parse.engine:
                     _bing.getLinks(_term)
                 elif parse.engine.upper() == 'GOOGLE':            
                     _google = pyGoogle()
-                    _google.getLinks(_term, _use_proxy)
-                    
-    #                _use_proxy = _google._proxy
-    #                if _use_proxy:
-    #                    print("Retrieving Google Content Through Proxy Now")
-    #                    _google.getLinks(_term, _use_proxy)
-            
+                    _google.getLinks(_term, _use_proxy)           
                     time.sleep(10)
                 elif parse.engine.upper() == 'YAHOO':
                     _yahoo = pyYahoo()            

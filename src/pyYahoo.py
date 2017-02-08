@@ -29,6 +29,7 @@ class pyYahoo(Extract):
         _repository = {}
         _page = 1
         _iteration = "&b=[ITERATION_STEP]&pz=10&bct=0&xargs=0"
+        _MAX = 100
         try:
             print("Page %i" % _page)
             _config = config()
@@ -44,21 +45,26 @@ class pyYahoo(Extract):
             _html = self.external_links(_url, 'YAHOO')
             _repository = _html.backlinks
             
-            print("Extracted Back Links: %s" % _repository)
+            print("Page %i Contains %i Links" % (_page, len(_html.backlinks)))
             while _html.next != '':
                 # Will go maximum 100 pages deep in search ... 1000 links approximately
-                if 100 - _page > 0:
+                if _MAX - _page == 0 and len(_html.backlinks) > 0:
                     break
                 
                 time.sleep(3)
                 _html = self.external_links(_base + _iteration.replace("[ITERATION_STEP]", str( len(_repository)+1 )), 'YAHOO')                     
+                _page += 1  
+                print("Page %i Contains %i Links" % (_page, len(_html.backlinks)))
+                _new = False
                 for _link in _html.backlinks:
                     if _link not in _repository:
                         _repository.append(_link)
+                        _new = True
                         
-                _page += 1                
-                print("Page %i Contains %i Links" % (_page, len(_html.backlinks)))
-                
+                # Stop if no new links were found
+                if not _new:
+                    break
+                    
             print("Total Links = %i" % len(_repository))
             
         except request.URLError as e:

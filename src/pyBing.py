@@ -27,6 +27,7 @@ class pyBing(Extract):
         _repository = {}
         _page = 1
         _iteration = "&first=[ITERATION_STEP]&FORM=PORE"
+        _MAX = 100
         try:
             print("Page %i" % _page)
             _config = config()
@@ -42,21 +43,26 @@ class pyBing(Extract):
             _html = self.external_links(_url, 'BING')
             _repository = _html.backlinks
             
-            print("Extracted Back Links: %s" % _repository)
-            while _html.next != '':
+            print("Page %i Contains %i Links" % (_page, len(_html.backlinks)))
+            while _html.next != '' and len(_html.backlinks) > 0 and len(_html.backlinks[0]) > 0:
                 # Will go maximum 100 pages deep in search ... 1000 links approximately
-                if 100 - _page > 0:
+                if _MAX - _page == 0 or len(_html.backlinks) == 0:
                     break
 
                 time.sleep(3)
                 _html = self.external_links(_base + _iteration.replace("[ITERATION_STEP]", str( len(_repository) +1 )), 'BING')                     
+                _page += 1  
+                print("Page %i Contains %i Links" % (_page, len(_html.backlinks)))
+                _new = False
                 for _link in _html.backlinks:
                     if _link not in _repository:
-                        _repository.append(_link)
+                        _repository.append(_link)                       
+                        _new = True
                         
-                _page += 1
-                print("Page %i Contains %i Links" % (_page, len(_html.backlinks)))
-                
+                # Stop if no new links were found
+                if not _new:
+                    break
+                    
             print("Total Links = %i" % len(_repository))
             
         except request.URLError as e:

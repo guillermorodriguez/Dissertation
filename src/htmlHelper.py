@@ -182,7 +182,7 @@ class HTMLhelper(HTMLParser):
                 if not _nofollow and _validLink:
                     self.indexes['outbound_links'] += 1                    
         elif self.operation.upper() == 'INDEX':
-            if self.type.upper() == 'BING':
+            if self.tag == 'a' and self.type.upper() == 'BING':
                 _hasHref = False
                 _hasH = False
                 _hasTitle = False
@@ -190,31 +190,31 @@ class HTMLhelper(HTMLParser):
                 _link = ''
                 for items in attrs:
                     for key in items:
-                        if 'href' == key and ('bing.com' not in items[1] ) and ('go.microsoft.com' not in items[1] ) and items[1][0] != '/' and 'javascript:' not in items[1] and '#' != items[1][0]:
+                        if 'href' == key.lower() and ('bing.com' not in items[1] ) and ('go.microsoft.com' not in items[1] ) and items[1][0] != '/' and 'javascript:' not in items[1] and '#' != items[1][0]:
                             _hasHref = True
                             _link = items[1]
-                        elif 'h' == key and 'Ads' not in items[1].strip():
+                        elif 'h' == key.lower() and 'ID=SERP' in items[1].strip():
                             _hasH = True
-                        elif 'title' == key and 'next page' == items[1].strip().lower():
-                            _hasTitle = True
-                        elif 'class' == key and 'sb_pagn' == items[1].strip().lower():
+                        elif 'class' == key.lower() and 'sb_pagn' == items[1].strip().lower():
                             _hasClass = True
-                        elif 'href' == key and '/search?q=' == items[1][:10].strip().lower() and '&first=' in items[1] and 'FORM=PORE' in items[1]:
+                        elif 'title' == key.lower() and 'next page' == items[1].strip().lower():
+                            _hasTitle = True
+                        elif 'href' == key.lower() and '/search?q=' in items[1].strip().lower() and ( 'FORM=' not in items[1] ) and ('bing.com' not in items[1]) :
                             _hasHref = True
-                            _link = 'http://www.bing.com' + items[1]
-                if _hasHref and _hasH and (not _hasTitle) and (not _hasClass):
+                            self.next = items[1]
+                if _hasHref and _hasH:
                     _exists = False
-                    for _element in self.links:
-                        if 'url' in _element and ( _element.get('url').strip().lower().replace('https', '').replace('http','') == _link.strip().lower().replace('https', '').replace('http','') or _link.strip().lower().replace('https', '').replace('http','') in _element.get('url').strip().lower().replace('https', '').replace('http','') or _element.get('url').strip().lower().replace('https', '').replace('http','') in _link.strip().lower().replace('https', '').replace('http','')):
-                            _exists = True
-                            break
-                    if not _exists:
-                        self.links.append({'url': _link, 'count': len(self.links)+1})              
-                elif _hasHref and _hasH and _hasTitle and _hasClass:
-                    self.next = _link
+                    if ( not _hasTitle ) and ( not _hasClass ):
+                        for _element in self.backlinks:
+                            if ( _element.strip().lower().replace('https', '').replace('http','') == _link.strip().lower().replace('https', '').replace('http','') or _link.strip().lower().replace('https', '').replace('http','') in _element.strip().lower().replace('https', '').replace('http','') or _element.strip().lower().replace('https', '').replace('http','') in _link.strip().lower().replace('https', '').replace('http','')):
+                                _exists = True
+                                break
+                        if not _exists:
+                            self.backlinks.append(_link)                                  
+                    
             elif self.type.upper() == 'GOOGLE':
                 pass
-            elif self.type.upper() == 'YAHOO':
+            elif self.tag == 'a' and self.type.upper() == 'YAHOO':
                 _hasClass = False
                 _hasLink = False
                 _hasTarget = False
@@ -235,7 +235,7 @@ class HTMLhelper(HTMLParser):
                         elif 'data' in key and 'beacon' in items[1].strip().lower():
                             _hasData = True
                 if _hasClass and _hasLink and _hasTarget and _hasData and _hasReferrerPolicy:                    
-                    self.links.append({'url': _link, 'count': len(self.links) + 1 })                   
+                    self.backlinks.append(_link)                   
                     
     def handle_endtag(self, tag):
         self.tag = ''
