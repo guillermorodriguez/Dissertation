@@ -76,19 +76,15 @@ if parse.engine and parse.operation:
                     _data = _line.strip().split('\t') 
                     
                     _found = False
+                    _totals = []
                     for _entry in _summary:
                         if ('url' in _entry)and ( _data[1].strip().lower() in _entry.get('url').strip().lower()):
                             _found = True
                             break
                     if not _found:
                         print("ADDING: %s" %  _data[1])
-                        _summary.append({'url': _data[1], 'data': ''})
+                        _summary.append({'url': _data[1], 'data': _totals})
         
-        for _entry in _summary:
-            with open(_path+_source, 'r') as _process:
-                for _line in _process:
-                    if ('key' not in _line) and ('sink' not in _line) and ('source' not in _line):
-                        _data = _line.strip().split('\t') 
 else:
     parser.print_help()
     
