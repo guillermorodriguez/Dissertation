@@ -83,6 +83,8 @@ if parse.engine and parse.operation:
                             break
                     if not _found:
                         print("ADDING: %s" %  _data[1])
+                        for _entry in _data[3:]:
+                            _totals.append(_entry)
                         _summary.append({'url': _data[1], 'data': _totals})
         
 else:
