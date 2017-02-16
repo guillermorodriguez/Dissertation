@@ -76,18 +76,55 @@ if parse.engine and parse.operation:
                     _data = _line.strip().split('\t') 
                     
                     _found = False
-                    _totals = []
                     for _entry in _summary:
-                        if ('url' in _entry)and ( _data[1].strip().lower() in _entry.get('url').strip().lower()):
+                        if (_data[1].strip().lower() == _entry.strip().lower()):
                             _found = True
                             break
                     if not _found:
                         print("ADDING: %s" %  _data[1])
-                        for _entry in _data[3:]:
-                            _totals.append(_entry)
-                        _summary.append({'url': _data[1], 'data': _totals})
+                        _summary.append( _data[1])
         
-else:
+        for _individual in _summary:
+            _totals = []
+            _found = 0
+            with open(_path+_source, 'r') as _process:
+                for _line in _process:
+                    if ('key' not in _line) and ('sink' not in _line) and ('source' not in _line):
+                        _data = _line.strip().split('\t') 
+                        if _individual.strip().lower() == _data[1].strip().lower():                            
+                            _index = 3
+                            while _index < len(_data[3:]):
+                                if _found == 0:
+                                    if _data[_index].isnumeric():
+                                        try:
+                                            _totals.append(float(_data[_index])) 
+                                        except:
+                                            _totals.append(float(0))
+                                    else:
+                                        _totals.append(float(0)) 
+                                else:
+                                    if _data[_index].isnumeric():
+                                        try:
+                                            _totals[_index-3] += float(_data[_index])
+                                        except:
+                                            pass
+                                    else:
+                                        _totals[_index-3] += 0
+                                _index+=1
+                            _found+=1
+                        else:
+                            if _found > 0: 
+                                break
+            _total = 0
+            print(_totals)
+            for _entry in _totals:
+                _total += _entry
+            _total = _total / _found
+            with open(_path+_destination, 'a') as _file:
+                print("Totals %s = %s" % (_individual, str(_total)))
+                _file.write(_individual+'\t'+str(_total)+'\n')
+            
+else:   
     parser.print_help()
     
 print ('Ended ....')
