@@ -14,7 +14,7 @@ _MODE = "DEBUG"
 
 parser = argparse.ArgumentParser(prog='pyOptimization.py')
 parser.add_argument('-engine', help='Search Engine [BING | GOOGLE | YAHOO]')
-parser.add_argument('-operation', help='Optimization Type [INDEX | FILTER]')
+parser.add_argument('-operation', help='Optimization Type [INDEX | FILTER | QUALITY]')
 parse = parser.parse_args()
 
 nodes = []
@@ -32,7 +32,7 @@ if parse.engine and parse.operation:
             for _line in _process:
                 if 'key' in _line and 'sink' in _line and 'source' in _line:
                     with open(_path+_destination, 'w') as _file:
-                        _file.write('key\tsink\tsource\tdescription\tdiv\th1\th2\th3\th4\th5\th6\tinbound_links\tkeywords\toutbound_links\tp\troot\tspan\ttitle\n')
+                        _file.write('sink\tquality\n')
                 else:
                     _data = _line.strip().split('\t')                
                     if ( len(_data) == 3 ) and  ( len(_data[2].strip()) > 0 ) and ('Unicode Error' not in _data[2].strip()):
@@ -123,7 +123,37 @@ if parse.engine and parse.operation:
             with open(_path+_destination, 'a') as _file:
                 print("Totals %s = %s" % (_individual, str(_total)))
                 _file.write(_individual+'\t'+str(_total)+'\n')
-            
+    
+    elif parse.operation and parse.operation.upper() == 'QUALITY':
+        _path = os.getcwd()+'\\'+parse.engine+'\\data\\'
+        _filtered = '_historical_filtered.dat'
+        _indexed = '_complete.dat'
+    
+        _destination = '_historical_complete.dat'    
+        if os.path.exists(_path+_destination):
+            os.remove(_path+_destination)    
+        
+        with open(_path+_destination, 'w') as _file:
+            _file.write('index\tkey\turl\tdescription\tdiv\th1\th2\th3\th4\th5\th6\tinbound_links\tkeywords\toutbound_links\tp\troot\tspan\ttitle\tquality\n')
+        
+        with open(_path+_filtered, 'r') as _filtered_file:
+            for _filtered_line in _filtered_file:
+                if ('sink' not in _filtered_line) and ('quality' not in _filtered_line):
+                    _filtered_data = _filtered_line.strip().split('\t')                 
+                    print("..%s" % _filtered_data[0])
+                    with open(_path+_indexed, 'r') as _indexed_file:
+                        for _indexed_line in _indexed_file:
+                            if ('index' not in _indexed_line) and ('key' not in _indexed_line) and ('url' not in _indexed_line):
+                                _indexed_data = _indexed_line.strip().split('\t')
+                                if _filtered_data[0].strip().lower() == _indexed_data[2].strip().lower():
+                                    print(">>>>>FOUND: %s" % _filtered_data[0])
+                                    with open(_path+_destination, 'a') as _file:
+                                        for _element in _indexed_data:
+                                            _file.write(str(_element)+'\t')
+                                        _file.write(str(_filtered_data[1]))
+                                        _file.write('\n')
+                                        break
+                                        
 else:   
     parser.print_help()
     
