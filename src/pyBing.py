@@ -72,6 +72,7 @@ class pyBing(Extract):
             
         return _repository
     
+    # Extract Link Attributes for a Given Search
     def getLinks(self, query):
         # Obtain Configuration Settings
         _config = config()

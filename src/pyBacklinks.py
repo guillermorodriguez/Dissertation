@@ -41,7 +41,8 @@ if parse.engine:
                     _bing = pyBing()           
                     _repository = _bing.getBackLinks(_data[2])   
                 elif parse.engine.upper() == 'GOOGLE':
-                    pass
+                    _google = pyGoogle()
+                    _repository = _google.getBackLinks(_data[2])
                 elif parse.engine.upper() == 'YAHOO':
                     _yahoo = pyYahoo()
                     _repository = _yahoo.getBackLinks(_data[2])

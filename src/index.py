@@ -56,6 +56,7 @@ if parse.engine and parse.operation:
                                     _target.write('\n')    
                                     
     elif parse.operation.lower() == 'consolidate':
+        # Determines the average index for each node found
         print("Consolidating....")
         _path = os.getcwd()+'\\'+parse.engine+'\\data\\'
         _source = '_indexed.dat'

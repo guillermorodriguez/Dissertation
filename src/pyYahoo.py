@@ -74,6 +74,7 @@ class pyYahoo(Extract):
             
         return _repository
     
+    # Extract Link Attributes for a Given Search
     def getLinks(self, query):
         # Obtain API Settings
         _config = config()

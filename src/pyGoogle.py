@@ -28,7 +28,22 @@ class pyGoogle(Extract):
         print('\n==================================================================')
         print( '%s Initialized' % self.__class__.__name__ )
         print('==================================================================')
+        
+    def getBackLinks(self, url):
+        _repository = {}
+        _page = 1
+        _iteration = "&start=[ITERATION_STEP]"
+        _MAX = 100
+        try:
+            
+        except request.URLError as e:
+            print("Error: %s" % e.reason )
+        except ValueError as v:
+            print("Non urllib Error: %s" % v)
+            
+        return _repository
 
+    # Extract Link Attributes for a Given Search
     def getLinks(self, query, use_proxy = False):
         # Obtain API Settings
         _config = config()
