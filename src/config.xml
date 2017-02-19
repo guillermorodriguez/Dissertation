@@ -9,7 +9,7 @@
     <!-- Google Account Settings // -->
     <google>        
         <url>http://www.google.com/search?q=</url>
-        <externallinks>http://www.google.com/search?q=link:[URL]+-site:[BASE_URL]</externallinks>
+        <externallinks>http://www.google.com/search?q=link:[URL]+-site:[BASE_URL]&amp;num=1000</externallinks>
     </google>
     
     <!-- Yahoo Account Settings // -->

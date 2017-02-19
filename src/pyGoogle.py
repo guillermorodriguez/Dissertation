@@ -1,16 +1,16 @@
 """
     @Author:        Guillermo Rodriguez
     @Date:          July 14, 2015
-    @Requires:      Google Search API:
+    @Requires:      
                         
-                    http://stackoverflow.com/questions/1657570/google-search-from-a-python-app
+                    
     @Purpose:                               
 """
 import sys
 from config import *
-import json
+from rauth import OAuth2Service
 import urllib.request
-import traceback
+from xml.dom import minidom
 from htmlHelper import *
 from extract import *
 import time
@@ -30,13 +30,30 @@ class pyGoogle(Extract):
         print('==================================================================')
         
     def getBackLinks(self, url):
-        _repository = {}
-        _page = 1
-        _iteration = "&start=[ITERATION_STEP]"
-        _MAX = 100
+        _repository = []
         try:
+            _config = config()
+            _config.google()
             
-        except request.URLError as e:
+            _source = url.replace('https', '').replace('http', '').replace(':', '').replace('//', '').replace('www.', '')
+            if _source.find('/') != -1:
+                _source = _source[:_source.find('/')]
+            
+            _url = _config.google_settings['externallinks'].replace('[URL]', url).replace('[BASE_URL]', _source )
+            
+            _html = self.external_links(_url, 'GOOGLE')
+            print(_html.backlinks)
+            if _html.backlinks:                
+                for _link in _html.backlinks:
+                    if _link not in _repository:
+                        _repository.append(_link)
+                        
+                print("Total Links = %i" % len(_repository))
+            else:
+                _repository.append('ERROR')
+                print("Error Extracting Data From Google")                                           
+            
+        except urllib.request.URLError as e:
             print("Error: %s" % e.reason )
         except ValueError as v:
             print("Non urllib Error: %s" % v)

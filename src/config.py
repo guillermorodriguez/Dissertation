@@ -14,9 +14,9 @@ import os
 
 class config:
     
-    bing_settings = { } #'key': '', 'id': '', 'url': '', 'url_api': '', 'externallinks': ''}
-    yahoo_settings = { } #'url': '', 'externallinks': ''}
-    google_settings = { } #'url': '', 'externallinks': ''}
+    bing_settings = { } # 'url': '', 'externallinks': ''}
+    yahoo_settings = { } # 'url': '', 'externallinks': ''}
+    google_settings = { } # 'url': '', 'externallinks': ''}
 
     def __init__(self):
         print('\n==================================================================')

@@ -212,8 +212,44 @@ class HTMLhelper(HTMLParser):
                         if not _exists:
                             self.backlinks.append(_link)                                  
                     
-            elif self.type.upper() == 'GOOGLE':
-                pass
+            elif self.tag == 'a' and self.type.upper() == 'GOOGLE':
+                # Extract Links for Backlink Analysis
+                if len(attrs) == 2:
+                    _hasMouseDown = False
+                    _hasHref = False
+                    _link = ''
+                    _iterate = True
+                    for items in attrs:
+                        for key in items:
+                            if _iterate:
+                                if 'href' in key and items[1].strip() != '#' and ('google' not in items[1].strip() and items[1][0] != '/'):
+                                    _hasHref = True
+                                    _link = items[1]
+                                elif 'onmousedown' in key and 'return' in items[1] and 'rwt(this' in items[1]:
+                                    _hasMouseDown = True
+                                elif ('class' == key.strip() and 'fl' == items[1].strip()) or ('data-' in key.strip()):
+                                    _hasMouseDown = False
+                                    _hasHref = False
+                                    _iterate = False
+                    if _hasHref and _hasMouseDown:
+                        self.backlinks.append(_link)   
+                else:
+                    _hasClass = False
+                    _hasHref = False
+                    _hasId = False
+                    _link = ''
+                    for items in attrs:
+                        for key in items:
+                            if 'class' in key and 'pn' in items[1]:
+                                _hasClass = True
+                            elif 'href' in key:
+                                _hasHref = True
+                                _link = items[1]
+                            elif 'id' in key and 'pnnext' in items[1]:
+                                _hasId = True
+                    if _hasClass and _hasHref and _hasId and _link != '':
+                        self.next = 'https://www.google.com'+_link               
+                                
             elif self.tag == 'a' and self.type.upper() == 'YAHOO':
                 _hasClass = False
                 _hasLink = False
