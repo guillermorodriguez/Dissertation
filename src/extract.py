@@ -57,14 +57,6 @@ class Extract:
                 opener = urllib.request.FancyURLopener(proxies)
                 with opener.open(url) as f:
                     print(f.read().decode('utf-8'))
-                
-                
-#                proxy_support = urllib.request.ProxyHandler({'http' : _prox })
-#                opener = urllib.request.build_opener(proxy_support)
-#                opener.addheaders = [random.choice(self._agents)]
-#                urllib.request.install_opener(opener)
-#                with urllib.request.urlopen(url) as response:
-#                    _html.feed(response.read().decode('utf-8'))
             else:    
                 _request = urllib.request.Request(url)                
                 if engine.upper() == 'YAHOO' or engine.upper() == 'GOOGLE':
@@ -106,17 +98,6 @@ class Extract:
 
             _html.get_backlinks(url, engine)
             _html.feed(_response.read().decode('utf-8'))
-            
-#            while _html.need_proxy:
-#                _proxy = random.choice(self._proxies)
-#                print("Using Proxy: %s" % _proxy)
-#                
-#                _request = urllib.request.Request(url, proxies={'http': _proxy})
-#                _request.add_header('User-agent', 'Mozilla/5.0 (Windows NT 6.3; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/53.0.2785.116 Safari/537.36')
-#                _response = urllib.request.urlopen(_request, timeout=180)     
-#
-#                _html.get_backlinks(url, engine)
-#                _html.feed(_response.read().decode('utf-8'))
             
         except:
             print(sys.exc_info()[1])

@@ -1,0 +1,1328 @@
+http://www.ddiez.com/teac/r/linear_models.php
+
+h2*root*inbound_links*p*title*outbound*desciption
+
+Load Data
+--------------------
+lm.data <- read.table("C:\\University Work\\Dissertation\\Dissertation\\pySearch\\src\\YAHOO\\data\\_historical_complete_r.dat", sep="\t", header=TRUE)
+attach(lm.data)
+
+Model
+---------------------
+lm.fit <- lm(1/index~keywords*root*title*(inbound_links*quality*outbound_links)*description*(div+h1+h2+h3+h4+h5+h6+p+span))
+summary(lm.fit)
+
+Residual standard error: 0.09163 on 1338 degrees of freedom
+Multiple R-squared:  0.5702,    Adjusted R-squared:  0.2798 
+F-statistic: 1.964 on 904 and 1338 DF,  p-value: < 2.2e-16
+
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+Fit Line
+---------------
+abline(lm(index~description), col="red")
+
+Scatter Plot Matrices
+-------------------------
+pairs(lm.data)
+
+> lm.fit <- lm(1/index~keywords*root*title*(inbound_links*quality*outbound_links)*description*(div+h1+h2+h3+h4+h5+h6+p+span))
+> summary(lm.fit)
+
+Call:
+lm(formula = 1/index ~ keywords * root * title * (inbound_links * 
+    quality * outbound_links) * description * (div + h1 + h2 + 
+    h3 + h4 + h5 + h6 + p + span))
+
+Residuals:
+     Min       1Q   Median       3Q      Max 
+-0.29081 -0.02143 -0.00085  0.00061  0.95476 
+
+Coefficients: (375 not defined because of singularities)
+                                                                            Estimate Std. Error t value Pr(>|t|)    
+(Intercept)                                                                4.244e-02  4.559e-03   9.310  < 2e-16 ***
+keywords                                                                  -5.394e+00  1.074e+01  -0.502 0.615645    
+root                                                                       4.452e-03  3.531e-02   0.126 0.899684    
+title                                                                      7.541e-02  4.933e-02   1.529 0.126582    
+inbound_links                                                              3.367e-05  8.209e-05   0.410 0.681791    
+quality                                                                   -9.344e-06  3.693e-05  -0.253 0.800311    
+outbound_links                                                             3.294e-05  6.698e-05   0.492 0.622913    
+description                                                                1.243e-01  1.360e+00   0.091 0.927158    
+div                                                                        2.064e-02  5.687e-02   0.363 0.716773    
+h1                                                                         3.605e-02  5.234e-02   0.689 0.491085    
+h2                                                                         8.839e-02  6.990e-02   1.265 0.206228    
+h3                                                                        -8.222e-02  1.929e-01  -0.426 0.669935    
+h4                                                                        -7.551e+03  6.938e+03  -1.088 0.276661    
+h5                                                                         1.013e+04  1.154e+04   0.878 0.380070    
+h6                                                                         6.223e+04  7.490e+04   0.831 0.406195    
+p                                                                         -5.492e-02  1.982e-02  -2.771 0.005659 ** 
+span                                                                      -6.268e-03  8.402e-03  -0.746 0.455797    
+keywords:root                                                              2.433e+01  3.202e+02   0.076 0.939445    
+keywords:title                                                             4.670e-01  2.465e+02   0.002 0.998488    
+root:title                                                                -7.907e-02  1.301e-01  -0.608 0.543396    
+inbound_links:quality                                                      9.006e-08  9.040e-07   0.100 0.920658    
+inbound_links:outbound_links                                              -2.229e-07  1.766e-06  -0.126 0.899568    
+quality:outbound_links                                                    -1.759e-07  5.824e-07  -0.302 0.762758    
+keywords:inbound_links                                                     3.951e-01  1.964e+00   0.201 0.840590    
+keywords:quality                                                           1.733e-01  3.162e-01   0.548 0.583723    
+keywords:outbound_links                                                    5.514e-01  1.087e+00   0.507 0.612122    
+root:inbound_links                                                         1.044e-02  1.384e-03   7.538 8.73e-14 ***
+root:quality                                                               2.195e-04  3.263e-04   0.673 0.501290    
+root:outbound_links                                                       -2.066e-04  1.883e-03  -0.110 0.912648    
+title:inbound_links                                                        4.406e-04  1.814e-03   0.243 0.808127    
+title:quality                                                             -3.003e-04  5.670e-04  -0.530 0.596472    
+title:outbound_links                                                       1.654e-03  2.450e-03   0.675 0.499804    
+keywords:description                                                       1.354e+01  6.139e+02   0.022 0.982408    
+root:description                                                           9.135e+00  7.823e+00   1.168 0.243154    
+title:description                                                         -2.569e+00  8.439e+00  -0.304 0.760895    
+inbound_links:description                                                 -1.360e-02  7.894e-02  -0.172 0.863237    
+quality:description                                                       -1.590e-03  2.339e-02  -0.068 0.945811    
+outbound_links:description                                                -2.880e-02  1.004e-01  -0.287 0.774213    
+keywords:div                                                               2.941e+02  7.251e+02   0.406 0.685075    
+keywords:h1                                                                1.997e+01  1.319e+03   0.015 0.987921    
+keywords:h2                                                                3.028e+02  8.703e+02   0.348 0.727968    
+keywords:h3                                                                2.995e+04  1.887e+05   0.159 0.873896    
+keywords:h4                                                                1.015e+06  5.234e+06   0.194 0.846254    
+keywords:h5                                                                3.829e+04  4.387e+04   0.873 0.382854    
+keywords:h6                                                                2.770e+04  3.146e+04   0.880 0.378822    
+keywords:p                                                                -1.011e+02  6.509e+02  -0.155 0.876593    
+keywords:span                                                              9.630e+00  7.128e+01   0.135 0.892552    
+root:div                                                                   8.290e-02  4.354e-01   0.190 0.849017    
+root:h1                                                                    7.463e-02  2.156e-01   0.346 0.729334    
+root:h2                                                                   -3.976e-01  4.292e-01  -0.926 0.354455    
+root:h3                                                                    3.754e+00  1.463e+00   2.566 0.010406 *  
+root:h4                                                                    3.193e+04  2.944e+04   1.084 0.278370    
+root:h5                                                                   -1.703e+04  1.901e+04  -0.896 0.370511    
+root:h6                                                                   -3.522e+04  4.021e+04  -0.876 0.381294    
+root:p                                                                     3.743e-01  1.279e-01   2.928 0.003473 ** 
+root:span                                                                 -1.393e-01  5.567e-02  -2.502 0.012474 *  
+title:div                                                                 -7.856e-01  4.363e-01  -1.801 0.071994 .  
+title:h1                                                                   1.116e-01  1.186e-01   0.942 0.346600    
+title:h2                                                                   4.473e-01  5.191e-01   0.862 0.388957    
+title:h3                                                                  -1.799e+00  1.174e+00  -1.532 0.125709    
+title:h4                                                                   1.920e+04  1.750e+04   1.097 0.272734    
+title:h5                                                                  -4.357e+04  4.657e+04  -0.935 0.349703    
+title:h6                                                                  -3.231e+04  4.083e+04  -0.791 0.428880    
+title:p                                                                    8.492e-02  7.543e-02   1.126 0.260431    
+title:span                                                                -2.062e-02  6.275e-02  -0.329 0.742486    
+inbound_links:div                                                         -3.625e-04  1.406e-03  -0.258 0.796545    
+inbound_links:h1                                                           9.356e-04  4.926e-03   0.190 0.849396    
+inbound_links:h2                                                          -3.135e-03  1.091e-02  -0.287 0.773959    
+inbound_links:h3                                                          -3.039e-03  4.351e-03  -0.699 0.484966    
+inbound_links:h4                                                           2.794e+02  2.643e+02   1.057 0.290680    
+inbound_links:h5                                                           2.550e+02  2.611e+02   0.976 0.329062    
+inbound_links:h6                                                           1.095e+03  1.409e+03   0.777 0.437250    
+inbound_links:p                                                            3.199e-03  2.374e-03   1.348 0.177984    
+inbound_links:span                                                        -3.801e-06  7.304e-04  -0.005 0.995848    
+quality:div                                                               -5.745e-04  6.533e-04  -0.879 0.379296    
+quality:h1                                                                 1.451e-03  8.437e-04   1.719 0.085783 .  
+quality:h2                                                                -2.399e-03  2.056e-03  -1.167 0.243515    
+quality:h3                                                                 1.931e-03  4.598e-03   0.420 0.674551    
+quality:h4                                                                 1.643e+01  1.358e+01   1.210 0.226647    
+quality:h5                                                                -1.074e+02  1.182e+02  -0.909 0.363442    
+quality:h6                                                                -1.390e+03  1.693e+03  -0.821 0.411881    
+quality:p                                                                  5.247e-04  4.407e-04   1.190 0.234062    
+quality:span                                                               1.372e-04  2.364e-04   0.580 0.561905    
+outbound_links:div                                                        -1.088e-03  1.051e-03  -1.035 0.300685    
+outbound_links:h1                                                          9.207e-03  2.504e-03   3.678 0.000245 ***
+outbound_links:h2                                                         -2.320e-03  1.958e-03  -1.185 0.236168    
+outbound_links:h3                                                         -4.732e-03  7.403e-03  -0.639 0.522799    
+outbound_links:h4                                                          2.264e+02  2.073e+02   1.092 0.275027    
+outbound_links:h5                                                         -3.877e+02  4.481e+02  -0.865 0.387098    
+outbound_links:h6                                                         -3.252e+03  3.917e+03  -0.830 0.406599    
+outbound_links:p                                                           3.390e-04  1.293e-04   2.621 0.008869 ** 
+outbound_links:span                                                       -2.499e-04  1.677e-04  -1.491 0.136307    
+description:div                                                            1.220e+01  1.492e+01   0.818 0.413622    
+description:h1                                                            -1.102e+01  1.599e+01  -0.690 0.490557    
+description:h2                                                            -5.346e+01  2.537e+01  -2.107 0.035279 *  
+description:h3                                                             5.256e+02  2.806e+02   1.873 0.061237 .  
+description:h4                                                             7.421e+04  6.856e+04   1.082 0.279233    
+description:h5                                                            -2.830e+04  3.499e+04  -0.809 0.418761    
+description:h6                                                             1.414e+04  1.832e+04   0.772 0.440253    
+description:p                                                             -2.395e+00  5.854e+00  -0.409 0.682506    
+description:span                                                          -2.585e-01  4.718e+00  -0.055 0.956318    
+keywords:root:title                                                       -5.947e+01  1.046e+03  -0.057 0.954686    
+inbound_links:quality:outbound_links                                       1.070e-09  1.618e-08   0.066 0.947297    
+keywords:inbound_links:quality                                            -9.369e-03  3.770e-02  -0.249 0.803755    
+keywords:inbound_links:outbound_links                                     -5.321e-02  2.173e-01  -0.245 0.806604    
+keywords:quality:outbound_links                                           -1.508e-02  2.894e-02  -0.521 0.602406    
+root:inbound_links:quality                                                -1.562e-05  1.164e-05  -1.342 0.179902    
+root:inbound_links:outbound_links                                         -3.335e-04  1.497e-04  -2.228 0.026042 *  
+root:quality:outbound_links                                                4.020e-05  2.886e-05   1.393 0.163856    
+keywords:root:inbound_links                                               -4.541e+00  1.564e+01  -0.290 0.771674    
+keywords:root:quality                                                      8.201e-01  1.396e+01   0.059 0.953174    
+keywords:root:outbound_links                                               1.190e+00  4.098e+01   0.029 0.976836    
+title:inbound_links:quality                                                2.681e-05  2.233e-05   1.201 0.230025    
+title:inbound_links:outbound_links                                         1.023e-04  9.078e-05   1.127 0.260042    
+title:quality:outbound_links                                               3.148e-06  3.267e-05   0.096 0.923263    
+keywords:title:inbound_links                                              -2.897e+00  2.141e+01  -0.135 0.892391    
+keywords:title:quality                                                    -5.961e-01  9.444e+00  -0.063 0.949686    
+keywords:title:outbound_links                                             -3.887e+00  5.490e+01  -0.071 0.943568    
+root:title:inbound_links                                                  -1.691e-02  4.975e-03  -3.400 0.000695 ***
+root:title:quality                                                         5.392e-04  8.777e-04   0.614 0.539145    
+root:title:outbound_links                                                 -1.557e-03  9.938e-03  -0.157 0.875499    
+keywords:root:description                                                  4.406e+01  1.442e+04   0.003 0.997563    
+keywords:title:description                                                 1.503e+03  3.480e+03   0.432 0.665816    
+root:title:description                                                    -1.525e+01  4.397e+01  -0.347 0.728779    
+inbound_links:quality:description                                          3.714e-04  1.397e-03   0.266 0.790408    
+inbound_links:outbound_links:description                                   7.165e-03  1.199e-02   0.598 0.550208    
+quality:outbound_links:description                                         2.204e-04  1.523e-03   0.145 0.884953    
+keywords:inbound_links:description                                         2.650e+01  6.922e+01   0.383 0.701845    
+keywords:quality:description                                              -4.074e+00  1.811e+01  -0.225 0.822077    
+keywords:outbound_links:description                                       -4.564e+00  3.668e+01  -0.124 0.901000    
+root:inbound_links:description                                            -1.353e+00  9.610e-01  -1.408 0.159484    
+root:quality:description                                                  -1.424e-01  1.220e-01  -1.167 0.243237    
+root:outbound_links:description                                           -4.330e-01  7.706e-01  -0.562 0.574233    
+title:inbound_links:description                                            2.875e-01  1.076e+00   0.267 0.789279    
+title:quality:description                                                  6.209e-02  2.034e-01   0.305 0.760221    
+title:outbound_links:description                                           8.083e-02  3.555e-01   0.227 0.820179    
+keywords:root:div                                                          1.367e+04  7.433e+04   0.184 0.854152    
+keywords:root:h1                                                          -9.999e+02  7.723e+03  -0.129 0.897000    
+keywords:root:h2                                                          -3.875e+03  2.594e+04  -0.149 0.881283    
+keywords:root:h3                                                          -1.289e+06  6.094e+06  -0.211 0.832559    
+keywords:root:h4                                                           1.795e+07  9.051e+07   0.198 0.842807    
+keywords:root:h5                                                          -1.975e+07  1.117e+08  -0.177 0.859649    
+keywords:root:h6                                                                  NA         NA      NA       NA    
+keywords:root:p                                                            2.244e+02  5.289e+03   0.042 0.966164    
+keywords:root:span                                                         1.258e+02  4.294e+02   0.293 0.769580    
+keywords:title:div                                                        -1.141e+04  4.064e+04  -0.281 0.778948    
+keywords:title:h1                                                          5.904e+02  8.730e+03   0.068 0.946094    
+keywords:title:h2                                                          2.328e+03  1.976e+04   0.118 0.906257    
+keywords:title:h3                                                          3.458e+05  6.440e+05   0.537 0.591449    
+keywords:title:h4                                                         -5.751e+05  2.707e+06  -0.212 0.831756    
+keywords:title:h5                                                                 NA         NA      NA       NA    
+keywords:title:h6                                                                 NA         NA      NA       NA    
+keywords:title:p                                                           6.204e+02  3.758e+03   0.165 0.868889    
+keywords:title:span                                                       -4.027e+01  2.412e+02  -0.167 0.867423    
+root:title:div                                                             1.400e+00  8.057e-01   1.738 0.082501 .  
+root:title:h1                                                             -1.594e+00  2.824e-01  -5.642 2.05e-08 ***
+root:title:h2                                                             -3.636e+00  1.816e+00  -2.002 0.045515 *  
+root:title:h3                                                              6.860e+00  5.068e+00   1.354 0.176065    
+root:title:h4                                                             -1.622e+05  1.504e+05  -1.078 0.281066    
+root:title:h5                                                              3.665e+04  3.866e+04   0.948 0.343245    
+root:title:h6                                                             -1.604e+04  1.942e+04  -0.826 0.409014    
+root:title:p                                                              -2.860e-01  1.568e-01  -1.825 0.068267 .  
+root:title:span                                                            5.357e-01  2.126e-01   2.520 0.011851 *  
+inbound_links:quality:div                                                  9.903e-06  1.833e-05   0.540 0.589009    
+inbound_links:quality:h1                                                  -1.179e-04  6.320e-05  -1.866 0.062242 .  
+inbound_links:quality:h2                                                   6.791e-05  2.201e-04   0.309 0.757669    
+inbound_links:quality:h3                                                   6.771e-05  1.081e-04   0.627 0.531031    
+inbound_links:quality:h4                                                  -3.474e+00  3.290e+00  -1.056 0.291256    
+inbound_links:quality:h5                                                  -1.325e+00  1.373e+00  -0.965 0.334716    
+inbound_links:quality:h6                                                   4.491e+00  5.015e+00   0.896 0.370675    
+inbound_links:quality:p                                                   -1.776e-05  3.173e-05  -0.560 0.575818    
+inbound_links:quality:span                                                -5.831e-07  9.223e-06  -0.063 0.949593    
+inbound_links:outbound_links:div                                           9.944e-06  7.981e-05   0.125 0.900857    
+inbound_links:outbound_links:h1                                           -1.734e-04  2.621e-04  -0.662 0.508367    
+inbound_links:outbound_links:h2                                            7.645e-05  2.131e-04   0.359 0.719776    
+inbound_links:outbound_links:h3                                            4.295e-04  6.095e-04   0.705 0.481162    
+inbound_links:outbound_links:h4                                           -3.032e+01  2.936e+01  -1.033 0.301940    
+inbound_links:outbound_links:h5                                            3.360e+00  4.650e+00   0.723 0.470069    
+inbound_links:outbound_links:h6                                           -3.513e+01  4.478e+01  -0.785 0.432814    
+inbound_links:outbound_links:p                                            -2.537e-05  2.569e-05  -0.987 0.323669    
+inbound_links:outbound_links:span                                          3.880e-06  1.595e-05   0.243 0.807809    
+quality:outbound_links:div                                                 2.484e-05  1.954e-05   1.271 0.203857    
+quality:outbound_links:h1                                                 -2.130e-04  4.268e-05  -4.990 6.83e-07 ***
+quality:outbound_links:h2                                                  6.234e-05  3.000e-05   2.078 0.037874 *  
+quality:outbound_links:h3                                                  1.104e-04  1.803e-04   0.612 0.540420    
+quality:outbound_links:h4                                                  4.828e+00  4.599e+00   1.050 0.294061    
+quality:outbound_links:h5                                                 -3.128e-01  3.666e-01  -0.853 0.393620    
+quality:outbound_links:h6                                                  5.405e+01  6.592e+01   0.820 0.412386    
+quality:outbound_links:p                                                  -7.801e-07  6.213e-06  -0.126 0.900100    
+quality:outbound_links:span                                                1.710e-05  6.528e-06   2.619 0.008924 ** 
+keywords:inbound_links:div                                                -1.536e+01  1.871e+02  -0.082 0.934603    
+keywords:inbound_links:h1                                                 -2.069e+01  2.120e+02  -0.098 0.922271    
+keywords:inbound_links:h2                                                  1.601e+00  1.601e+02   0.010 0.992023    
+keywords:inbound_links:h3                                                 -1.127e+04  6.700e+04  -0.168 0.866396    
+keywords:inbound_links:h4                                                 -1.779e+06  8.815e+06  -0.202 0.840060    
+keywords:inbound_links:h5                                                         NA         NA      NA       NA    
+keywords:inbound_links:h6                                                         NA         NA      NA       NA    
+keywords:inbound_links:p                                                  -8.276e+00  5.729e+01  -0.144 0.885158    
+keywords:inbound_links:span                                                1.072e+00  6.824e+00   0.157 0.875235    
+keywords:quality:div                                                      -1.121e+01  1.279e+02  -0.088 0.930173    
+keywords:quality:h1                                                        4.297e+00  5.332e+01   0.081 0.935788    
+keywords:quality:h2                                                        2.676e+00  7.267e+01   0.037 0.970626    
+keywords:quality:h3                                                       -1.038e+03  6.522e+03  -0.159 0.873590    
+keywords:quality:h4                                                        2.045e+05  9.984e+05   0.205 0.837705    
+keywords:quality:h5                                                               NA         NA      NA       NA    
+keywords:quality:h6                                                               NA         NA      NA       NA    
+keywords:quality:p                                                        -3.526e-01  1.135e+01  -0.031 0.975223    
+keywords:quality:span                                                     -1.055e+00  1.202e+00  -0.878 0.380122    
+keywords:outbound_links:div                                               -1.153e+00  1.319e+02  -0.009 0.993031    
+keywords:outbound_links:h1                                                -8.459e+00  8.456e+01  -0.100 0.920332    
+keywords:outbound_links:h2                                                -1.182e+01  1.666e+01  -0.710 0.477999    
+keywords:outbound_links:h3                                                 2.041e+03  1.236e+04   0.165 0.868909    
+keywords:outbound_links:h4                                                 1.083e+04  5.217e+04   0.208 0.835548    
+keywords:outbound_links:h5                                                        NA         NA      NA       NA    
+keywords:outbound_links:h6                                                        NA         NA      NA       NA    
+keywords:outbound_links:p                                                  7.198e+00  5.594e+01   0.129 0.897633    
+keywords:outbound_links:span                                              -4.032e-01  3.540e+00  -0.114 0.909344    
+root:inbound_links:div                                                     1.035e-02  4.814e-02   0.215 0.829734    
+root:inbound_links:h1                                                     -6.041e-02  2.722e-02  -2.219 0.026646 *  
+root:inbound_links:h2                                                      3.630e-02  3.048e-02   1.191 0.233806    
+root:inbound_links:h3                                                     -6.395e-01  2.530e-01  -2.528 0.011580 *  
+root:inbound_links:h4                                                     -5.617e+02  4.806e+02  -1.169 0.242678    
+root:inbound_links:h5                                                      2.299e+02  2.492e+02   0.922 0.356487    
+root:inbound_links:h6                                                      1.185e+02  1.367e+02   0.866 0.386379    
+root:inbound_links:p                                                       4.252e-03  1.245e-02   0.341 0.732865    
+root:inbound_links:span                                                    1.112e-02  6.182e-03   1.799 0.072270 .  
+root:quality:div                                                          -3.522e-03  1.177e-02  -0.299 0.764711    
+root:quality:h1                                                           -5.344e-03  4.235e-03  -1.262 0.207273    
+root:quality:h2                                                           -3.954e-03  1.260e-02  -0.314 0.753723    
+root:quality:h3                                                           -1.058e-01  4.593e-02  -2.304 0.021402 *  
+root:quality:h4                                                           -1.964e+02  1.768e+02  -1.111 0.266920    
+root:quality:h5                                                            4.302e+02  4.760e+02   0.904 0.366305    
+root:quality:h6                                                                   NA         NA      NA       NA    
+root:quality:p                                                            -4.205e-03  2.855e-03  -1.473 0.141017    
+root:quality:span                                                          2.002e-03  1.173e-03   1.707 0.088063 .  
+root:outbound_links:div                                                    1.929e-03  6.236e-03   0.309 0.757165    
+root:outbound_links:h1                                                    -5.200e-02  1.398e-02  -3.721 0.000207 ***
+root:outbound_links:h2                                                    -1.421e-02  2.638e-02  -0.539 0.590184    
+root:outbound_links:h3                                                    -1.086e-01  6.001e-02  -1.809 0.070674 .  
+root:outbound_links:h4                                                     1.339e+01  1.540e+01   0.870 0.384693    
+root:outbound_links:h5                                                     1.197e+03  1.322e+03   0.905 0.365396    
+root:outbound_links:h6                                                            NA         NA      NA       NA    
+root:outbound_links:p                                                      8.616e-03  2.796e-03   3.081 0.002102 ** 
+root:outbound_links:span                                                  -2.922e-03  2.659e-03  -1.099 0.272024    
+title:inbound_links:div                                                    3.520e-02  3.394e-02   1.037 0.299805    
+title:inbound_links:h1                                                    -7.528e-04  1.539e-02  -0.049 0.960995    
+title:inbound_links:h2                                                     1.803e-02  5.524e-02   0.326 0.744215    
+title:inbound_links:h3                                                     1.531e-01  9.267e-02   1.652 0.098833 .  
+title:inbound_links:h4                                                     3.957e+03  3.703e+03   1.069 0.285445    
+title:inbound_links:h5                                                            NA         NA      NA       NA    
+title:inbound_links:h6                                                            NA         NA      NA       NA    
+title:inbound_links:p                                                     -1.160e-02  1.125e-02  -1.031 0.302683    
+title:inbound_links:span                                                  -3.420e-03  5.382e-03  -0.636 0.525202    
+title:quality:div                                                          1.341e-02  1.039e-02   1.291 0.196802    
+title:quality:h1                                                          -5.665e-03  2.353e-03  -2.407 0.016205 *  
+title:quality:h2                                                           7.335e-03  1.288e-02   0.569 0.569258    
+title:quality:h3                                                           2.102e-02  1.967e-02   1.068 0.285534    
+title:quality:h4                                                           1.899e+02  1.832e+02   1.036 0.300290    
+title:quality:h5                                                                  NA         NA      NA       NA    
+title:quality:h6                                                                  NA         NA      NA       NA    
+title:quality:p                                                           -3.049e-04  2.551e-03  -0.120 0.904881    
+title:quality:span                                                        -1.014e-03  1.384e-03  -0.732 0.464120    
+title:outbound_links:div                                                   1.902e-02  8.451e-03   2.250 0.024581 *  
+title:outbound_links:h1                                                   -4.472e-02  8.488e-03  -5.268 1.60e-07 ***
+title:outbound_links:h2                                                   -1.712e-02  2.421e-02  -0.707 0.479701    
+title:outbound_links:h3                                                    7.403e-02  4.811e-02   1.539 0.124102    
+title:outbound_links:h4                                                   -6.851e+02  6.196e+02  -1.106 0.269057    
+title:outbound_links:h5                                                           NA         NA      NA       NA    
+title:outbound_links:h6                                                           NA         NA      NA       NA    
+title:outbound_links:p                                                     9.505e-05  1.747e-03   0.054 0.956617    
+title:outbound_links:span                                                  3.328e-04  2.044e-03   0.163 0.870665    
+keywords:description:div                                                   4.599e+03  1.070e+04   0.430 0.667444    
+keywords:description:h1                                                   -5.514e+01  9.874e+03  -0.006 0.995545    
+keywords:description:h2                                                   -2.131e+03  6.826e+03  -0.312 0.754994    
+keywords:description:h3                                                    1.959e+06  9.266e+06   0.211 0.832568    
+keywords:description:h4                                                   -1.847e+07  9.336e+07  -0.198 0.843224    
+keywords:description:h5                                                           NA         NA      NA       NA    
+keywords:description:h6                                                           NA         NA      NA       NA    
+keywords:description:p                                                     1.037e+03  8.389e+03   0.124 0.901660    
+keywords:description:span                                                 -1.521e+02  7.486e+02  -0.203 0.839066    
+root:description:div                                                      -2.017e+01  9.838e+01  -0.205 0.837578    
+root:description:h1                                                        6.344e+00  7.705e+01   0.082 0.934393    
+root:description:h2                                                        1.757e+02  1.594e+02   1.103 0.270385    
+root:description:h3                                                       -2.006e+03  1.076e+03  -1.863 0.062620 .  
+root:description:h4                                                       -1.297e+05  1.250e+05  -1.038 0.299614    
+root:description:h5                                                               NA         NA      NA       NA    
+root:description:h6                                                               NA         NA      NA       NA    
+root:description:p                                                        -6.418e+00  2.916e+01  -0.220 0.825855    
+root:description:span                                                     -3.469e+00  3.687e+01  -0.094 0.925059    
+title:description:div                                                     -7.379e+01  6.979e+01  -1.057 0.290534    
+title:description:h1                                                       3.632e+00  4.529e+01   0.080 0.936100    
+title:description:h2                                                       3.158e+02  1.366e+02   2.312 0.020910 *  
+title:description:h3                                                      -2.575e+03  1.325e+03  -1.943 0.052189 .  
+title:description:h4                                                      -6.010e+05  5.756e+05  -1.044 0.296652    
+title:description:h5                                                              NA         NA      NA       NA    
+title:description:h6                                                              NA         NA      NA       NA    
+title:description:p                                                        8.212e+00  2.542e+01   0.323 0.746695    
+title:description:span                                                     1.014e+01  1.582e+01   0.641 0.521690    
+inbound_links:description:div                                             -6.524e-01  1.733e+00  -0.376 0.706692    
+inbound_links:description:h1                                               3.060e-01  3.892e+00   0.079 0.937356    
+inbound_links:description:h2                                               1.233e+01  1.112e+01   1.109 0.267732    
+inbound_links:description:h3                                              -1.060e+02  7.146e+01  -1.483 0.138229    
+inbound_links:description:h4                                              -9.519e+02  8.582e+02  -1.109 0.267529    
+inbound_links:description:h5                                                      NA         NA      NA       NA    
+inbound_links:description:h6                                                      NA         NA      NA       NA    
+inbound_links:description:p                                                4.226e-01  1.918e+00   0.220 0.825704    
+inbound_links:description:span                                             4.673e-01  9.852e-01   0.474 0.635360    
+quality:description:div                                                   -1.525e-01  4.457e-01  -0.342 0.732311    
+quality:description:h1                                                     4.671e-02  4.375e-01   0.107 0.914994    
+quality:description:h2                                                     7.777e-01  6.328e-01   1.229 0.219270    
+quality:description:h3                                                    -2.300e+01  1.264e+01  -1.820 0.068986 .  
+quality:description:h4                                                    -1.304e+03  1.253e+03  -1.041 0.298130    
+quality:description:h5                                                            NA         NA      NA       NA    
+quality:description:h6                                                            NA         NA      NA       NA    
+quality:description:p                                                      1.592e-02  1.424e-01   0.112 0.910983    
+quality:description:span                                                   4.468e-02  9.098e-02   0.491 0.623433    
+outbound_links:description:div                                            -3.987e-01  1.538e+00  -0.259 0.795476    
+outbound_links:description:h1                                             -3.203e-01  1.357e+00  -0.236 0.813464    
+outbound_links:description:h2                                              6.849e+00  3.196e+00   2.143 0.032270 *  
+outbound_links:description:h3                                             -2.311e+01  1.421e+01  -1.626 0.104213    
+outbound_links:description:h4                                              7.602e+02  8.022e+02   0.948 0.343481    
+outbound_links:description:h5                                                     NA         NA      NA       NA    
+outbound_links:description:h6                                                     NA         NA      NA       NA    
+outbound_links:description:p                                               1.606e-01  2.679e-01   0.599 0.548985    
+outbound_links:description:span                                            6.709e-01  5.662e-01   1.185 0.236292    
+keywords:inbound_links:quality:outbound_links                              1.255e-03  4.920e-03   0.255 0.798745    
+root:inbound_links:quality:outbound_links                                  7.956e-07  1.453e-06   0.547 0.584213    
+keywords:root:inbound_links:quality                                        1.255e-01  6.567e-01   0.191 0.848446    
+keywords:root:inbound_links:outbound_links                                 8.135e-03  6.484e+00   0.001 0.998999    
+keywords:root:quality:outbound_links                                      -9.449e-02  9.508e-01  -0.099 0.920854    
+title:inbound_links:quality:outbound_links                                -2.615e-06  1.787e-06  -1.463 0.143683    
+keywords:title:inbound_links:quality                                       5.969e-02  6.566e-01   0.091 0.927584    
+keywords:title:inbound_links:outbound_links                                5.517e-01  1.136e+01   0.049 0.961273    
+keywords:title:quality:outbound_links                                      1.231e-01  6.682e-01   0.184 0.853885    
+root:title:inbound_links:quality                                          -2.448e-05  3.163e-05  -0.774 0.439227    
+root:title:inbound_links:outbound_links                                    5.658e-04  5.509e-04   1.027 0.304647    
+root:title:quality:outbound_links                                         -1.306e-04  1.506e-04  -0.867 0.385834    
+keywords:root:title:inbound_links                                          1.475e+01  6.593e+01   0.224 0.823012    
+keywords:root:title:quality                                                1.297e+00  5.903e+01   0.022 0.982472    
+keywords:root:title:outbound_links                                         1.394e+01  5.734e+01   0.243 0.807986    
+keywords:root:title:description                                           -6.363e+03  9.544e+04  -0.067 0.946856    
+inbound_links:quality:outbound_links:description                          -1.034e-04  1.623e-04  -0.637 0.524161    
+keywords:inbound_links:quality:description                                 6.203e-03  1.042e+00   0.006 0.995252    
+keywords:inbound_links:outbound_links:description                          6.976e-01  5.685e+00   0.123 0.902357    
+keywords:quality:outbound_links:description                                2.370e-01  8.066e-01   0.294 0.768933    
+root:inbound_links:quality:description                                     1.653e-02  1.701e-02   0.972 0.331244    
+root:inbound_links:outbound_links:description                              5.473e-02  9.157e-02   0.598 0.550106    
+root:quality:outbound_links:description                                    5.843e-03  9.325e-03   0.627 0.531033    
+keywords:root:inbound_links:description                                   -2.507e+01  9.159e+02  -0.027 0.978168    
+keywords:root:quality:description                                          1.745e+01  1.762e+02   0.099 0.921138    
+keywords:root:outbound_links:description                                  -5.937e+01  7.244e+02  -0.082 0.934702    
+title:inbound_links:quality:description                                   -9.443e-03  2.692e-02  -0.351 0.725831    
+title:inbound_links:outbound_links:description                            -2.761e-02  6.371e-02  -0.433 0.664787    
+title:quality:outbound_links:description                                  -5.138e-03  1.932e-02  -0.266 0.790297    
+keywords:title:inbound_links:description                                  -2.022e+02  4.619e+02  -0.438 0.661590    
+keywords:title:quality:description                                         3.695e+00  9.978e+01   0.037 0.970468    
+keywords:title:outbound_links:description                                 -3.332e+01  9.867e+02  -0.034 0.973069    
+root:title:inbound_links:description                                       6.456e-01  6.507e+00   0.099 0.920977    
+root:title:quality:description                                             1.041e-01  6.691e-01   0.156 0.876356    
+root:title:outbound_links:description                                      1.316e+00  3.879e+00   0.339 0.734467    
+keywords:root:title:div                                                   -6.107e+03  1.309e+05  -0.047 0.962805    
+keywords:root:title:h1                                                     1.347e+03  5.584e+04   0.024 0.980766    
+keywords:root:title:h2                                                     1.922e+03  3.083e+04   0.062 0.950302    
+keywords:root:title:h3                                                    -2.058e+05  5.564e+06  -0.037 0.970503    
+keywords:root:title:h4                                                     2.224e+07  1.058e+08   0.210 0.833566    
+keywords:root:title:h5                                                            NA         NA      NA       NA    
+keywords:root:title:h6                                                            NA         NA      NA       NA    
+keywords:root:title:p                                                      3.660e+03  4.711e+04   0.078 0.938079    
+keywords:root:title:span                                                  -3.545e+02  1.507e+03  -0.235 0.814015    
+inbound_links:quality:outbound_links:div                                  -3.116e-07  1.074e-06  -0.290 0.771844    
+inbound_links:quality:outbound_links:h1                                    4.980e-06  2.968e-06   1.678 0.093604 .  
+inbound_links:quality:outbound_links:h2                                   -1.643e-06  3.060e-06  -0.537 0.591347    
+inbound_links:quality:outbound_links:h3                                   -8.375e-06  1.119e-05  -0.749 0.454221    
+inbound_links:quality:outbound_links:h4                                    2.575e-01  2.539e-01   1.014 0.310728    
+inbound_links:quality:outbound_links:h5                                           NA         NA      NA       NA    
+inbound_links:quality:outbound_links:h6                                           NA         NA      NA       NA    
+inbound_links:quality:outbound_links:p                                     7.987e-08  4.143e-07   0.193 0.847146    
+inbound_links:quality:outbound_links:span                                 -1.546e-07  1.266e-07  -1.221 0.222273    
+keywords:inbound_links:quality:div                                         3.095e-01  4.636e+00   0.067 0.946787    
+keywords:inbound_links:quality:h1                                         -3.868e-01  5.826e+00  -0.066 0.947079    
+keywords:inbound_links:quality:h2                                         -1.157e+00  8.926e+00  -0.130 0.896874    
+keywords:inbound_links:quality:h3                                          2.364e+02  1.462e+03   0.162 0.871509    
+keywords:inbound_links:quality:h4                                          2.293e+04  1.178e+05   0.195 0.845665    
+keywords:inbound_links:quality:h5                                                 NA         NA      NA       NA    
+keywords:inbound_links:quality:h6                                                 NA         NA      NA       NA    
+keywords:inbound_links:quality:p                                           6.700e-01  3.338e+00   0.201 0.840963    
+keywords:inbound_links:quality:span                                       -3.821e-03  8.051e-02  -0.047 0.962155    
+keywords:inbound_links:outbound_links:div                                  8.520e-02  2.243e+01   0.004 0.996969    
+keywords:inbound_links:outbound_links:h1                                   1.213e+00  6.627e+00   0.183 0.854795    
+keywords:inbound_links:outbound_links:h2                                   2.193e+00  4.314e+00   0.508 0.611247    
+keywords:inbound_links:outbound_links:h3                                  -2.920e+02  1.141e+03  -0.256 0.798098    
+keywords:inbound_links:outbound_links:h4                                   2.615e+04  1.204e+05   0.217 0.828081    
+keywords:inbound_links:outbound_links:h5                                          NA         NA      NA       NA    
+keywords:inbound_links:outbound_links:h6                                          NA         NA      NA       NA    
+keywords:inbound_links:outbound_links:p                                    2.746e-02  3.785e+00   0.007 0.994212    
+keywords:inbound_links:outbound_links:span                                 8.969e-03  4.800e-01   0.019 0.985093    
+keywords:quality:outbound_links:div                                       -8.496e-01  2.641e+00  -0.322 0.747757    
+keywords:quality:outbound_links:h1                                         1.082e-01  1.819e+00   0.059 0.952571    
+keywords:quality:outbound_links:h2                                         1.143e-01  8.262e-01   0.138 0.889956    
+keywords:quality:outbound_links:h3                                         3.717e+01  1.925e+02   0.193 0.846899    
+keywords:quality:outbound_links:h4                                         5.612e+02  3.160e+03   0.178 0.859074    
+keywords:quality:outbound_links:h5                                                NA         NA      NA       NA    
+keywords:quality:outbound_links:h6                                                NA         NA      NA       NA    
+keywords:quality:outbound_links:p                                         -1.580e-02  1.123e+00  -0.014 0.988777    
+keywords:quality:outbound_links:span                                       2.295e-02  3.923e-02   0.585 0.558647    
+root:inbound_links:quality:div                                            -7.637e-04  1.090e-03  -0.701 0.483639    
+root:inbound_links:quality:h1                                              1.183e-03  4.270e-04   2.771 0.005672 ** 
+root:inbound_links:quality:h2                                             -1.295e-03  8.254e-04  -1.569 0.116953    
+root:inbound_links:quality:h3                                              1.420e-02  4.788e-03   2.966 0.003066 ** 
+root:inbound_links:quality:h4                                             -1.510e+01  1.677e+01  -0.901 0.367947    
+root:inbound_links:quality:h5                                                     NA         NA      NA       NA    
+root:inbound_links:quality:h6                                                     NA         NA      NA       NA    
+root:inbound_links:quality:p                                              -2.106e-04  2.210e-04  -0.953 0.340905    
+root:inbound_links:quality:span                                           -2.598e-04  9.068e-05  -2.865 0.004237 ** 
+root:inbound_links:outbound_links:div                                      7.977e-04  1.374e-03   0.580 0.561699    
+root:inbound_links:outbound_links:h1                                       2.740e-03  1.530e-03   1.791 0.073545 .  
+root:inbound_links:outbound_links:h2                                       1.094e-03  9.006e-04   1.215 0.224537    
+root:inbound_links:outbound_links:h3                                       1.358e-02  7.658e-03   1.774 0.076314 .  
+root:inbound_links:outbound_links:h4                                       5.476e+01  5.256e+01   1.042 0.297717    
+root:inbound_links:outbound_links:h5                                              NA         NA      NA       NA    
+root:inbound_links:outbound_links:h6                                              NA         NA      NA       NA    
+root:inbound_links:outbound_links:p                                       -1.534e-03  4.202e-04  -3.651 0.000271 ***
+root:inbound_links:outbound_links:span                                     1.768e-04  2.268e-04   0.780 0.435720    
+root:quality:outbound_links:div                                           -6.142e-06  2.561e-04  -0.024 0.980872    
+root:quality:outbound_links:h1                                             1.033e-03  2.351e-04   4.394 1.20e-05 ***
+root:quality:outbound_links:h2                                             4.792e-04  6.791e-04   0.706 0.480544    
+root:quality:outbound_links:h3                                             3.647e-03  1.766e-03   2.065 0.039121 *  
+root:quality:outbound_links:h4                                            -1.386e+01  1.229e+01  -1.128 0.259695    
+root:quality:outbound_links:h5                                                    NA         NA      NA       NA    
+root:quality:outbound_links:h6                                                    NA         NA      NA       NA    
+root:quality:outbound_links:p                                             -1.746e-04  5.265e-05  -3.316 0.000937 ***
+root:quality:outbound_links:span                                          -1.141e-05  4.894e-05  -0.233 0.815660    
+keywords:root:inbound_links:div                                           -1.221e+03  6.595e+03  -0.185 0.853161    
+keywords:root:inbound_links:h1                                             2.398e+01  1.851e+03   0.013 0.989664    
+keywords:root:inbound_links:h2                                             7.056e+00  1.882e+03   0.004 0.997010    
+keywords:root:inbound_links:h3                                            -1.109e+04  1.282e+05  -0.086 0.931096    
+keywords:root:inbound_links:h4                                             1.804e+06  8.714e+06   0.207 0.836000    
+keywords:root:inbound_links:h5                                                    NA         NA      NA       NA    
+keywords:root:inbound_links:h6                                                    NA         NA      NA       NA    
+keywords:root:inbound_links:p                                              1.111e+02  6.073e+02   0.183 0.854942    
+keywords:root:inbound_links:span                                          -8.311e+00  5.836e+01  -0.142 0.886781    
+keywords:root:quality:div                                                 -1.716e+02  9.864e+02  -0.174 0.861896    
+keywords:root:quality:h1                                                   2.368e+00  3.987e+02   0.006 0.995262    
+keywords:root:quality:h2                                                   7.797e+01  3.180e+02   0.245 0.806382    
+keywords:root:quality:h3                                                   2.432e+04  1.262e+05   0.193 0.847262    
+keywords:root:quality:h4                                                  -9.126e+05  4.591e+06  -0.199 0.842470    
+keywords:root:quality:h5                                                          NA         NA      NA       NA    
+keywords:root:quality:h6                                                          NA         NA      NA       NA    
+keywords:root:quality:p                                                   -2.120e+01  5.364e+02  -0.040 0.968485    
+keywords:root:quality:span                                                -4.602e+00  2.285e+01  -0.201 0.840395    
+keywords:root:outbound_links:div                                          -2.920e+02  2.357e+03  -0.124 0.901403    
+keywords:root:outbound_links:h1                                            6.357e+01  4.079e+02   0.156 0.876176    
+keywords:root:outbound_links:h2                                            8.275e+01  1.582e+02   0.523 0.601056    
+keywords:root:outbound_links:h3                                            1.431e+04  5.371e+04   0.267 0.789880    
+keywords:root:outbound_links:h4                                           -3.977e+05  1.781e+06  -0.223 0.823298    
+keywords:root:outbound_links:h5                                                   NA         NA      NA       NA    
+keywords:root:outbound_links:h6                                                   NA         NA      NA       NA    
+keywords:root:outbound_links:p                                            -3.829e+01  3.311e+02  -0.116 0.907970    
+keywords:root:outbound_links:span                                         -8.329e+00  4.315e+01  -0.193 0.846962    
+title:inbound_links:quality:div                                           -5.686e-04  6.204e-04  -0.916 0.359608    
+title:inbound_links:quality:h1                                             2.011e-04  3.406e-04   0.590 0.555047    
+title:inbound_links:quality:h2                                            -9.379e-04  1.183e-03  -0.793 0.427891    
+title:inbound_links:quality:h3                                            -1.815e-03  1.111e-03  -1.634 0.102497    
+title:inbound_links:quality:h4                                             1.288e+01  1.461e+01   0.881 0.378252    
+title:inbound_links:quality:h5                                                    NA         NA      NA       NA    
+title:inbound_links:quality:h6                                                    NA         NA      NA       NA    
+title:inbound_links:quality:p                                              1.114e-04  1.470e-04   0.758 0.448772    
+title:inbound_links:quality:span                                           1.339e-04  8.196e-05   1.634 0.102457    
+title:inbound_links:outbound_links:div                                    -1.248e-03  1.178e-03  -1.059 0.289622    
+title:inbound_links:outbound_links:h1                                      1.788e-05  7.172e-04   0.025 0.980111    
+title:inbound_links:outbound_links:h2                                     -8.572e-04  1.289e-03  -0.665 0.506076    
+title:inbound_links:outbound_links:h3                                     -6.543e-03  4.768e-03  -1.372 0.170184    
+title:inbound_links:outbound_links:h4                                      1.294e+01  1.165e+01   1.111 0.266903    
+title:inbound_links:outbound_links:h5                                             NA         NA      NA       NA    
+title:inbound_links:outbound_links:h6                                             NA         NA      NA       NA    
+title:inbound_links:outbound_links:p                                       7.466e-04  2.065e-04   3.616 0.000310 ***
+title:inbound_links:outbound_links:span                                    8.565e-05  1.859e-04   0.461 0.645095    
+title:quality:outbound_links:div                                          -3.533e-04  1.671e-04  -2.114 0.034704 *  
+title:quality:outbound_links:h1                                            1.010e-03  1.547e-04   6.530 9.33e-11 ***
+title:quality:outbound_links:h2                                           -3.063e-04  5.562e-04  -0.551 0.581933    
+title:quality:outbound_links:h3                                           -1.302e-03  1.034e-03  -1.259 0.208280    
+title:quality:outbound_links:h4                                           -5.734e+01  5.456e+01  -1.051 0.293458    
+title:quality:outbound_links:h5                                                   NA         NA      NA       NA    
+title:quality:outbound_links:h6                                                   NA         NA      NA       NA    
+title:quality:outbound_links:p                                            -7.160e-05  4.803e-05  -1.491 0.136237    
+title:quality:outbound_links:span                                         -1.689e-05  3.324e-05  -0.508 0.611375    
+keywords:title:inbound_links:div                                           9.561e+02  9.079e+03   0.105 0.916145    
+keywords:title:inbound_links:h1                                            1.446e+02  1.110e+03   0.130 0.896355    
+keywords:title:inbound_links:h2                                           -2.940e+02  3.296e+03  -0.089 0.928946    
+keywords:title:inbound_links:h3                                            6.748e+03  1.594e+05   0.042 0.966241    
+keywords:title:inbound_links:h4                                            1.726e+05  9.021e+05   0.191 0.848305    
+keywords:title:inbound_links:h5                                                   NA         NA      NA       NA    
+keywords:title:inbound_links:h6                                                   NA         NA      NA       NA    
+keywords:title:inbound_links:p                                            -1.929e+00  3.447e+02  -0.006 0.995535    
+keywords:title:inbound_links:span                                          6.511e+00  2.238e+01   0.291 0.771130    
+keywords:title:quality:div                                                 3.321e+02  1.355e+03   0.245 0.806501    
+keywords:title:quality:h1                                                 -4.123e+01  3.494e+02  -0.118 0.906070    
+keywords:title:quality:h2                                                 -1.089e+02  8.319e+02  -0.131 0.895873    
+keywords:title:quality:h3                                                  1.665e+04  8.633e+04   0.193 0.847061    
+keywords:title:quality:h4                                                 -1.596e+05  7.298e+05  -0.219 0.826989    
+keywords:title:quality:h5                                                         NA         NA      NA       NA    
+keywords:title:quality:h6                                                         NA         NA      NA       NA    
+keywords:title:quality:p                                                   2.615e+01  1.219e+02   0.215 0.830188    
+keywords:title:quality:span                                                3.845e+00  1.162e+01   0.331 0.740866    
+keywords:title:outbound_links:div                                          2.104e+02  5.675e+02   0.371 0.710820    
+keywords:title:outbound_links:h1                                           2.806e+00  5.402e+02   0.005 0.995856    
+keywords:title:outbound_links:h2                                           3.175e+01  1.149e+02   0.276 0.782343    
+keywords:title:outbound_links:h3                                          -1.601e+04  5.334e+04  -0.300 0.764149    
+keywords:title:outbound_links:h4                                                  NA         NA      NA       NA    
+keywords:title:outbound_links:h5                                                  NA         NA      NA       NA    
+keywords:title:outbound_links:h6                                                  NA         NA      NA       NA    
+keywords:title:outbound_links:p                                           -4.118e+01  1.594e+02  -0.258 0.796158    
+keywords:title:outbound_links:span                                         2.421e+00  2.545e+01   0.095 0.924216    
+root:title:inbound_links:div                                              -1.741e-01  1.045e-01  -1.667 0.095792 .  
+root:title:inbound_links:h1                                                1.605e-01  6.072e-02   2.644 0.008285 ** 
+root:title:inbound_links:h2                                                1.795e-01  9.806e-02   1.831 0.067346 .  
+root:title:inbound_links:h3                                                7.583e-01  6.107e-01   1.242 0.214561    
+root:title:inbound_links:h4                                               -9.522e+03  9.078e+03  -1.049 0.294423    
+root:title:inbound_links:h5                                                       NA         NA      NA       NA    
+root:title:inbound_links:h6                                                       NA         NA      NA       NA    
+root:title:inbound_links:p                                                -8.489e-03  2.281e-02  -0.372 0.709846    
+root:title:inbound_links:span                                             -4.433e-02  2.041e-02  -2.172 0.030046 *  
+root:title:quality:div                                                    -2.727e-02  1.992e-02  -1.369 0.171106    
+root:title:quality:h1                                                      2.968e-02  8.348e-03   3.555 0.000390 ***
+root:title:quality:h2                                                      3.216e-02  4.277e-02   0.752 0.452216    
+root:title:quality:h3                                                     -2.345e-02  1.765e-01  -0.133 0.894300    
+root:title:quality:h4                                                      1.101e+03  1.014e+03   1.085 0.277958    
+root:title:quality:h5                                                             NA         NA      NA       NA    
+root:title:quality:h6                                                             NA         NA      NA       NA    
+root:title:quality:p                                                       8.197e-03  8.932e-03   0.918 0.358983    
+root:title:quality:span                                                   -3.644e-03  4.962e-03  -0.734 0.462831    
+root:title:outbound_links:div                                             -6.563e-02  3.603e-02  -1.822 0.068721 .  
+root:title:outbound_links:h1                                               2.124e-01  3.485e-02   6.095 1.43e-09 ***
+root:title:outbound_links:h2                                               2.098e-01  9.718e-02   2.159 0.031050 *  
+root:title:outbound_links:h3                                              -2.086e-01  2.156e-01  -0.967 0.333650    
+root:title:outbound_links:h4                                               6.190e+03  5.769e+03   1.073 0.283509    
+root:title:outbound_links:h5                                                      NA         NA      NA       NA    
+root:title:outbound_links:h6                                                      NA         NA      NA       NA    
+root:title:outbound_links:p                                               -3.094e-02  9.431e-03  -3.281 0.001061 ** 
+root:title:outbound_links:span                                             1.386e-02  9.394e-03   1.475 0.140460    
+keywords:root:description:div                                             -1.825e+05  2.907e+05  -0.628 0.530289    
+keywords:root:description:h1                                               1.312e+04  4.472e+04   0.293 0.769336    
+keywords:root:description:h2                                               1.997e+04  2.224e+05   0.090 0.928443    
+keywords:root:description:h3                                              -8.706e+05  2.173e+06  -0.401 0.688672    
+keywords:root:description:h4                                                      NA         NA      NA       NA    
+keywords:root:description:h5                                                      NA         NA      NA       NA    
+keywords:root:description:h6                                                      NA         NA      NA       NA    
+keywords:root:description:p                                               -3.413e+03  3.872e+04  -0.088 0.929771    
+keywords:root:description:span                                             5.372e+01  3.990e+03   0.013 0.989260    
+keywords:title:description:div                                             7.256e+04  2.677e+05   0.271 0.786413    
+keywords:title:description:h1                                             -7.854e+03  7.312e+04  -0.107 0.914484    
+keywords:title:description:h2                                             -1.264e+04  1.183e+05  -0.107 0.914940    
+keywords:title:description:h3                                             -2.132e+06  3.743e+06  -0.570 0.568995    
+keywords:title:description:h4                                                     NA         NA      NA       NA    
+keywords:title:description:h5                                                     NA         NA      NA       NA    
+keywords:title:description:h6                                                     NA         NA      NA       NA    
+keywords:title:description:p                                              -9.981e+03  4.255e+04  -0.235 0.814583    
+keywords:title:description:span                                           -1.333e+03  5.705e+03  -0.234 0.815243    
+root:title:description:div                                                 2.843e+02  3.295e+02   0.863 0.388407    
+root:title:description:h1                                                  1.499e+02  2.334e+02   0.642 0.520820    
+root:title:description:h2                                                 -1.013e+03  7.842e+02  -1.292 0.196625    
+root:title:description:h3                                                  1.021e+04  4.975e+03   2.051 0.040421 *  
+root:title:description:h4                                                  1.951e+06  1.871e+06   1.043 0.297181    
+root:title:description:h5                                                         NA         NA      NA       NA    
+root:title:description:h6                                                         NA         NA      NA       NA    
+root:title:description:p                                                   8.633e+01  1.146e+02   0.754 0.451257    
+root:title:description:span                                               -5.143e+01  1.145e+02  -0.449 0.653252    
+inbound_links:quality:description:div                                      2.320e-02  5.616e-02   0.413 0.679542    
+inbound_links:quality:description:h1                                      -1.108e-02  7.463e-02  -0.148 0.882002    
+inbound_links:quality:description:h2                                      -1.169e-01  2.225e-01  -0.525 0.599591    
+inbound_links:quality:description:h3                                       3.471e+00  2.139e+00   1.623 0.104856    
+inbound_links:quality:description:h4                                      -1.716e+01  1.846e+01  -0.929 0.352931    
+inbound_links:quality:description:h5                                              NA         NA      NA       NA    
+inbound_links:quality:description:h6                                              NA         NA      NA       NA    
+inbound_links:quality:description:p                                       -6.741e-03  3.068e-02  -0.220 0.826114    
+inbound_links:quality:description:span                                    -7.681e-03  1.869e-02  -0.411 0.681217    
+inbound_links:outbound_links:description:div                              -1.370e-01  1.919e-01  -0.714 0.475425    
+inbound_links:outbound_links:description:h1                                3.279e-02  1.620e-01   0.202 0.839592    
+inbound_links:outbound_links:description:h2                               -1.782e+00  1.039e+00  -1.714 0.086706 .  
+inbound_links:outbound_links:description:h3                                4.661e+00  4.554e+00   1.023 0.306280    
+inbound_links:outbound_links:description:h4                                1.701e+01  2.701e+01   0.630 0.528851    
+inbound_links:outbound_links:description:h5                                       NA         NA      NA       NA    
+inbound_links:outbound_links:description:h6                                       NA         NA      NA       NA    
+inbound_links:outbound_links:description:p                                -2.920e-02  9.027e-02  -0.323 0.746397    
+inbound_links:outbound_links:description:span                             -1.234e-01  1.498e-01  -0.824 0.410238    
+quality:outbound_links:description:div                                     6.427e-03  3.884e-02   0.166 0.868574    
+quality:outbound_links:description:h1                                      1.152e-02  3.585e-02   0.321 0.747997    
+quality:outbound_links:description:h2                                     -8.662e-02  5.689e-02  -1.523 0.128079    
+quality:outbound_links:description:h3                                      1.300e+00  6.683e-01   1.946 0.051909 .  
+quality:outbound_links:description:h4                                      4.596e+01  4.271e+01   1.076 0.281993    
+quality:outbound_links:description:h5                                             NA         NA      NA       NA    
+quality:outbound_links:description:h6                                             NA         NA      NA       NA    
+quality:outbound_links:description:p                                      -5.291e-04  6.424e-03  -0.082 0.934370    
+quality:outbound_links:description:span                                   -1.734e-02  1.263e-02  -1.374 0.169788    
+keywords:inbound_links:description:div                                    -1.660e+03  1.692e+04  -0.098 0.921897    
+keywords:inbound_links:description:h1                                      2.034e+02  3.322e+03   0.061 0.951199    
+keywords:inbound_links:description:h2                                      1.086e+02  3.463e+03   0.031 0.974989    
+keywords:inbound_links:description:h3                                      4.122e+05  1.999e+06   0.206 0.836708    
+keywords:inbound_links:description:h4                                             NA         NA      NA       NA    
+keywords:inbound_links:description:h5                                             NA         NA      NA       NA    
+keywords:inbound_links:description:h6                                             NA         NA      NA       NA    
+keywords:inbound_links:description:p                                      -6.928e+00  1.384e+03  -0.005 0.996008    
+keywords:inbound_links:description:span                                   -6.670e+01  1.059e+02  -0.630 0.528976    
+keywords:quality:description:div                                          -7.531e+00  1.334e+03  -0.006 0.995496    
+keywords:quality:description:h1                                           -9.795e+01  5.306e+02  -0.185 0.853571    
+keywords:quality:description:h2                                           -2.707e+00  2.799e+02  -0.010 0.992285    
+keywords:quality:description:h3                                           -1.030e+05  5.019e+05  -0.205 0.837506    
+keywords:quality:description:h4                                                   NA         NA      NA       NA    
+keywords:quality:description:h5                                                   NA         NA      NA       NA    
+keywords:quality:description:h6                                                   NA         NA      NA       NA    
+keywords:quality:description:p                                            -7.372e+01  7.197e+02  -0.102 0.918436    
+keywords:quality:description:span                                          2.506e+01  4.852e+01   0.517 0.605574    
+keywords:outbound_links:description:div                                    1.370e+01  2.023e+03   0.007 0.994599    
+keywords:outbound_links:description:h1                                     5.692e+01  4.633e+02   0.123 0.902249    
+keywords:outbound_links:description:h2                                    -1.932e+01  1.110e+02  -0.174 0.861841    
+keywords:outbound_links:description:h3                                    -5.758e+04  3.383e+05  -0.170 0.864863    
+keywords:outbound_links:description:h4                                            NA         NA      NA       NA    
+keywords:outbound_links:description:h5                                            NA         NA      NA       NA    
+keywords:outbound_links:description:h6                                            NA         NA      NA       NA    
+keywords:outbound_links:description:p                                     -2.655e+01  4.980e+02  -0.053 0.957497    
+keywords:outbound_links:description:span                                   1.836e+01  6.168e+01   0.298 0.765960    
+root:inbound_links:description:div                                         7.933e-01  1.565e+01   0.051 0.959579    
+root:inbound_links:description:h1                                          5.028e+00  1.406e+01   0.358 0.720593    
+root:inbound_links:description:h2                                         -5.610e+01  4.383e+01  -1.280 0.200736    
+root:inbound_links:description:h3                                          5.076e+02  3.742e+02   1.356 0.175182    
+root:inbound_links:description:h4                                         -2.108e+03  1.962e+03  -1.074 0.282926    
+root:inbound_links:description:h5                                                 NA         NA      NA       NA    
+root:inbound_links:description:h6                                                 NA         NA      NA       NA    
+root:inbound_links:description:p                                           2.146e+00  6.179e+00   0.347 0.728365    
+root:inbound_links:description:span                                        3.988e-02  4.256e+00   0.009 0.992527    
+root:quality:description:div                                              -1.296e-02  2.870e+00  -0.005 0.996397    
+root:quality:description:h1                                                7.286e-01  2.292e+00   0.318 0.750593    
+root:quality:description:h2                                               -2.106e+00  3.802e+00  -0.554 0.579681    
+root:quality:description:h3                                                8.238e+01  5.114e+01   1.611 0.107444    
+root:quality:description:h4                                                       NA         NA      NA       NA    
+root:quality:description:h5                                                       NA         NA      NA       NA    
+root:quality:description:h6                                                       NA         NA      NA       NA    
+root:quality:description:p                                                 8.965e-02  1.133e+00   0.079 0.936946    
+root:quality:description:span                                             -1.126e-01  6.642e-01  -0.170 0.865356    
+root:outbound_links:description:div                                       -8.502e-01  1.343e+01  -0.063 0.949525    
+root:outbound_links:description:h1                                         3.400e+00  6.355e+00   0.535 0.592693    
+root:outbound_links:description:h2                                        -2.556e+01  1.503e+01  -1.700 0.089322 .  
+root:outbound_links:description:h3                                         7.616e+01  7.465e+01   1.020 0.307806    
+root:outbound_links:description:h4                                                NA         NA      NA       NA    
+root:outbound_links:description:h5                                                NA         NA      NA       NA    
+root:outbound_links:description:h6                                                NA         NA      NA       NA    
+root:outbound_links:description:p                                         -3.942e-01  1.575e+00  -0.250 0.802375    
+root:outbound_links:description:span                                      -2.645e+00  3.427e+00  -0.772 0.440379    
+title:inbound_links:description:div                                        7.446e+00  7.706e+00   0.966 0.334120    
+title:inbound_links:description:h1                                         8.395e+00  2.532e+01   0.332 0.740272    
+title:inbound_links:description:h2                                        -6.142e+01  6.965e+01  -0.882 0.378041    
+title:inbound_links:description:h3                                         5.747e+02  3.834e+02   1.499 0.134116    
+title:inbound_links:description:h4                                                NA         NA      NA       NA    
+title:inbound_links:description:h5                                                NA         NA      NA       NA    
+title:inbound_links:description:h6                                                NA         NA      NA       NA    
+title:inbound_links:description:p                                          1.586e-01  1.241e+01   0.013 0.989801    
+title:inbound_links:description:span                                      -2.048e+00  3.265e+00  -0.627 0.530612    
+title:quality:description:div                                              1.034e+00  2.865e+00   0.361 0.718126    
+title:quality:description:h1                                               5.309e-01  1.802e+00   0.295 0.768280    
+title:quality:description:h2                                              -4.649e+00  4.097e+00  -1.135 0.256639    
+title:quality:description:h3                                               1.239e+02  6.799e+01   1.822 0.068685 .  
+title:quality:description:h4                                                      NA         NA      NA       NA    
+title:quality:description:h5                                                      NA         NA      NA       NA    
+title:quality:description:h6                                                      NA         NA      NA       NA    
+title:quality:description:p                                               -6.340e-01  6.465e-01  -0.981 0.326916    
+title:quality:description:span                                            -4.200e-01  6.853e-01  -0.613 0.540026    
+title:outbound_links:description:div                                       2.537e+00  6.704e+00   0.378 0.705147    
+title:outbound_links:description:h1                                        3.453e+00  4.186e+00   0.825 0.409488    
+title:outbound_links:description:h2                                       -3.651e+01  1.468e+01  -2.487 0.013020 *  
+title:outbound_links:description:h3                                        1.055e+02  6.881e+01   1.534 0.125266    
+title:outbound_links:description:h4                                               NA         NA      NA       NA    
+title:outbound_links:description:h5                                               NA         NA      NA       NA    
+title:outbound_links:description:h6                                               NA         NA      NA       NA    
+title:outbound_links:description:p                                        -7.301e-01  2.209e+00  -0.331 0.741037    
+title:outbound_links:description:span                                     -2.002e+00  2.254e+00  -0.888 0.374551    
+keywords:root:inbound_links:quality:outbound_links                        -3.316e-03  8.435e-02  -0.039 0.968644    
+keywords:title:inbound_links:quality:outbound_links                       -8.473e-03  9.331e-02  -0.091 0.927656    
+root:title:inbound_links:quality:outbound_links                            3.553e-06  6.694e-06   0.531 0.595720    
+keywords:root:title:inbound_links:quality                                 -3.770e-01  3.124e+00  -0.121 0.903978    
+keywords:root:title:inbound_links:outbound_links                          -1.377e+00  1.921e+01  -0.072 0.942879    
+keywords:root:title:quality:outbound_links                                -5.073e-01  2.965e+00  -0.171 0.864187    
+keywords:inbound_links:quality:outbound_links:description                 -2.839e-02  1.400e-01  -0.203 0.839323    
+root:inbound_links:quality:outbound_links:description                     -6.013e-04  1.142e-03  -0.527 0.598608    
+keywords:root:inbound_links:quality:description                           -3.264e+00  1.630e+01  -0.200 0.841261    
+keywords:root:inbound_links:outbound_links:description                     4.998e+00  1.234e+02   0.040 0.967706    
+keywords:root:quality:outbound_links:description                           1.481e-01  2.716e+01   0.005 0.995650    
+title:inbound_links:quality:outbound_links:description                     8.424e-04  1.864e-03   0.452 0.651388    
+keywords:title:inbound_links:quality:description                           8.527e-01  4.266e+00   0.200 0.841583    
+keywords:title:inbound_links:outbound_links:description                    1.026e+00  1.135e+02   0.009 0.992786    
+keywords:title:quality:outbound_links:description                         -7.504e-01  1.505e+01  -0.050 0.960238    
+root:title:inbound_links:quality:description                               3.625e-02  1.460e-01   0.248 0.804018    
+root:title:inbound_links:outbound_links:description                        9.760e-04  5.010e-01   0.002 0.998446    
+root:title:quality:outbound_links:description                             -2.100e-03  7.259e-02  -0.029 0.976928    
+keywords:root:title:inbound_links:description                              6.434e+02  4.942e+03   0.130 0.896434    
+keywords:root:title:quality:description                                   -5.552e+01  1.371e+03  -0.041 0.967696    
+keywords:root:title:outbound_links:description                             3.351e+02  1.659e+03   0.202 0.839930    
+keywords:inbound_links:quality:outbound_links:div                          1.300e-02  4.425e-01   0.029 0.976560    
+keywords:inbound_links:quality:outbound_links:h1                          -2.168e-02  3.091e-01  -0.070 0.944096    
+keywords:inbound_links:quality:outbound_links:h2                          -1.496e-02  3.577e-02  -0.418 0.675750    
+keywords:inbound_links:quality:outbound_links:h3                          -7.643e+00  4.852e+01  -0.158 0.874850    
+keywords:inbound_links:quality:outbound_links:h4                                  NA         NA      NA       NA    
+keywords:inbound_links:quality:outbound_links:h5                                  NA         NA      NA       NA    
+keywords:inbound_links:quality:outbound_links:h6                                  NA         NA      NA       NA    
+keywords:inbound_links:quality:outbound_links:p                           -3.216e-02  3.471e-01  -0.093 0.926197    
+keywords:inbound_links:quality:outbound_links:span                         1.003e-04  1.181e-02   0.008 0.993224    
+root:inbound_links:quality:outbound_links:div                             -1.305e-06  3.380e-05  -0.039 0.969203    
+root:inbound_links:quality:outbound_links:h1                              -5.039e-05  1.954e-05  -2.579 0.010000 *  
+root:inbound_links:quality:outbound_links:h2                              -8.621e-08  1.435e-05  -0.006 0.995208    
+root:inbound_links:quality:outbound_links:h3                              -3.970e-04  1.412e-04  -2.811 0.005008 ** 
+root:inbound_links:quality:outbound_links:h4                                      NA         NA      NA       NA    
+root:inbound_links:quality:outbound_links:h5                                      NA         NA      NA       NA    
+root:inbound_links:quality:outbound_links:h6                                      NA         NA      NA       NA    
+root:inbound_links:quality:outbound_links:p                                2.950e-05  7.317e-06   4.031 5.86e-05 ***
+root:inbound_links:quality:outbound_links:span                            -1.374e-06  4.745e-06  -0.289 0.772260    
+keywords:root:inbound_links:quality:div                                    1.919e+01  1.538e+02   0.125 0.900725    
+keywords:root:inbound_links:quality:h1                                     2.444e+00  6.005e+01   0.041 0.967534    
+keywords:root:inbound_links:quality:h2                                     8.203e-01  5.190e+01   0.016 0.987391    
+keywords:root:inbound_links:quality:h3                                     7.520e+02  5.110e+03   0.147 0.883029    
+keywords:root:inbound_links:quality:h4                                            NA         NA      NA       NA    
+keywords:root:inbound_links:quality:h5                                            NA         NA      NA       NA    
+keywords:root:inbound_links:quality:h6                                            NA         NA      NA       NA    
+keywords:root:inbound_links:quality:p                                     -2.431e+00  3.809e+01  -0.064 0.949120    
+keywords:root:inbound_links:quality:span                                  -1.995e-02  2.689e+00  -0.007 0.994082    
+keywords:root:inbound_links:outbound_links:div                             9.373e+00  9.879e+01   0.095 0.924419    
+keywords:root:inbound_links:outbound_links:h1                             -8.337e+00  1.214e+01  -0.687 0.492484    
+keywords:root:inbound_links:outbound_links:h2                              1.606e+00  3.903e+01   0.041 0.967183    
+keywords:root:inbound_links:outbound_links:h3                              2.652e+03  1.426e+04   0.186 0.852488    
+keywords:root:inbound_links:outbound_links:h4                                     NA         NA      NA       NA    
+keywords:root:inbound_links:outbound_links:h5                                     NA         NA      NA       NA    
+keywords:root:inbound_links:outbound_links:h6                                     NA         NA      NA       NA    
+keywords:root:inbound_links:outbound_links:p                               2.684e+00  6.412e+01   0.042 0.966617    
+keywords:root:inbound_links:outbound_links:span                           -1.195e-01  2.500e+00  -0.048 0.961874    
+keywords:root:quality:outbound_links:div                                   1.068e+01  1.586e+01   0.673 0.501034    
+keywords:root:quality:outbound_links:h1                                   -1.062e+00  1.613e+01  -0.066 0.947486    
+keywords:root:quality:outbound_links:h2                                   -2.596e+00  2.873e+00  -0.904 0.366375    
+keywords:root:quality:outbound_links:h3                                   -5.119e+02  2.716e+03  -0.188 0.850521    
+keywords:root:quality:outbound_links:h4                                           NA         NA      NA       NA    
+keywords:root:quality:outbound_links:h5                                           NA         NA      NA       NA    
+keywords:root:quality:outbound_links:h6                                           NA         NA      NA       NA    
+keywords:root:quality:outbound_links:p                                     1.224e+00  2.664e+01   0.046 0.963354    
+keywords:root:quality:outbound_links:span                                  6.635e-01  2.117e+00   0.313 0.754046    
+title:inbound_links:quality:outbound_links:div                             1.610e-05  2.131e-05   0.755 0.450277    
+title:inbound_links:quality:outbound_links:h1                             -2.024e-06  1.083e-05  -0.187 0.851760    
+title:inbound_links:quality:outbound_links:h2                              3.678e-05  2.734e-05   1.346 0.178689    
+title:inbound_links:quality:outbound_links:h3                              9.808e-05  8.140e-05   1.205 0.228482    
+title:inbound_links:quality:outbound_links:h4                                     NA         NA      NA       NA    
+title:inbound_links:quality:outbound_links:h5                                     NA         NA      NA       NA    
+title:inbound_links:quality:outbound_links:h6                                     NA         NA      NA       NA    
+title:inbound_links:quality:outbound_links:p                              -1.265e-05  3.702e-06  -3.416 0.000654 ***
+title:inbound_links:quality:outbound_links:span                           -2.124e-06  3.408e-06  -0.623 0.533194    
+keywords:title:inbound_links:quality:div                                  -2.793e+01  6.223e+01  -0.449 0.653647    
+keywords:title:inbound_links:quality:h1                                    5.541e-01  3.827e+01   0.014 0.988450    
+keywords:title:inbound_links:quality:h2                                    1.398e+01  1.127e+02   0.124 0.901340    
+keywords:title:inbound_links:quality:h3                                   -1.266e+03  7.978e+03  -0.159 0.873976    
+keywords:title:inbound_links:quality:h4                                           NA         NA      NA       NA    
+keywords:title:inbound_links:quality:h5                                           NA         NA      NA       NA    
+keywords:title:inbound_links:quality:h6                                           NA         NA      NA       NA    
+keywords:title:inbound_links:quality:p                                    -2.557e+00  1.270e+01  -0.201 0.840490    
+keywords:title:inbound_links:quality:span                                 -4.635e-01  1.257e+00  -0.369 0.712397    
+keywords:title:inbound_links:outbound_links:div                           -9.732e+00  2.087e+02  -0.047 0.962824    
+keywords:title:inbound_links:outbound_links:h1                             6.255e-01  4.696e+01   0.013 0.989374    
+keywords:title:inbound_links:outbound_links:h2                            -1.845e+01  4.794e+01  -0.385 0.700348    
+keywords:title:inbound_links:outbound_links:h3                             2.019e+03  8.637e+03   0.234 0.815200    
+keywords:title:inbound_links:outbound_links:h4                                    NA         NA      NA       NA    
+keywords:title:inbound_links:outbound_links:h5                                    NA         NA      NA       NA    
+keywords:title:inbound_links:outbound_links:h6                                    NA         NA      NA       NA    
+keywords:title:inbound_links:outbound_links:p                              3.912e+00  5.279e+01   0.074 0.940933    
+keywords:title:inbound_links:outbound_links:span                          -7.268e-01  3.728e+00  -0.195 0.845446    
+keywords:title:quality:outbound_links:div                                 -1.087e+00  3.659e+01  -0.030 0.976296    
+keywords:title:quality:outbound_links:h1                                   3.907e-01  7.077e+00   0.055 0.955987    
+keywords:title:quality:outbound_links:h2                                   5.611e-01  4.771e+00   0.118 0.906409    
+keywords:title:quality:outbound_links:h3                                  -4.656e+02  1.558e+03  -0.299 0.765062    
+keywords:title:quality:outbound_links:h4                                          NA         NA      NA       NA    
+keywords:title:quality:outbound_links:h5                                          NA         NA      NA       NA    
+keywords:title:quality:outbound_links:h6                                          NA         NA      NA       NA    
+keywords:title:quality:outbound_links:p                                   -8.446e-02  8.179e+00  -0.010 0.991762    
+keywords:title:quality:outbound_links:span                                -4.612e-02  6.181e-01  -0.075 0.940542    
+root:title:inbound_links:quality:div                                       5.577e-03  2.134e-03   2.614 0.009053 ** 
+root:title:inbound_links:quality:h1                                       -3.001e-03  1.077e-03  -2.787 0.005399 ** 
+root:title:inbound_links:quality:h2                                        8.883e-04  2.359e-03   0.377 0.706568    
+root:title:inbound_links:quality:h3                                       -1.820e-02  1.054e-02  -1.727 0.084322 .  
+root:title:inbound_links:quality:h4                                               NA         NA      NA       NA    
+root:title:inbound_links:quality:h5                                               NA         NA      NA       NA    
+root:title:inbound_links:quality:h6                                               NA         NA      NA       NA    
+root:title:inbound_links:quality:p                                         7.341e-05  3.837e-04   0.191 0.848297    
+root:title:inbound_links:quality:span                                      4.492e-04  3.507e-04   1.281 0.200381    
+root:title:inbound_links:outbound_links:div                                2.440e-03  5.145e-03   0.474 0.635393    
+root:title:inbound_links:outbound_links:h1                                -5.570e-03  3.583e-03  -1.555 0.120289    
+root:title:inbound_links:outbound_links:h2                                -1.354e-02  4.350e-03  -3.113 0.001891 ** 
+root:title:inbound_links:outbound_links:h3                                 7.155e-03  3.081e-02   0.232 0.816376    
+root:title:inbound_links:outbound_links:h4                                        NA         NA      NA       NA    
+root:title:inbound_links:outbound_links:h5                                        NA         NA      NA       NA    
+root:title:inbound_links:outbound_links:h6                                        NA         NA      NA       NA    
+root:title:inbound_links:outbound_links:p                                  1.331e-03  8.697e-04   1.530 0.126174    
+root:title:inbound_links:outbound_links:span                              -8.382e-04  7.924e-04  -1.058 0.290352    
+root:title:quality:outbound_links:div                                      1.481e-03  9.435e-04   1.569 0.116851    
+root:title:quality:outbound_links:h1                                      -4.285e-03  6.182e-04  -6.931 6.46e-12 ***
+root:title:quality:outbound_links:h2                                      -1.972e-03  1.446e-03  -1.364 0.172844    
+root:title:quality:outbound_links:h3                                       1.199e-03  5.120e-03   0.234 0.814860    
+root:title:quality:outbound_links:h4                                              NA         NA      NA       NA    
+root:title:quality:outbound_links:h5                                              NA         NA      NA       NA    
+root:title:quality:outbound_links:h6                                              NA         NA      NA       NA    
+root:title:quality:outbound_links:p                                        7.110e-04  1.945e-04   3.655 0.000267 ***
+root:title:quality:outbound_links:span                                    -1.717e-04  1.756e-04  -0.977 0.328540    
+keywords:root:title:inbound_links:div                                     -2.214e+02  4.614e+03  -0.048 0.961744    
+keywords:root:title:inbound_links:h1                                      -1.486e+02  3.598e+03  -0.041 0.967064    
+keywords:root:title:inbound_links:h2                                      -5.188e+01  4.307e+03  -0.012 0.990390    
+keywords:root:title:inbound_links:h3                                      -9.625e+04  5.613e+05  -0.171 0.863882    
+keywords:root:title:inbound_links:h4                                              NA         NA      NA       NA    
+keywords:root:title:inbound_links:h5                                              NA         NA      NA       NA    
+keywords:root:title:inbound_links:h6                                              NA         NA      NA       NA    
+keywords:root:title:inbound_links:p                                       -3.329e+02  2.141e+03  -0.155 0.876473    
+keywords:root:title:inbound_links:span                                    -8.253e+01  3.354e+02  -0.246 0.805658    
+keywords:root:title:quality:div                                           -3.596e+02  3.768e+03  -0.095 0.923982    
+keywords:root:title:quality:h1                                             4.767e+01  2.726e+03   0.017 0.986052    
+keywords:root:title:quality:h2                                             8.262e+01  1.038e+03   0.080 0.936591    
+keywords:root:title:quality:h3                                            -4.722e+04  2.924e+05  -0.161 0.871739    
+keywords:root:title:quality:h4                                                    NA         NA      NA       NA    
+keywords:root:title:quality:h5                                                    NA         NA      NA       NA    
+keywords:root:title:quality:h6                                                    NA         NA      NA       NA    
+keywords:root:title:quality:p                                             -2.622e+02  3.785e+03  -0.069 0.944794    
+keywords:root:title:quality:span                                           2.338e+01  1.040e+02   0.225 0.822126    
+keywords:root:title:outbound_links:div                                     2.322e+02  6.033e+03   0.038 0.969305    
+keywords:root:title:outbound_links:h1                                     -1.362e+02  2.643e+03  -0.052 0.958920    
+keywords:root:title:outbound_links:h2                                     -2.720e+02  2.830e+02  -0.961 0.336627    
+keywords:root:title:outbound_links:h3                                      7.366e+04  2.472e+05   0.298 0.765749    
+keywords:root:title:outbound_links:h4                                             NA         NA      NA       NA    
+keywords:root:title:outbound_links:h5                                             NA         NA      NA       NA    
+keywords:root:title:outbound_links:h6                                             NA         NA      NA       NA    
+keywords:root:title:outbound_links:p                                      -6.938e+01  1.588e+03  -0.044 0.965166    
+keywords:root:title:outbound_links:span                                    2.698e+01  1.427e+02   0.189 0.850098    
+keywords:root:title:description:div                                        3.648e+05  5.778e+05   0.631 0.527898    
+keywords:root:title:description:h1                                        -2.637e+04  2.490e+05  -0.106 0.915678    
+keywords:root:title:description:h2                                         3.269e+03  2.255e+05   0.014 0.988435    
+keywords:root:title:description:h3                                        -6.737e+06  5.499e+07  -0.123 0.902508    
+keywords:root:title:description:h4                                                NA         NA      NA       NA    
+keywords:root:title:description:h5                                                NA         NA      NA       NA    
+keywords:root:title:description:h6                                                NA         NA      NA       NA    
+keywords:root:title:description:p                                          5.290e+02  5.573e+04   0.009 0.992428    
+keywords:root:title:description:span                                       7.228e+03  1.295e+04   0.558 0.576751    
+inbound_links:quality:outbound_links:description:div                       1.441e-03  3.675e-03   0.392 0.695034    
+inbound_links:quality:outbound_links:description:h1                       -1.394e-04  4.734e-03  -0.029 0.976509    
+inbound_links:quality:outbound_links:description:h2                        2.205e-02  1.468e-02   1.502 0.133258    
+inbound_links:quality:outbound_links:description:h3                       -1.647e-01  1.508e-01  -1.092 0.275092    
+inbound_links:quality:outbound_links:description:h4                               NA         NA      NA       NA    
+inbound_links:quality:outbound_links:description:h5                               NA         NA      NA       NA    
+inbound_links:quality:outbound_links:description:h6                               NA         NA      NA       NA    
+inbound_links:quality:outbound_links:description:p                         2.489e-04  1.333e-03   0.187 0.851964    
+inbound_links:quality:outbound_links:description:span                      2.319e-03  2.392e-03   0.970 0.332338    
+keywords:inbound_links:quality:description:div                             2.234e+01  1.872e+02   0.119 0.905056    
+keywords:inbound_links:quality:description:h1                              1.169e+01  6.978e+01   0.167 0.867011    
+keywords:inbound_links:quality:description:h2                              1.497e+00  6.544e+01   0.023 0.981757    
+keywords:inbound_links:quality:description:h3                             -5.152e+02  2.589e+03  -0.199 0.842315    
+keywords:inbound_links:quality:description:h4                                     NA         NA      NA       NA    
+keywords:inbound_links:quality:description:h5                                     NA         NA      NA       NA    
+keywords:inbound_links:quality:description:h6                                     NA         NA      NA       NA    
+keywords:inbound_links:quality:description:p                              -5.280e+00  1.582e+01  -0.334 0.738601    
+keywords:inbound_links:quality:description:span                            7.213e-01  1.404e+00   0.514 0.607512    
+keywords:inbound_links:outbound_links:description:div                      2.824e+01  7.842e+02   0.036 0.971278    
+keywords:inbound_links:outbound_links:description:h1                      -8.776e+00  3.201e+01  -0.274 0.783998    
+keywords:inbound_links:outbound_links:description:h2                       3.382e+00  2.424e+01   0.139 0.889090    
+keywords:inbound_links:outbound_links:description:h3                      -6.537e+03  2.905e+04  -0.225 0.822016    
+keywords:inbound_links:outbound_links:description:h4                              NA         NA      NA       NA    
+keywords:inbound_links:outbound_links:description:h5                              NA         NA      NA       NA    
+keywords:inbound_links:outbound_links:description:h6                              NA         NA      NA       NA    
+keywords:inbound_links:outbound_links:description:p                       -4.480e+00  6.435e+01  -0.070 0.944515    
+keywords:inbound_links:outbound_links:description:span                     6.798e-01  8.081e+00   0.084 0.932969    
+keywords:quality:outbound_links:description:div                            2.339e+00  1.654e+01   0.141 0.887534    
+keywords:quality:outbound_links:description:h1                            -3.692e-02  3.570e+00  -0.010 0.991750    
+keywords:quality:outbound_links:description:h2                             1.440e+00  4.188e+00   0.344 0.731061    
+keywords:quality:outbound_links:description:h3                             1.510e+03  7.043e+03   0.214 0.830259    
+keywords:quality:outbound_links:description:h4                                    NA         NA      NA       NA    
+keywords:quality:outbound_links:description:h5                                    NA         NA      NA       NA    
+keywords:quality:outbound_links:description:h6                                    NA         NA      NA       NA    
+keywords:quality:outbound_links:description:p                              1.073e+00  2.653e+01   0.040 0.967738    
+keywords:quality:outbound_links:description:span                          -1.190e+00  9.937e-01  -1.198 0.231179    
+root:inbound_links:quality:description:div                                -4.613e-02  3.326e-01  -0.139 0.889722    
+root:inbound_links:quality:description:h1                                 -3.026e-02  3.120e-01  -0.097 0.922768    
+root:inbound_links:quality:description:h2                                  7.408e-01  7.412e-01   0.999 0.317740    
+root:inbound_links:quality:description:h3                                 -1.537e+01  1.004e+01  -1.530 0.126205    
+root:inbound_links:quality:description:h4                                         NA         NA      NA       NA    
+root:inbound_links:quality:description:h5                                         NA         NA      NA       NA    
+root:inbound_links:quality:description:h6                                         NA         NA      NA       NA    
+root:inbound_links:quality:description:p                                  -4.984e-02  1.335e-01  -0.373 0.708993    
+root:inbound_links:quality:description:span                               -1.027e-02  8.021e-02  -0.128 0.898168    
+root:inbound_links:outbound_links:description:div                          1.015e+00  2.066e+00   0.491 0.623292    
+root:inbound_links:outbound_links:description:h1                          -2.470e-01  7.858e-01  -0.314 0.753302    
+root:inbound_links:outbound_links:description:h2                           7.541e+00  4.271e+00   1.766 0.077693 .  
+root:inbound_links:outbound_links:description:h3                          -1.735e+01  2.130e+01  -0.815 0.415412    
+root:inbound_links:outbound_links:description:h4                                  NA         NA      NA       NA    
+root:inbound_links:outbound_links:description:h5                                  NA         NA      NA       NA    
+root:inbound_links:outbound_links:description:h6                                  NA         NA      NA       NA    
+root:inbound_links:outbound_links:description:p                           -5.677e-02  3.518e-01  -0.161 0.871814    
+root:inbound_links:outbound_links:description:span                         1.908e-01  3.960e-01   0.482 0.630069    
+root:quality:outbound_links:description:div                                2.306e-02  3.142e-01   0.073 0.941508    
+root:quality:outbound_links:description:h1                                -1.121e-01  1.816e-01  -0.617 0.537341    
+root:quality:outbound_links:description:h2                                 1.841e-01  3.675e-01   0.501 0.616544    
+root:quality:outbound_links:description:h3                                -5.115e+00  2.717e+00  -1.882 0.060029 .  
+root:quality:outbound_links:description:h4                                        NA         NA      NA       NA    
+root:quality:outbound_links:description:h5                                        NA         NA      NA       NA    
+root:quality:outbound_links:description:h6                                        NA         NA      NA       NA    
+root:quality:outbound_links:description:p                                  2.408e-02  6.224e-02   0.387 0.698940    
+root:quality:outbound_links:description:span                               9.239e-02  8.345e-02   1.107 0.268457    
+keywords:root:inbound_links:description:div                                1.561e+04  5.572e+04   0.280 0.779383    
+keywords:root:inbound_links:description:h1                                 1.057e+03  2.506e+04   0.042 0.966357    
+keywords:root:inbound_links:description:h2                                -4.297e+02  3.232e+04  -0.013 0.989396    
+keywords:root:inbound_links:description:h3                                -8.288e+05  4.169e+06  -0.199 0.842451    
+keywords:root:inbound_links:description:h4                                        NA         NA      NA       NA    
+keywords:root:inbound_links:description:h5                                        NA         NA      NA       NA    
+keywords:root:inbound_links:description:h6                                        NA         NA      NA       NA    
+keywords:root:inbound_links:description:p                                 -1.257e+03  5.431e+03  -0.231 0.817000    
+keywords:root:inbound_links:description:span                               5.707e+01  6.786e+02   0.084 0.932994    
+keywords:root:quality:description:div                                      1.839e+03  1.107e+04   0.166 0.868047    
+keywords:root:quality:description:h1                                      -9.400e+01  9.542e+02  -0.099 0.921538    
+keywords:root:quality:description:h2                                      -5.418e+02  5.917e+03  -0.092 0.927057    
+keywords:root:quality:description:h3                                       2.706e+05  1.279e+06   0.212 0.832468    
+keywords:root:quality:description:h4                                              NA         NA      NA       NA    
+keywords:root:quality:description:h5                                              NA         NA      NA       NA    
+keywords:root:quality:description:h6                                              NA         NA      NA       NA    
+keywords:root:quality:description:p                                        6.180e+02  3.011e+03   0.205 0.837423    
+keywords:root:quality:description:span                                    -5.674e+01  1.447e+02  -0.392 0.695102    
+keywords:root:outbound_links:description:div                               3.152e+03  1.312e+04   0.240 0.810118    
+keywords:root:outbound_links:description:h1                               -4.086e+02  1.719e+03  -0.238 0.812132    
+keywords:root:outbound_links:description:h2                               -4.586e+01  1.434e+03  -0.032 0.974496    
+keywords:root:outbound_links:description:h3                                1.580e+05  8.922e+05   0.177 0.859477    
+keywords:root:outbound_links:description:h4                                       NA         NA      NA       NA    
+keywords:root:outbound_links:description:h5                                       NA         NA      NA       NA    
+keywords:root:outbound_links:description:h6                                       NA         NA      NA       NA    
+keywords:root:outbound_links:description:p                                 2.156e+02  1.870e+03   0.115 0.908264    
+keywords:root:outbound_links:description:span                             -5.038e+01  2.754e+02  -0.183 0.854883    
+title:inbound_links:quality:description:div                               -2.056e-01  2.456e-01  -0.837 0.402676    
+title:inbound_links:quality:description:h1                                -1.224e-01  4.330e-01  -0.283 0.777479    
+title:inbound_links:quality:description:h2                                 4.696e-01  1.755e+00   0.268 0.788997    
+title:inbound_links:quality:description:h3                                -1.852e+01  1.175e+01  -1.576 0.115304    
+title:inbound_links:quality:description:h4                                        NA         NA      NA       NA    
+title:inbound_links:quality:description:h5                                        NA         NA      NA       NA    
+title:inbound_links:quality:description:h6                                        NA         NA      NA       NA    
+title:inbound_links:quality:description:p                                 -1.531e-02  1.716e-01  -0.089 0.928925    
+title:inbound_links:quality:description:span                               5.000e-02  4.460e-02   1.121 0.262397    
+title:inbound_links:outbound_links:description:div                         5.189e-01  1.002e+00   0.518 0.604527    
+title:inbound_links:outbound_links:description:h1                         -6.523e-01  1.111e+00  -0.587 0.557339    
+title:inbound_links:outbound_links:description:h2                          8.985e+00  4.969e+00   1.808 0.070784 .  
+title:inbound_links:outbound_links:description:h3                         -2.076e+01  2.568e+01  -0.808 0.418984    
+title:inbound_links:outbound_links:description:h4                                 NA         NA      NA       NA    
+title:inbound_links:outbound_links:description:h5                                 NA         NA      NA       NA    
+title:inbound_links:outbound_links:description:h6                                 NA         NA      NA       NA    
+title:inbound_links:outbound_links:description:p                          -7.381e-02  6.981e-01  -0.106 0.915816    
+title:inbound_links:outbound_links:description:span                        5.236e-01  6.431e-01   0.814 0.415660    
+title:quality:outbound_links:description:div                              -3.492e-02  2.183e-01  -0.160 0.872923    
+title:quality:outbound_links:description:h1                               -8.833e-02  1.494e-01  -0.591 0.554555    
+title:quality:outbound_links:description:h2                                5.565e-01  2.921e-01   1.905 0.056990 .  
+title:quality:outbound_links:description:h3                               -6.216e+00  2.846e+00  -2.184 0.029114 *  
+title:quality:outbound_links:description:h4                                       NA         NA      NA       NA    
+title:quality:outbound_links:description:h5                                       NA         NA      NA       NA    
+title:quality:outbound_links:description:h6                                       NA         NA      NA       NA    
+title:quality:outbound_links:description:p                                 1.557e-02  5.190e-02   0.300 0.764259    
+title:quality:outbound_links:description:span                              6.558e-02  6.077e-02   1.079 0.280706    
+keywords:title:inbound_links:description:div                              -2.368e+03  1.401e+04  -0.169 0.865797    
+keywords:title:inbound_links:description:h1                               -2.879e+03  8.187e+03  -0.352 0.725135    
+keywords:title:inbound_links:description:h2                                2.292e+03  2.060e+04   0.111 0.911420    
+keywords:title:inbound_links:description:h3                                       NA         NA      NA       NA    
+keywords:title:inbound_links:description:h4                                       NA         NA      NA       NA    
+keywords:title:inbound_links:description:h5                                       NA         NA      NA       NA    
+keywords:title:inbound_links:description:h6                                       NA         NA      NA       NA    
+keywords:title:inbound_links:description:p                                 3.725e+02  5.171e+03   0.072 0.942587    
+keywords:title:inbound_links:description:span                              3.901e+02  3.739e+02   1.043 0.296935    
+keywords:title:quality:description:div                                    -2.170e+03  1.061e+04  -0.205 0.837915    
+keywords:title:quality:description:h1                                      6.392e+02  2.754e+03   0.232 0.816524    
+keywords:title:quality:description:h2                                      5.001e+02  4.759e+03   0.105 0.916323    
+keywords:title:quality:description:h3                                             NA         NA      NA       NA    
+keywords:title:quality:description:h4                                             NA         NA      NA       NA    
+keywords:title:quality:description:h5                                             NA         NA      NA       NA    
+keywords:title:quality:description:h6                                             NA         NA      NA       NA    
+keywords:title:quality:description:p                                       1.881e+02  2.357e+03   0.080 0.936383    
+keywords:title:quality:description:span                                   -5.777e+01  3.202e+02  -0.180 0.856858    
+keywords:title:outbound_links:description:div                             -2.891e+03  4.469e+03  -0.647 0.517754    
+keywords:title:outbound_links:description:h1                               2.580e+02  3.430e+03   0.075 0.940063    
+keywords:title:outbound_links:description:h2                               1.547e+02  1.221e+03   0.127 0.899185    
+keywords:title:outbound_links:description:h3                                      NA         NA      NA       NA    
+keywords:title:outbound_links:description:h4                                      NA         NA      NA       NA    
+keywords:title:outbound_links:description:h5                                      NA         NA      NA       NA    
+keywords:title:outbound_links:description:h6                                      NA         NA      NA       NA    
+keywords:title:outbound_links:description:p                                3.762e+02  1.024e+03   0.367 0.713356    
+keywords:title:outbound_links:description:span                            -3.520e+01  3.200e+02  -0.110 0.912433    
+root:title:inbound_links:description:div                                  -3.822e+01  5.997e+01  -0.637 0.524076    
+root:title:inbound_links:description:h1                                   -5.624e+01  9.714e+01  -0.579 0.562694    
+root:title:inbound_links:description:h2                                    2.635e+02  2.341e+02   1.126 0.260577    
+root:title:inbound_links:description:h3                                   -2.878e+03  2.043e+03  -1.409 0.159164    
+root:title:inbound_links:description:h4                                           NA         NA      NA       NA    
+root:title:inbound_links:description:h5                                           NA         NA      NA       NA    
+root:title:inbound_links:description:h6                                           NA         NA      NA       NA    
+root:title:inbound_links:description:p                                    -1.761e+01  4.043e+01  -0.435 0.663281    
+root:title:inbound_links:description:span                                  6.083e+00  1.422e+01   0.428 0.668848    
+root:title:quality:description:div                                        -1.963e+00  1.868e+01  -0.105 0.916330    
+root:title:quality:description:h1                                         -6.169e+00  9.334e+00  -0.661 0.508761    
+root:title:quality:description:h2                                          1.599e+01  2.204e+01   0.725 0.468357    
+root:title:quality:description:h3                                         -4.661e+02  2.762e+02  -1.688 0.091722 .  
+root:title:quality:description:h4                                                 NA         NA      NA       NA    
+root:title:quality:description:h5                                                 NA         NA      NA       NA    
+root:title:quality:description:h6                                                 NA         NA      NA       NA    
+root:title:quality:description:p                                           5.907e-01  4.362e+00   0.135 0.892308    
+root:title:quality:description:span                                        1.927e+00  3.544e+00   0.544 0.586639    
+root:title:outbound_links:description:div                                 -6.459e+00  5.215e+01  -0.124 0.901445    
+root:title:outbound_links:description:h1                                  -2.654e+01  2.170e+01  -1.223 0.221645    
+root:title:outbound_links:description:h2                                   1.321e+02  5.778e+01   2.287 0.022376 *  
+root:title:outbound_links:description:h3                                  -3.579e+02  2.826e+02  -1.267 0.205528    
+root:title:outbound_links:description:h4                                          NA         NA      NA       NA    
+root:title:outbound_links:description:h5                                          NA         NA      NA       NA    
+root:title:outbound_links:description:h6                                          NA         NA      NA       NA    
+root:title:outbound_links:description:p                                    2.124e+00  7.724e+00   0.275 0.783333    
+root:title:outbound_links:description:span                                 9.393e+00  1.258e+01   0.747 0.455442    
+keywords:root:title:inbound_links:quality:outbound_links                   2.825e-02  1.802e-01   0.157 0.875475    
+keywords:root:inbound_links:quality:outbound_links:description             7.738e-02  1.859e+00   0.042 0.966803    
+keywords:title:inbound_links:quality:outbound_links:description            3.328e-02  1.867e+00   0.018 0.985782    
+root:title:inbound_links:quality:outbound_links:description               -3.322e-03  6.217e-03  -0.534 0.593125    
+keywords:root:title:inbound_links:quality:description                      4.515e+00  7.810e+01   0.058 0.953913    
+keywords:root:title:inbound_links:outbound_links:description              -3.160e+01  1.426e+02  -0.222 0.824727    
+keywords:root:title:quality:outbound_links:description                     3.608e+00  5.040e+01   0.072 0.942948    
+keywords:root:inbound_links:quality:outbound_links:div                    -4.034e-02  1.179e+00  -0.034 0.972709    
+keywords:root:inbound_links:quality:outbound_links:h1                      2.004e-01  8.659e-01   0.231 0.817019    
+keywords:root:inbound_links:quality:outbound_links:h2                     -1.772e-02  2.903e-01  -0.061 0.951340    
+keywords:root:inbound_links:quality:outbound_links:h3                             NA         NA      NA       NA    
+keywords:root:inbound_links:quality:outbound_links:h4                             NA         NA      NA       NA    
+keywords:root:inbound_links:quality:outbound_links:h5                             NA         NA      NA       NA    
+keywords:root:inbound_links:quality:outbound_links:h6                             NA         NA      NA       NA    
+keywords:root:inbound_links:quality:outbound_links:p                      -1.241e-02  1.458e+00  -0.009 0.993210    
+keywords:root:inbound_links:quality:outbound_links:span                   -1.181e-02  1.294e-01  -0.091 0.927321    
+keywords:title:inbound_links:quality:outbound_links:div                   -1.570e-01  2.315e+00  -0.068 0.945916    
+keywords:title:inbound_links:quality:outbound_links:h1                    -1.262e-02  7.488e-01  -0.017 0.986555    
+keywords:title:inbound_links:quality:outbound_links:h2                    -4.055e-02  3.561e-01  -0.114 0.909362    
+keywords:title:inbound_links:quality:outbound_links:h3                            NA         NA      NA       NA    
+keywords:title:inbound_links:quality:outbound_links:h4                            NA         NA      NA       NA    
+keywords:title:inbound_links:quality:outbound_links:h5                            NA         NA      NA       NA    
+keywords:title:inbound_links:quality:outbound_links:h6                            NA         NA      NA       NA    
+keywords:title:inbound_links:quality:outbound_links:p                     -5.952e-02  7.429e-01  -0.080 0.936148    
+keywords:title:inbound_links:quality:outbound_links:span                   2.387e-02  4.556e-02   0.524 0.600438    
+root:title:inbound_links:quality:outbound_links:div                       -7.302e-05  7.090e-05  -1.030 0.303184    
+root:title:inbound_links:quality:outbound_links:h1                         1.012e-04  4.828e-05   2.096 0.036245 *  
+root:title:inbound_links:quality:outbound_links:h2                         9.196e-05  5.346e-05   1.720 0.085631 .  
+root:title:inbound_links:quality:outbound_links:h3                         1.866e-04  3.327e-04   0.561 0.574882    
+root:title:inbound_links:quality:outbound_links:h4                                NA         NA      NA       NA    
+root:title:inbound_links:quality:outbound_links:h5                                NA         NA      NA       NA    
+root:title:inbound_links:quality:outbound_links:h6                                NA         NA      NA       NA    
+root:title:inbound_links:quality:outbound_links:p                         -2.653e-05  1.162e-05  -2.284 0.022548 *  
+root:title:inbound_links:quality:outbound_links:span                       1.393e-05  1.385e-05   1.006 0.314438    
+keywords:root:title:inbound_links:quality:div                              3.872e+01  9.682e+01   0.400 0.689261    
+keywords:root:title:inbound_links:quality:h1                              -5.157e+00  1.333e+02  -0.039 0.969158    
+keywords:root:title:inbound_links:quality:h2                              -1.066e+01  2.044e+02  -0.052 0.958419    
+keywords:root:title:inbound_links:quality:h3                                      NA         NA      NA       NA    
+keywords:root:title:inbound_links:quality:h4                                      NA         NA      NA       NA    
+keywords:root:title:inbound_links:quality:h5                                      NA         NA      NA       NA    
+keywords:root:title:inbound_links:quality:h6                                      NA         NA      NA       NA    
+keywords:root:title:inbound_links:quality:p                                1.727e+01  1.024e+02   0.169 0.866178    
+keywords:root:title:inbound_links:quality:span                             1.164e+00  8.731e+00   0.133 0.893986    
+keywords:root:title:inbound_links:outbound_links:div                       3.862e+01  3.105e+02   0.124 0.901018    
+keywords:root:title:inbound_links:outbound_links:h1                       -4.309e+00  1.834e+02  -0.024 0.981254    
+keywords:root:title:inbound_links:outbound_links:h2                        4.983e+01  4.739e+01   1.052 0.293198    
+keywords:root:title:inbound_links:outbound_links:h3                               NA         NA      NA       NA    
+keywords:root:title:inbound_links:outbound_links:h4                               NA         NA      NA       NA    
+keywords:root:title:inbound_links:outbound_links:h5                               NA         NA      NA       NA    
+keywords:root:title:inbound_links:outbound_links:h6                               NA         NA      NA       NA    
+keywords:root:title:inbound_links:outbound_links:p                        -6.394e+00  3.484e+02  -0.018 0.985362    
+keywords:root:title:inbound_links:outbound_links:span                      4.845e+00  3.150e+01   0.154 0.877774    
+keywords:root:title:quality:outbound_links:div                            -3.329e+01  3.499e+02  -0.095 0.924229    
+keywords:root:title:quality:outbound_links:h1                              2.145e+00  8.158e+01   0.026 0.979025    
+keywords:root:title:quality:outbound_links:h2                              6.667e+00  1.944e+01   0.343 0.731756    
+keywords:root:title:quality:outbound_links:h3                                     NA         NA      NA       NA    
+keywords:root:title:quality:outbound_links:h4                                     NA         NA      NA       NA    
+keywords:root:title:quality:outbound_links:h5                                     NA         NA      NA       NA    
+keywords:root:title:quality:outbound_links:h6                                     NA         NA      NA       NA    
+keywords:root:title:quality:outbound_links:p                               4.661e+00  1.516e+02   0.031 0.975482    
+keywords:root:title:quality:outbound_links:span                           -3.028e+00  6.640e+00  -0.456 0.648432    
+keywords:inbound_links:quality:outbound_links:description:div             -9.179e-02  4.040e+00  -0.023 0.981874    
+keywords:inbound_links:quality:outbound_links:description:h1              -4.376e-02  4.933e-01  -0.089 0.929326    
+keywords:inbound_links:quality:outbound_links:description:h2               1.518e-01  7.880e-01   0.193 0.847253    
+keywords:inbound_links:quality:outbound_links:description:h3                      NA         NA      NA       NA    
+keywords:inbound_links:quality:outbound_links:description:h4                      NA         NA      NA       NA    
+keywords:inbound_links:quality:outbound_links:description:h5                      NA         NA      NA       NA    
+keywords:inbound_links:quality:outbound_links:description:h6                      NA         NA      NA       NA    
+keywords:inbound_links:quality:outbound_links:description:p                3.323e-01  9.236e-01   0.360 0.719091    
+keywords:inbound_links:quality:outbound_links:description:span            -2.436e-02  5.571e-02  -0.437 0.662021    
+root:inbound_links:quality:outbound_links:description:div                 -1.861e-02  4.058e-02  -0.459 0.646485    
+root:inbound_links:quality:outbound_links:description:h1                   1.510e-03  2.021e-02   0.075 0.940449    
+root:inbound_links:quality:outbound_links:description:h2                  -9.437e-02  6.644e-02  -1.420 0.155746    
+root:inbound_links:quality:outbound_links:description:h3                   6.262e-01  6.669e-01   0.939 0.347896    
+root:inbound_links:quality:outbound_links:description:h4                          NA         NA      NA       NA    
+root:inbound_links:quality:outbound_links:description:h5                          NA         NA      NA       NA    
+root:inbound_links:quality:outbound_links:description:h6                          NA         NA      NA       NA    
+root:inbound_links:quality:outbound_links:description:p                    1.050e-03  7.920e-03   0.133 0.894543    
+root:inbound_links:quality:outbound_links:description:span                -4.266e-03  7.037e-03  -0.606 0.544459    
+keywords:root:inbound_links:quality:description:div                       -1.699e+02  6.063e+02  -0.280 0.779287    
+keywords:root:inbound_links:quality:description:h1                        -7.602e+01  5.433e+02  -0.140 0.888742    
+keywords:root:inbound_links:quality:description:h2                         3.069e+01  1.088e+03   0.028 0.977495    
+keywords:root:inbound_links:quality:description:h3                                NA         NA      NA       NA    
+keywords:root:inbound_links:quality:description:h4                                NA         NA      NA       NA    
+keywords:root:inbound_links:quality:description:h5                                NA         NA      NA       NA    
+keywords:root:inbound_links:quality:description:h6                                NA         NA      NA       NA    
+keywords:root:inbound_links:quality:description:p                          6.447e+00  8.365e+01   0.077 0.938572    
+keywords:root:inbound_links:quality:description:span                       2.636e+00  1.696e+01   0.155 0.876461    
+keywords:root:inbound_links:outbound_links:description:div                -3.061e+02  1.467e+03  -0.209 0.834758    
+keywords:root:inbound_links:outbound_links:description:h1                  3.527e+01  3.067e+02   0.115 0.908451    
+keywords:root:inbound_links:outbound_links:description:h2                 -8.687e+01  3.715e+02  -0.234 0.815153    
+keywords:root:inbound_links:outbound_links:description:h3                         NA         NA      NA       NA    
+keywords:root:inbound_links:outbound_links:description:h4                         NA         NA      NA       NA    
+keywords:root:inbound_links:outbound_links:description:h5                         NA         NA      NA       NA    
+keywords:root:inbound_links:outbound_links:description:h6                         NA         NA      NA       NA    
+keywords:root:inbound_links:outbound_links:description:p                   3.077e+01  4.551e+02   0.068 0.946105    
+keywords:root:inbound_links:outbound_links:description:span                9.622e+00  3.684e+01   0.261 0.794013    
+keywords:root:quality:outbound_links:description:div                      -4.193e+01  3.481e+02  -0.120 0.904166    
+keywords:root:quality:outbound_links:description:h1                        4.785e+00  2.707e+01   0.177 0.859699    
+keywords:root:quality:outbound_links:description:h2                        5.261e+00  4.412e+01   0.119 0.905101    
+keywords:root:quality:outbound_links:description:h3                               NA         NA      NA       NA    
+keywords:root:quality:outbound_links:description:h4                               NA         NA      NA       NA    
+keywords:root:quality:outbound_links:description:h5                               NA         NA      NA       NA    
+keywords:root:quality:outbound_links:description:h6                               NA         NA      NA       NA    
+keywords:root:quality:outbound_links:description:p                        -1.478e+01  7.768e+01  -0.190 0.849138    
+keywords:root:quality:outbound_links:description:span                      1.367e+00  6.939e+00   0.197 0.843879    
+title:inbound_links:quality:outbound_links:description:div                -4.990e-03  2.166e-02  -0.230 0.817805    
+title:inbound_links:quality:outbound_links:description:h1                  1.077e-02  2.944e-02   0.366 0.714644    
+title:inbound_links:quality:outbound_links:description:h2                 -1.049e-01  8.256e-02  -1.270 0.204207    
+title:inbound_links:quality:outbound_links:description:h3                  6.313e-01  1.015e+00   0.622 0.534101    
+title:inbound_links:quality:outbound_links:description:h4                         NA         NA      NA       NA    
+title:inbound_links:quality:outbound_links:description:h5                         NA         NA      NA       NA    
+title:inbound_links:quality:outbound_links:description:h6                         NA         NA      NA       NA    
+title:inbound_links:quality:outbound_links:description:p                   4.589e-03  1.168e-02   0.393 0.694559    
+title:inbound_links:quality:outbound_links:description:span               -1.147e-02  1.069e-02  -1.072 0.283749    
+keywords:title:inbound_links:quality:description:div                       1.144e+02  9.364e+02   0.122 0.902743    
+keywords:title:inbound_links:quality:description:h1                        1.225e+01  1.351e+02   0.091 0.927790    
+keywords:title:inbound_links:quality:description:h2                       -7.591e+01  4.655e+02  -0.163 0.870488    
+keywords:title:inbound_links:quality:description:h3                               NA         NA      NA       NA    
+keywords:title:inbound_links:quality:description:h4                               NA         NA      NA       NA    
+keywords:title:inbound_links:quality:description:h5                               NA         NA      NA       NA    
+keywords:title:inbound_links:quality:description:h6                               NA         NA      NA       NA    
+keywords:title:inbound_links:quality:description:p                         1.920e+01  1.042e+02   0.184 0.853776    
+keywords:title:inbound_links:quality:description:span                     -1.209e+00  1.657e+01  -0.073 0.941875    
+keywords:title:inbound_links:outbound_links:description:div                1.916e+02  1.173e+03   0.163 0.870223    
+keywords:title:inbound_links:outbound_links:description:h1                 3.541e+00  3.963e+02   0.009 0.992871    
+keywords:title:inbound_links:outbound_links:description:h2                 3.864e+01  2.321e+02   0.166 0.867810    
+keywords:title:inbound_links:outbound_links:description:h3                        NA         NA      NA       NA    
+keywords:title:inbound_links:outbound_links:description:h4                        NA         NA      NA       NA    
+keywords:title:inbound_links:outbound_links:description:h5                        NA         NA      NA       NA    
+keywords:title:inbound_links:outbound_links:description:h6                        NA         NA      NA       NA    
+keywords:title:inbound_links:outbound_links:description:p                 -1.325e+01  5.126e+02  -0.026 0.979375    
+keywords:title:inbound_links:outbound_links:description:span              -1.241e+01  3.839e+01  -0.323 0.746507    
+keywords:title:quality:outbound_links:description:div                      3.640e+01  8.380e+01   0.434 0.664153    
+keywords:title:quality:outbound_links:description:h1                      -6.938e+00  1.661e+01  -0.418 0.676248    
+keywords:title:quality:outbound_links:description:h2                      -1.037e+01  3.342e+01  -0.310 0.756395    
+keywords:title:quality:outbound_links:description:h3                              NA         NA      NA       NA    
+keywords:title:quality:outbound_links:description:h4                              NA         NA      NA       NA    
+keywords:title:quality:outbound_links:description:h5                              NA         NA      NA       NA    
+keywords:title:quality:outbound_links:description:h6                              NA         NA      NA       NA    
+keywords:title:quality:outbound_links:description:p                       -1.395e+01  1.271e+02  -0.110 0.912563    
+keywords:title:quality:outbound_links:description:span                     3.737e+00  6.700e+00   0.558 0.577071    
+root:title:inbound_links:quality:description:div                           1.034e+00  1.407e+00   0.735 0.462581    
+root:title:inbound_links:quality:description:h1                            7.272e-01  1.576e+00   0.461 0.644677    
+root:title:inbound_links:quality:description:h2                           -3.105e+00  5.563e+00  -0.558 0.576851    
+root:title:inbound_links:quality:description:h3                            8.613e+01  5.913e+01   1.457 0.145466    
+root:title:inbound_links:quality:description:h4                                   NA         NA      NA       NA    
+root:title:inbound_links:quality:description:h5                                   NA         NA      NA       NA    
+root:title:inbound_links:quality:description:h6                                   NA         NA      NA       NA    
+root:title:inbound_links:quality:description:p                             4.002e-01  7.211e-01   0.555 0.578975    
+root:title:inbound_links:quality:description:span                         -1.659e-01  2.448e-01  -0.678 0.498035    
+root:title:inbound_links:outbound_links:description:div                   -2.842e+00  8.071e+00  -0.352 0.724804    
+root:title:inbound_links:outbound_links:description:h1                     3.376e+00  4.460e+00   0.757 0.449242    
+root:title:inbound_links:outbound_links:description:h2                    -3.719e+01  1.938e+01  -1.918 0.055261 .  
+root:title:inbound_links:outbound_links:description:h3                     7.559e+01  9.850e+01   0.767 0.442958    
+root:title:inbound_links:outbound_links:description:h4                            NA         NA      NA       NA    
+root:title:inbound_links:outbound_links:description:h5                            NA         NA      NA       NA    
+root:title:inbound_links:outbound_links:description:h6                            NA         NA      NA       NA    
+root:title:inbound_links:outbound_links:description:p                      8.903e-01  2.417e+00   0.368 0.712636    
+root:title:inbound_links:outbound_links:description:span                  -1.210e+00  1.716e+00  -0.705 0.480968    
+root:title:quality:outbound_links:description:div                         -3.494e-02  1.547e+00  -0.023 0.981991    
+root:title:quality:outbound_links:description:h1                           6.804e-01  7.992e-01   0.851 0.394731    
+root:title:quality:outbound_links:description:h2                          -1.938e+00  1.696e+00  -1.143 0.253365    
+root:title:quality:outbound_links:description:h3                           2.431e+01  1.119e+01   2.171 0.030083 *  
+root:title:quality:outbound_links:description:h4                                  NA         NA      NA       NA    
+root:title:quality:outbound_links:description:h5                                  NA         NA      NA       NA    
+root:title:quality:outbound_links:description:h6                                  NA         NA      NA       NA    
+root:title:quality:outbound_links:description:p                           -1.780e-01  3.084e-01  -0.577 0.563995    
+root:title:quality:outbound_links:description:span                        -3.696e-01  3.676e-01  -1.006 0.314831    
+keywords:root:title:inbound_links:description:div                         -2.380e+04  4.859e+04  -0.490 0.624388    
+keywords:root:title:inbound_links:description:h1                           3.624e+03  4.316e+04   0.084 0.933099    
+keywords:root:title:inbound_links:description:h2                          -2.009e+03  2.394e+04  -0.084 0.933151    
+keywords:root:title:inbound_links:description:h3                                  NA         NA      NA       NA    
+keywords:root:title:inbound_links:description:h4                                  NA         NA      NA       NA    
+keywords:root:title:inbound_links:description:h5                                  NA         NA      NA       NA    
+keywords:root:title:inbound_links:description:h6                                  NA         NA      NA       NA    
+keywords:root:title:inbound_links:description:p                                   NA         NA      NA       NA    
+keywords:root:title:inbound_links:description:span                                NA         NA      NA       NA    
+keywords:root:title:quality:description:div                                       NA         NA      NA       NA    
+keywords:root:title:quality:description:h1                                        NA         NA      NA       NA    
+keywords:root:title:quality:description:h2                                        NA         NA      NA       NA    
+keywords:root:title:quality:description:h3                                        NA         NA      NA       NA    
+keywords:root:title:quality:description:h4                                        NA         NA      NA       NA    
+keywords:root:title:quality:description:h5                                        NA         NA      NA       NA    
+keywords:root:title:quality:description:h6                                        NA         NA      NA       NA    
+keywords:root:title:quality:description:p                                         NA         NA      NA       NA    
+keywords:root:title:quality:description:span                                      NA         NA      NA       NA    
+keywords:root:title:outbound_links:description:div                                NA         NA      NA       NA    
+keywords:root:title:outbound_links:description:h1                                 NA         NA      NA       NA    
+keywords:root:title:outbound_links:description:h2                                 NA         NA      NA       NA    
+keywords:root:title:outbound_links:description:h3                                 NA         NA      NA       NA    
+keywords:root:title:outbound_links:description:h4                                 NA         NA      NA       NA    
+keywords:root:title:outbound_links:description:h5                                 NA         NA      NA       NA    
+keywords:root:title:outbound_links:description:h6                                 NA         NA      NA       NA    
+keywords:root:title:outbound_links:description:p                                  NA         NA      NA       NA    
+keywords:root:title:outbound_links:description:span                               NA         NA      NA       NA    
+keywords:root:title:inbound_links:quality:outbound_links:description              NA         NA      NA       NA    
+keywords:root:title:inbound_links:quality:outbound_links:div                      NA         NA      NA       NA    
+keywords:root:title:inbound_links:quality:outbound_links:h1                       NA         NA      NA       NA    
+keywords:root:title:inbound_links:quality:outbound_links:h2                       NA         NA      NA       NA    
+keywords:root:title:inbound_links:quality:outbound_links:h3                       NA         NA      NA       NA    
+keywords:root:title:inbound_links:quality:outbound_links:h4                       NA         NA      NA       NA    
+keywords:root:title:inbound_links:quality:outbound_links:h5                       NA         NA      NA       NA    
+keywords:root:title:inbound_links:quality:outbound_links:h6                       NA         NA      NA       NA    
+keywords:root:title:inbound_links:quality:outbound_links:p                        NA         NA      NA       NA    
+keywords:root:title:inbound_links:quality:outbound_links:span                     NA         NA      NA       NA    
+keywords:root:inbound_links:quality:outbound_links:description:div                NA         NA      NA       NA    
+keywords:root:inbound_links:quality:outbound_links:description:h1                 NA         NA      NA       NA    
+keywords:root:inbound_links:quality:outbound_links:description:h2                 NA         NA      NA       NA    
+keywords:root:inbound_links:quality:outbound_links:description:h3                 NA         NA      NA       NA    
+keywords:root:inbound_links:quality:outbound_links:description:h4                 NA         NA      NA       NA    
+keywords:root:inbound_links:quality:outbound_links:description:h5                 NA         NA      NA       NA    
+keywords:root:inbound_links:quality:outbound_links:description:h6                 NA         NA      NA       NA    
+keywords:root:inbound_links:quality:outbound_links:description:p                  NA         NA      NA       NA    
+keywords:root:inbound_links:quality:outbound_links:description:span               NA         NA      NA       NA    
+keywords:title:inbound_links:quality:outbound_links:description:div               NA         NA      NA       NA    
+keywords:title:inbound_links:quality:outbound_links:description:h1                NA         NA      NA       NA    
+keywords:title:inbound_links:quality:outbound_links:description:h2                NA         NA      NA       NA    
+keywords:title:inbound_links:quality:outbound_links:description:h3                NA         NA      NA       NA    
+keywords:title:inbound_links:quality:outbound_links:description:h4                NA         NA      NA       NA    
+keywords:title:inbound_links:quality:outbound_links:description:h5                NA         NA      NA       NA    
+keywords:title:inbound_links:quality:outbound_links:description:h6                NA         NA      NA       NA    
+keywords:title:inbound_links:quality:outbound_links:description:p                 NA         NA      NA       NA    
+keywords:title:inbound_links:quality:outbound_links:description:span              NA         NA      NA       NA    
+root:title:inbound_links:quality:outbound_links:description:div            4.878e-02  1.551e-01   0.315 0.753161    
+root:title:inbound_links:quality:outbound_links:description:h1            -4.923e-02  1.050e-01  -0.469 0.639110    
+root:title:inbound_links:quality:outbound_links:description:h2             5.033e-01  3.224e-01   1.561 0.118821    
+root:title:inbound_links:quality:outbound_links:description:h3            -1.986e+00  5.028e+00  -0.395 0.692850    
+root:title:inbound_links:quality:outbound_links:description:h4                    NA         NA      NA       NA    
+root:title:inbound_links:quality:outbound_links:description:h5                    NA         NA      NA       NA    
+root:title:inbound_links:quality:outbound_links:description:h6                    NA         NA      NA       NA    
+root:title:inbound_links:quality:outbound_links:description:p             -2.239e-02  4.977e-02  -0.450 0.652886    
+root:title:inbound_links:quality:outbound_links:description:span           3.281e-02  3.071e-02   1.069 0.285471    
+keywords:root:title:inbound_links:quality:description:div                         NA         NA      NA       NA    
+keywords:root:title:inbound_links:quality:description:h1                          NA         NA      NA       NA    
+keywords:root:title:inbound_links:quality:description:h2                          NA         NA      NA       NA    
+keywords:root:title:inbound_links:quality:description:h3                          NA         NA      NA       NA    
+keywords:root:title:inbound_links:quality:description:h4                          NA         NA      NA       NA    
+keywords:root:title:inbound_links:quality:description:h5                          NA         NA      NA       NA    
+keywords:root:title:inbound_links:quality:description:h6                          NA         NA      NA       NA    
+keywords:root:title:inbound_links:quality:description:p                           NA         NA      NA       NA    
+keywords:root:title:inbound_links:quality:description:span                        NA         NA      NA       NA    
+keywords:root:title:inbound_links:outbound_links:description:div                  NA         NA      NA       NA    
+keywords:root:title:inbound_links:outbound_links:description:h1                   NA         NA      NA       NA    
+keywords:root:title:inbound_links:outbound_links:description:h2                   NA         NA      NA       NA    
+keywords:root:title:inbound_links:outbound_links:description:h3                   NA         NA      NA       NA    
+keywords:root:title:inbound_links:outbound_links:description:h4                   NA         NA      NA       NA    
+keywords:root:title:inbound_links:outbound_links:description:h5                   NA         NA      NA       NA    
+keywords:root:title:inbound_links:outbound_links:description:h6                   NA         NA      NA       NA    
+keywords:root:title:inbound_links:outbound_links:description:p                    NA         NA      NA       NA    
+keywords:root:title:inbound_links:outbound_links:description:span                 NA         NA      NA       NA    
+keywords:root:title:quality:outbound_links:description:div                        NA         NA      NA       NA    
+keywords:root:title:quality:outbound_links:description:h1                         NA         NA      NA       NA    
+keywords:root:title:quality:outbound_links:description:h2                         NA         NA      NA       NA    
+keywords:root:title:quality:outbound_links:description:h3                         NA         NA      NA       NA    
+keywords:root:title:quality:outbound_links:description:h4                         NA         NA      NA       NA    
+keywords:root:title:quality:outbound_links:description:h5                         NA         NA      NA       NA    
+keywords:root:title:quality:outbound_links:description:h6                         NA         NA      NA       NA    
+keywords:root:title:quality:outbound_links:description:p                          NA         NA      NA       NA    
+keywords:root:title:quality:outbound_links:description:span                       NA         NA      NA       NA    
+keywords:root:title:inbound_links:quality:outbound_links:description:div          NA         NA      NA       NA    
+keywords:root:title:inbound_links:quality:outbound_links:description:h1           NA         NA      NA       NA    
+keywords:root:title:inbound_links:quality:outbound_links:description:h2           NA         NA      NA       NA    
+keywords:root:title:inbound_links:quality:outbound_links:description:h3           NA         NA      NA       NA    
+keywords:root:title:inbound_links:quality:outbound_links:description:h4           NA         NA      NA       NA    
+keywords:root:title:inbound_links:quality:outbound_links:description:h5           NA         NA      NA       NA    
+keywords:root:title:inbound_links:quality:outbound_links:description:h6           NA         NA      NA       NA    
+keywords:root:title:inbound_links:quality:outbound_links:description:p            NA         NA      NA       NA    
+keywords:root:title:inbound_links:quality:outbound_links:description:span         NA         NA      NA       NA    
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+Residual standard error: 0.09163 on 1338 degrees of freedom
+Multiple R-squared:  0.5702,    Adjusted R-squared:  0.2798 
+F-statistic: 1.964 on 904 and 1338 DF,  p-value: < 2.2e-16

@@ -2,11 +2,7 @@
     @Author:        Guillermo Rodriguez
     @Date:          July 14, 2015
     @Purpose:       The purpose of this program module is to read the configuration 
-                    settings for each search engine. Configuration settings include
-                    items such as:
-                        bing = { key: '', id: '', url: '' }
-                        google = {}
-                        yahoo = { clientID: '', clientSecret: '', url: '' }
+                    settings for each search engine. 
 """
 
 from xml.dom import minidom

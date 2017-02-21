@@ -42,17 +42,17 @@ class pyGoogle(Extract):
             _url = _config.google_settings['externallinks'].replace('[URL]', url).replace('[BASE_URL]', _source )
             
             _html = self.external_links(_url, 'GOOGLE')
-            print(_html.backlinks)
-            if _html.backlinks:                
+
+            try:
                 for _link in _html.backlinks:
                     if _link not in _repository:
                         _repository.append(_link)
-                        
-                print("Total Links = %i" % len(_repository))
-            else:
-                _repository.append('ERROR')
-                print("Error Extracting Data From Google")                                           
-            
+
+                print("Total Links = %i" % len(_repository))                                          
+            except:
+                print("Error Extracting Google Data.")
+                _repository = 'ERROR'
+                                
         except urllib.request.URLError as e:
             print("Error: %s" % e.reason )
         except ValueError as v:
