@@ -1,0 +1,413 @@
+> lm.data <- read.table("C:\\University Work\\Dissertation\\Dissertation\\pySearch\\src\\BING\\data\\_complete_r.dat", sep="\t", header=TRUE)
+> attach(lm.data)
+The following objects are masked from lm.data (pos = 3):
+
+    description, div, h1, h2, h3, h4, h5, h6, inbound_links, index, key, keywords, outbound_links, p, root, span, title, url
+
+The following objects are masked from lm.data (pos = 4):
+
+    description, div, h1, h2, h3, h4, h5, h6, inbound_links, index, key, keywords, outbound_links, p, root, span, title, url
+
+> lm.fit <- glm(1/index^15~inbound_links/(root*outbound_links*title*description*keywords*(div+h1+h2+h3+h4+h5+h6+p+span)), family="binomial")
+Warning messages:
+1: In eval(expr, envir, enclos) :
+  non-integer #successes in a binomial glm!
+2: glm.fit: algorithm did not converge 
+3: glm.fit: fitted probabilities numerically 0 or 1 occurred 
+> summary(lm.fit)
+
+Call:
+glm(formula = 1/index^15 ~ inbound_links/(root * outbound_links * 
+    title * description * keywords * (div + h1 + h2 + h3 + h4 + 
+    h5 + h6 + p + span)), family = "binomial")
+
+Deviance Residuals: 
+   Min      1Q  Median      3Q     Max  
+ -8.49    0.00    0.00    0.00    8.49  
+
+Coefficients: (50 not defined because of singularities)
+                                                                    Estimate Std. Error    z value Pr(>|z|)    
+(Intercept)                                                       -4.069e+14  1.084e+06 -375516154   <2e-16 ***
+inbound_links                                                      1.198e+12  2.902e+04   41276438   <2e-16 ***
+inbound_links:root                                                -2.880e+12  4.481e+05   -6428690   <2e-16 ***
+inbound_links:outbound_links                                      -3.866e+10  9.135e+02  -42323734   <2e-16 ***
+inbound_links:title                                               -5.963e+12  1.961e+05  -30404931   <2e-16 ***
+inbound_links:description                                         -1.017e+14  2.603e+06  -39066949   <2e-16 ***
+inbound_links:keywords                                            -5.387e+14  1.208e+07  -44590961   <2e-16 ***
+inbound_links:div                                                 -8.851e+12  2.745e+05  -32247581   <2e-16 ***
+inbound_links:h1                                                  -9.563e+13  1.763e+06  -54255686   <2e-16 ***
+inbound_links:h2                                                   3.953e+12  5.605e+05    7053846   <2e-16 ***
+inbound_links:h3                                                  -6.215e+13  7.084e+05  -87736613   <2e-16 ***
+inbound_links:h4                                                   8.406e+13  9.700e+06    8666714   <2e-16 ***
+inbound_links:h5                                                   2.060e+18  5.183e+10   39740866   <2e-16 ***
+inbound_links:h6                                                  -2.888e+13  6.764e+06   -4268889   <2e-16 ***
+inbound_links:p                                                   -2.637e+13  1.588e+05 -166052070   <2e-16 ***
+inbound_links:span                                                 1.522e+13  4.196e+05   36261476   <2e-16 ***
+inbound_links:root:outbound_links                                 -7.704e+11  2.255e+04  -34168320   <2e-16 ***
+inbound_links:root:title                                          -7.543e+12  1.002e+06   -7527730   <2e-16 ***
+inbound_links:outbound_links:title                                -1.571e+12  1.564e+04 -100439825   <2e-16 ***
+inbound_links:root:description                                    -5.521e+14  3.307e+07  -16698401   <2e-16 ***
+inbound_links:outbound_links:description                          -2.088e+13  2.968e+05  -70350913   <2e-16 ***
+inbound_links:title:description                                    3.240e+14  4.628e+07    7001289   <2e-16 ***
+inbound_links:root:keywords                                        3.079e+14  8.006e+07    3845376   <2e-16 ***
+inbound_links:outbound_links:keywords                              7.477e+12  6.693e+05   11170630   <2e-16 ***
+inbound_links:title:keywords                                       3.885e+15  1.327e+08   29278470   <2e-16 ***
+inbound_links:description:keywords                                -1.726e+15  2.646e+08   -6523246   <2e-16 ***
+inbound_links:root:div                                             1.386e+14  8.439e+06   16424728   <2e-16 ***
+inbound_links:root:h1                                              1.607e+14  6.523e+06   24633504   <2e-16 ***
+inbound_links:root:h2                                             -1.055e+14  5.529e+06  -19072445   <2e-16 ***
+inbound_links:root:h3                                              4.120e+14  6.985e+06   58981978   <2e-16 ***
+inbound_links:root:h4                                             -1.053e+14  4.718e+07   -2231462   <2e-16 ***
+inbound_links:root:h5                                             -5.570e+18  1.532e+11  -36345833   <2e-16 ***
+inbound_links:root:h6                                              5.506e+15  1.315e+08   41887689   <2e-16 ***
+inbound_links:root:p                                               2.206e+13  1.849e+06   11927962   <2e-16 ***
+inbound_links:root:span                                           -8.515e+13  2.847e+06  -29908192   <2e-16 ***
+inbound_links:outbound_links:div                                  -1.369e+12  1.774e+04  -77174433   <2e-16 ***
+inbound_links:outbound_links:h1                                    3.165e+12  7.540e+04   41970073   <2e-16 ***
+inbound_links:outbound_links:h2                                   -8.429e+09  2.008e+04    -419835   <2e-16 ***
+inbound_links:outbound_links:h3                                    5.972e+11  2.891e+04   20654374   <2e-16 ***
+inbound_links:outbound_links:h4                                   -9.347e+12  4.242e+05  -22031915   <2e-16 ***
+inbound_links:outbound_links:h5                                    8.209e+16  2.637e+09   31133431   <2e-16 ***
+inbound_links:outbound_links:h6                                   -2.498e+12  5.064e+05   -4933373   <2e-16 ***
+inbound_links:outbound_links:p                                     3.161e+10  2.170e+03   14565467   <2e-16 ***
+inbound_links:outbound_links:span                                 -6.179e+11  1.473e+04  -41957508   <2e-16 ***
+inbound_links:title:div                                           -3.398e+14  4.309e+06  -78870076   <2e-16 ***
+inbound_links:title:h1                                             2.367e+14  5.098e+06   46422438   <2e-16 ***
+inbound_links:title:h2                                             6.845e+13  6.702e+06   10213129   <2e-16 ***
+inbound_links:title:h3                                             1.946e+14  1.083e+07   17974893   <2e-16 ***
+inbound_links:title:h4                                            -7.008e+15  1.167e+08  -60059076   <2e-16 ***
+inbound_links:title:h5                                            -1.361e+19  3.292e+11  -41352438   <2e-16 ***
+inbound_links:title:h6                                            -1.105e+16  1.314e+08  -84113576   <2e-16 ***
+inbound_links:title:p                                              2.013e+14  1.617e+06  124505507   <2e-16 ***
+inbound_links:title:span                                          -1.102e+14  1.813e+06  -60803638   <2e-16 ***
+inbound_links:description:div                                      6.075e+14  1.837e+07   33071286   <2e-16 ***
+inbound_links:description:h1                                      -3.661e+15  1.545e+08  -23692151   <2e-16 ***
+inbound_links:description:h2                                      -6.175e+15  6.610e+07  -93421163   <2e-16 ***
+inbound_links:description:h3                                      -6.343e+15  1.403e+09   -4521123   <2e-16 ***
+inbound_links:description:h4                                      -1.201e+16  1.822e+09   -6591999   <2e-16 ***
+inbound_links:description:h5                                      -1.569e+19  4.335e+11  -36201820   <2e-16 ***
+inbound_links:description:h6                                      -2.320e+16  8.794e+08  -26380943   <2e-16 ***
+inbound_links:description:p                                        2.308e+15  2.926e+07   78888883   <2e-16 ***
+inbound_links:description:span                                     2.630e+14  2.266e+07   11609884   <2e-16 ***
+inbound_links:keywords:div                                        -6.288e+14  7.567e+07   -8309294   <2e-16 ***
+inbound_links:keywords:h1                                          4.550e+15  1.912e+08   23800373   <2e-16 ***
+inbound_links:keywords:h2                                         -8.147e+14  3.246e+08   -2509806   <2e-16 ***
+inbound_links:keywords:h3                                         -1.623e+16  2.882e+09   -5631434   <2e-16 ***
+inbound_links:keywords:h4                                         -4.617e+18  1.606e+11  -28748807   <2e-16 ***
+inbound_links:keywords:h5                                                 NA         NA         NA       NA    
+inbound_links:keywords:h6                                                 NA         NA         NA       NA    
+inbound_links:keywords:p                                          -2.161e+15  1.622e+08  -13320035   <2e-16 ***
+inbound_links:keywords:span                                        4.542e+14  4.182e+07   10860911   <2e-16 ***
+inbound_links:root:outbound_links:title                            5.980e+12  8.137e+04   73493149   <2e-16 ***
+inbound_links:root:outbound_links:description                      7.596e+13  1.703e+06   44596852   <2e-16 ***
+inbound_links:root:title:description                               1.018e+15  1.309e+08    7773098   <2e-16 ***
+inbound_links:outbound_links:title:description                     9.916e+13  1.478e+06   67104137   <2e-16 ***
+inbound_links:root:outbound_links:keywords                        -1.224e+14  3.305e+06  -37020604   <2e-16 ***
+inbound_links:root:title:keywords                                 -6.664e+15  3.212e+08  -20746560   <2e-16 ***
+inbound_links:outbound_links:title:keywords                       -3.233e+14  5.955e+06  -54294800   <2e-16 ***
+inbound_links:root:description:keywords                            2.046e+16  9.250e+08   22123609   <2e-16 ***
+inbound_links:outbound_links:description:keywords                 -7.568e+13  1.774e+07   -4266953   <2e-16 ***
+inbound_links:title:description:keywords                          -1.106e+15  1.320e+09    -837699   <2e-16 ***
+inbound_links:root:outbound_links:div                             -2.081e+12  2.193e+05   -9488010   <2e-16 ***
+inbound_links:root:outbound_links:h1                              -5.607e+12  2.762e+05  -20301181   <2e-16 ***
+inbound_links:root:outbound_links:h2                               6.003e+12  1.833e+05   32745856   <2e-16 ***
+inbound_links:root:outbound_links:h3                              -4.132e+12  7.079e+04  -58362759   <2e-16 ***
+inbound_links:root:outbound_links:h4                               1.599e+13  1.777e+06    8999461   <2e-16 ***
+inbound_links:root:outbound_links:h5                              -1.598e+17  5.577e+09  -28646649   <2e-16 ***
+inbound_links:root:outbound_links:h6                               2.357e+14  4.696e+06   50179362   <2e-16 ***
+inbound_links:root:outbound_links:p                                1.209e+12  4.714e+04   25649339   <2e-16 ***
+inbound_links:root:outbound_links:span                            -3.846e+10  1.076e+05    -357499   <2e-16 ***
+inbound_links:root:title:div                                       4.286e+14  1.787e+07   23991099   <2e-16 ***
+inbound_links:root:title:h1                                       -3.902e+14  1.265e+07  -30834483   <2e-16 ***
+inbound_links:root:title:h2                                        3.069e+13  1.378e+07    2226875   <2e-16 ***
+inbound_links:root:title:h3                                       -7.334e+14  2.590e+07  -28320894   <2e-16 ***
+inbound_links:root:title:h4                                        1.083e+16  2.779e+08   38990966   <2e-16 ***
+inbound_links:root:title:h5                                        4.309e+19  1.078e+12   39983474   <2e-16 ***
+inbound_links:root:title:h6                                               NA         NA         NA       NA    
+inbound_links:root:title:p                                        -3.703e+14  3.908e+06  -94731343   <2e-16 ***
+inbound_links:root:title:span                                      2.489e+14  6.156e+06   40427267   <2e-16 ***
+inbound_links:outbound_links:title:div                             3.497e+12  1.567e+05   22312489   <2e-16 ***
+inbound_links:outbound_links:title:h1                             -7.911e+12  2.187e+05  -36173500   <2e-16 ***
+inbound_links:outbound_links:title:h2                             -8.052e+12  2.311e+05  -34848511   <2e-16 ***
+inbound_links:outbound_links:title:h3                             -5.353e+12  2.828e+05  -18931536   <2e-16 ***
+inbound_links:outbound_links:title:h4                              1.289e+14  2.785e+06   46268831   <2e-16 ***
+inbound_links:outbound_links:title:h5                             -8.941e+16  4.569e+09  -19567362   <2e-16 ***
+inbound_links:outbound_links:title:h6                                     NA         NA         NA       NA    
+inbound_links:outbound_links:title:p                              -8.884e+11  1.851e+04  -48002164   <2e-16 ***
+inbound_links:outbound_links:title:span                            3.321e+12  4.627e+04   71766636   <2e-16 ***
+inbound_links:root:description:div                                -2.255e+15  1.569e+08  -14368508   <2e-16 ***
+inbound_links:root:description:h1                                  1.817e+16  7.174e+08   25323469   <2e-16 ***
+inbound_links:root:description:h2                                  4.388e+16  5.930e+08   74007873   <2e-16 ***
+inbound_links:root:description:h3                                  6.257e+13  4.456e+09      14043   <2e-16 ***
+inbound_links:root:description:h4                                 -1.247e+18  1.582e+10  -78812050   <2e-16 ***
+inbound_links:root:description:h5                                  2.671e+19  1.043e+12   25611652   <2e-16 ***
+inbound_links:root:description:h6                                         NA         NA         NA       NA    
+inbound_links:root:description:p                                  -8.298e+15  1.649e+08  -50313087   <2e-16 ***
+inbound_links:root:description:span                               -2.603e+14  1.025e+08   -2539770   <2e-16 ***
+inbound_links:outbound_links:description:div                      -8.111e+12  1.766e+06   -4593123   <2e-16 ***
+inbound_links:outbound_links:description:h1                        1.961e+14  7.207e+06   27210441   <2e-16 ***
+inbound_links:outbound_links:description:h2                        3.359e+14  3.727e+06   90135846   <2e-16 ***
+inbound_links:outbound_links:description:h3                        3.276e+14  4.302e+07    7615717   <2e-16 ***
+inbound_links:outbound_links:description:h4                        4.681e+14  8.320e+07    5626436   <2e-16 ***
+inbound_links:outbound_links:description:h5                       -5.678e+17  1.555e+10  -36521416   <2e-16 ***
+inbound_links:outbound_links:description:h6                               NA         NA         NA       NA    
+inbound_links:outbound_links:description:p                        -3.924e+13  1.035e+06  -37909026   <2e-16 ***
+inbound_links:outbound_links:description:span                     -6.563e+13  9.862e+05  -66543148   <2e-16 ***
+inbound_links:title:description:div                               -3.113e+15  1.776e+08  -17522150   <2e-16 ***
+inbound_links:title:description:h1                                 1.425e+16  6.127e+08   23259522   <2e-16 ***
+inbound_links:title:description:h2                                 1.699e+16  2.608e+08   65151159   <2e-16 ***
+inbound_links:title:description:h3                                 4.409e+16  9.309e+09    4735819   <2e-16 ***
+inbound_links:title:description:h4                                -3.882e+18  6.214e+10  -62468516   <2e-16 ***
+inbound_links:title:description:h5                                 9.863e+19  2.468e+12   39956564   <2e-16 ***
+inbound_links:title:description:h6                                        NA         NA         NA       NA    
+inbound_links:title:description:p                                 -1.115e+16  1.930e+08  -57769649   <2e-16 ***
+inbound_links:title:description:span                              -8.073e+14  5.744e+07  -14055280   <2e-16 ***
+inbound_links:root:keywords:div                                    4.686e+14  1.051e+09     445665   <2e-16 ***
+inbound_links:root:keywords:h1                                    -1.730e+15  7.272e+08   -2379490   <2e-16 ***
+inbound_links:root:keywords:h2                                    -2.591e+15  1.270e+09   -2039986   <2e-16 ***
+inbound_links:root:keywords:h3                                     2.068e+17  1.025e+10   20174599   <2e-16 ***
+inbound_links:root:keywords:h4                                     2.727e+18  4.818e+11    5659729   <2e-16 ***
+inbound_links:root:keywords:h5                                            NA         NA         NA       NA    
+inbound_links:root:keywords:h6                                            NA         NA         NA       NA    
+inbound_links:root:keywords:p                                      8.715e+15  7.700e+08   11318746   <2e-16 ***
+inbound_links:root:keywords:span                                  -6.810e+15  2.495e+08  -27298509   <2e-16 ***
+inbound_links:outbound_links:keywords:div                          1.868e+14  8.559e+06   21821291   <2e-16 ***
+inbound_links:outbound_links:keywords:h1                           3.290e+14  9.156e+06   35935841   <2e-16 ***
+inbound_links:outbound_links:keywords:h2                          -1.454e+14  9.706e+06  -14984523   <2e-16 ***
+inbound_links:outbound_links:keywords:h3                           3.415e+14  9.978e+07    3422026   <2e-16 ***
+inbound_links:outbound_links:keywords:h4                           1.525e+17  3.860e+09   39512904   <2e-16 ***
+inbound_links:outbound_links:keywords:h5                                  NA         NA         NA       NA    
+inbound_links:outbound_links:keywords:h6                                  NA         NA         NA       NA    
+inbound_links:outbound_links:keywords:p                           -8.377e+13  7.902e+06  -10601021   <2e-16 ***
+inbound_links:outbound_links:keywords:span                        -4.432e+13  1.292e+06  -34298827   <2e-16 ***
+inbound_links:title:keywords:div                                   2.514e+16  1.027e+09   24479202   <2e-16 ***
+inbound_links:title:keywords:h1                                   -1.983e+16  8.773e+08  -22598498   <2e-16 ***
+inbound_links:title:keywords:h2                                    7.611e+15  1.545e+09    4924640   <2e-16 ***
+inbound_links:title:keywords:h3                                   -4.629e+16  1.181e+10   -3919820   <2e-16 ***
+inbound_links:title:keywords:h4                                   -1.829e+19  8.169e+11  -22392026   <2e-16 ***
+inbound_links:title:keywords:h5                                           NA         NA         NA       NA    
+inbound_links:title:keywords:h6                                           NA         NA         NA       NA    
+inbound_links:title:keywords:p                                    -5.895e+15  3.090e+08  -19081084   <2e-16 ***
+inbound_links:title:keywords:span                                 -2.578e+15  1.423e+08  -18116576   <2e-16 ***
+inbound_links:description:keywords:div                            -1.085e+15  4.477e+09    -242249   <2e-16 ***
+inbound_links:description:keywords:h1                              2.219e+16  3.547e+09    6254693   <2e-16 ***
+inbound_links:description:keywords:h2                              5.633e+16  3.832e+09   14699344   <2e-16 ***
+inbound_links:description:keywords:h3                              3.981e+17  4.346e+10    9159772   <2e-16 ***
+inbound_links:description:keywords:h4                              4.016e+19  7.916e+11   50732876   <2e-16 ***
+inbound_links:description:keywords:h5                                     NA         NA         NA       NA    
+inbound_links:description:keywords:h6                                     NA         NA         NA       NA    
+inbound_links:description:keywords:p                              -4.592e+15  2.005e+09   -2289952   <2e-16 ***
+inbound_links:description:keywords:span                           -2.190e+16  6.146e+08  -35630788   <2e-16 ***
+inbound_links:root:outbound_links:title:description               -5.784e+14  8.818e+06  -65589351   <2e-16 ***
+inbound_links:root:outbound_links:title:keywords                   1.007e+15  2.129e+07   47282935   <2e-16 ***
+inbound_links:root:outbound_links:description:keywords             6.112e+14  5.228e+07   11691508   <2e-16 ***
+inbound_links:root:title:description:keywords                     -8.474e+16  3.913e+09  -21653169   <2e-16 ***
+inbound_links:outbound_links:title:description:keywords            4.536e+14  8.584e+07    5284032   <2e-16 ***
+inbound_links:root:outbound_links:title:div                        7.792e+12  4.973e+05   15667723   <2e-16 ***
+inbound_links:root:outbound_links:title:h1                         1.153e+13  5.155e+05   22363730   <2e-16 ***
+inbound_links:root:outbound_links:title:h2                        -2.113e+12  4.955e+05   -4264585   <2e-16 ***
+inbound_links:root:outbound_links:title:h3                         9.673e+12  6.801e+05   14223282   <2e-16 ***
+inbound_links:root:outbound_links:title:h4                        -3.945e+14  1.246e+07  -31648668   <2e-16 ***
+inbound_links:root:outbound_links:title:h5                        -3.965e+17  5.118e+09  -77482399   <2e-16 ***
+inbound_links:root:outbound_links:title:h6                                NA         NA         NA       NA    
+inbound_links:root:outbound_links:title:p                          4.952e+10  1.369e+05     361816   <2e-16 ***
+inbound_links:root:outbound_links:title:span                      -5.522e+12  1.863e+05  -29636837   <2e-16 ***
+inbound_links:root:outbound_links:description:div                  4.023e+14  1.347e+07   29860058   <2e-16 ***
+inbound_links:root:outbound_links:description:h1                  -9.699e+14  3.308e+07  -29325305   <2e-16 ***
+inbound_links:root:outbound_links:description:h2                  -1.799e+15  1.986e+07  -90568245   <2e-16 ***
+inbound_links:root:outbound_links:description:h3                   7.762e+14  1.142e+08    6797701   <2e-16 ***
+inbound_links:root:outbound_links:description:h4                   3.109e+16  5.592e+08   55595632   <2e-16 ***
+inbound_links:root:outbound_links:description:h5                   1.856e+18  4.871e+10   38109297   <2e-16 ***
+inbound_links:root:outbound_links:description:h6                          NA         NA         NA       NA    
+inbound_links:root:outbound_links:description:p                    1.535e+14  8.159e+06   18814093   <2e-16 ***
+inbound_links:root:outbound_links:description:span                 1.129e+14  4.943e+06   22851000   <2e-16 ***
+inbound_links:root:title:description:div                           8.374e+15  9.545e+08    8773211   <2e-16 ***
+inbound_links:root:title:description:h1                           -6.072e+16  2.547e+09  -23839304   <2e-16 ***
+inbound_links:root:title:description:h2                           -1.968e+17  2.163e+09  -90977719   <2e-16 ***
+inbound_links:root:title:description:h3                           -9.313e+16  2.999e+10   -3105734   <2e-16 ***
+inbound_links:root:title:description:h4                            1.312e+19  1.966e+11   66723087   <2e-16 ***
+inbound_links:root:title:description:h5                           -2.089e+20  5.804e+12  -35982381   <2e-16 ***
+inbound_links:root:title:description:h6                                   NA         NA         NA       NA    
+inbound_links:root:title:description:p                             3.732e+16  7.871e+08   47413597   <2e-16 ***
+inbound_links:root:title:description:span                         -1.252e+15  2.506e+08   -4996953   <2e-16 ***
+inbound_links:outbound_links:title:description:div                 3.000e+14  1.036e+07   28950565   <2e-16 ***
+inbound_links:outbound_links:title:description:h1                 -9.514e+14  2.495e+07  -38128416   <2e-16 ***
+inbound_links:outbound_links:title:description:h2                 -1.749e+15  2.718e+07  -64339767   <2e-16 ***
+inbound_links:outbound_links:title:description:h3                 -2.795e+15  2.900e+08   -9637346   <2e-16 ***
+inbound_links:outbound_links:title:description:h4                  1.358e+17  2.794e+09   48623281   <2e-16 ***
+inbound_links:outbound_links:title:description:h5                         NA         NA         NA       NA    
+inbound_links:outbound_links:title:description:h6                         NA         NA         NA       NA    
+inbound_links:outbound_links:title:description:p                   2.721e+14  8.931e+06   30473176   <2e-16 ***
+inbound_links:outbound_links:title:description:span                1.071e+14  3.586e+06   29860937   <2e-16 ***
+inbound_links:root:outbound_links:keywords:div                     3.197e+14  8.125e+07    3934749   <2e-16 ***
+inbound_links:root:outbound_links:keywords:h1                     -1.711e+15  4.708e+07  -36347272   <2e-16 ***
+inbound_links:root:outbound_links:keywords:h2                      7.897e+14  3.742e+07   21103978   <2e-16 ***
+inbound_links:root:outbound_links:keywords:h3                     -1.040e+16  3.525e+08  -29507541   <2e-16 ***
+inbound_links:root:outbound_links:keywords:h4                      2.743e+17  1.260e+10   21780095   <2e-16 ***
+inbound_links:root:outbound_links:keywords:h5                             NA         NA         NA       NA    
+inbound_links:root:outbound_links:keywords:h6                             NA         NA         NA       NA    
+inbound_links:root:outbound_links:keywords:p                       4.771e+14  3.933e+07   12130590   <2e-16 ***
+inbound_links:root:outbound_links:keywords:span                    4.675e+14  6.529e+06   71606436   <2e-16 ***
+inbound_links:root:title:keywords:div                             -1.125e+17  4.572e+09  -24597014   <2e-16 ***
+inbound_links:root:title:keywords:h1                               1.689e+16  2.364e+09    7143483   <2e-16 ***
+inbound_links:root:title:keywords:h2                              -3.906e+16  4.203e+09   -9292046   <2e-16 ***
+inbound_links:root:title:keywords:h3                              -3.251e+17  3.735e+10   -8703575   <2e-16 ***
+inbound_links:root:title:keywords:h4                               7.389e+19  2.764e+12   26736906   <2e-16 ***
+inbound_links:root:title:keywords:h5                                      NA         NA         NA       NA    
+inbound_links:root:title:keywords:h6                                      NA         NA         NA       NA    
+inbound_links:root:title:keywords:p                                3.876e+16  1.897e+09   20434640   <2e-16 ***
+inbound_links:root:title:keywords:span                             2.548e+16  9.127e+08   27920222   <2e-16 ***
+inbound_links:outbound_links:title:keywords:div                   -2.696e+15  7.694e+07  -35040254   <2e-16 ***
+inbound_links:outbound_links:title:keywords:h1                    -1.431e+15  3.702e+07  -38659645   <2e-16 ***
+inbound_links:outbound_links:title:keywords:h2                    -2.127e+14  3.809e+07   -5585121   <2e-16 ***
+inbound_links:outbound_links:title:keywords:h3                     2.333e+15  4.933e+08    4728204   <2e-16 ***
+inbound_links:outbound_links:title:keywords:h4                    -1.055e+17  2.366e+09  -44571357   <2e-16 ***
+inbound_links:outbound_links:title:keywords:h5                            NA         NA         NA       NA    
+inbound_links:outbound_links:title:keywords:h6                            NA         NA         NA       NA    
+inbound_links:outbound_links:title:keywords:p                      1.540e+15  3.198e+07   48143564   <2e-16 ***
+inbound_links:outbound_links:title:keywords:span                   2.479e+14  5.777e+06   42920881   <2e-16 ***
+inbound_links:root:description:keywords:div                        4.505e+16  1.253e+10    3594757   <2e-16 ***
+inbound_links:root:description:keywords:h1                        -1.992e+17  1.352e+10  -14726642   <2e-16 ***
+inbound_links:root:description:keywords:h2                        -3.160e+17  1.142e+10  -27663366   <2e-16 ***
+inbound_links:root:description:keywords:h3                        -2.125e+18  1.468e+11  -14476189   <2e-16 ***
+inbound_links:root:description:keywords:h4                        -5.525e+19  2.110e+12  -26187941   <2e-16 ***
+inbound_links:root:description:keywords:h5                                NA         NA         NA       NA    
+inbound_links:root:description:keywords:h6                                NA         NA         NA       NA    
+inbound_links:root:description:keywords:p                          4.639e+16  7.888e+09    5880825   <2e-16 ***
+inbound_links:root:description:keywords:span                       1.170e+17  3.844e+09   30440609   <2e-16 ***
+inbound_links:outbound_links:description:keywords:div             -2.072e+15  1.391e+08  -14890419   <2e-16 ***
+inbound_links:outbound_links:description:keywords:h1              -4.021e+15  1.085e+08  -37045902   <2e-16 ***
+inbound_links:outbound_links:description:keywords:h2               4.807e+14  7.711e+07    6233509   <2e-16 ***
+inbound_links:outbound_links:description:keywords:h3              -3.443e+15  2.072e+09   -1661859   <2e-16 ***
+inbound_links:outbound_links:description:keywords:h4              -1.739e+18  5.451e+10  -31910339   <2e-16 ***
+inbound_links:outbound_links:description:keywords:h5                      NA         NA         NA       NA    
+inbound_links:outbound_links:description:keywords:h6                      NA         NA         NA       NA    
+inbound_links:outbound_links:description:keywords:p               -5.841e+14  1.200e+08   -4866869   <2e-16 ***
+inbound_links:outbound_links:description:keywords:span             1.520e+15  1.623e+07   93649806   <2e-16 ***
+inbound_links:title:description:keywords:div                      -6.506e+17  2.508e+10  -25939383   <2e-16 ***
+inbound_links:title:description:keywords:h1                        1.309e+16  1.355e+10     965909   <2e-16 ***
+inbound_links:title:description:keywords:h2                        2.744e+16  1.903e+10    1441690   <2e-16 ***
+inbound_links:title:description:keywords:h3                       -6.649e+17  1.516e+11   -4384985   <2e-16 ***
+inbound_links:title:description:keywords:h4                               NA         NA         NA       NA    
+inbound_links:title:description:keywords:h5                               NA         NA         NA       NA    
+inbound_links:title:description:keywords:h6                               NA         NA         NA       NA    
+inbound_links:title:description:keywords:p                        -6.029e+16  6.114e+09   -9861293   <2e-16 ***
+inbound_links:title:description:keywords:span                      8.672e+16  2.155e+09   40241764   <2e-16 ***
+inbound_links:root:outbound_links:title:description:keywords       1.445e+15  2.449e+08    5901661   <2e-16 ***
+inbound_links:root:outbound_links:title:description:div           -2.334e+15  7.064e+07  -33036062   <2e-16 ***
+inbound_links:root:outbound_links:title:description:h1             4.129e+15  1.138e+08   36299860   <2e-16 ***
+inbound_links:root:outbound_links:title:description:h2             8.777e+15  1.017e+08   86279726   <2e-16 ***
+inbound_links:root:outbound_links:title:description:h3             6.129e+13  7.229e+08      84780   <2e-16 ***
+inbound_links:root:outbound_links:title:description:h4            -4.514e+17  8.662e+09  -52110427   <2e-16 ***
+inbound_links:root:outbound_links:title:description:h5                    NA         NA         NA       NA    
+inbound_links:root:outbound_links:title:description:h6                    NA         NA         NA       NA    
+inbound_links:root:outbound_links:title:description:p             -1.223e+15  4.775e+07  -25618964   <2e-16 ***
+inbound_links:root:outbound_links:title:description:span           3.914e+14  1.847e+07   21192147   <2e-16 ***
+inbound_links:root:outbound_links:title:keywords:div               6.002e+15  3.506e+08   17116933   <2e-16 ***
+inbound_links:root:outbound_links:title:keywords:h1                7.214e+15  1.729e+08   41725987   <2e-16 ***
+inbound_links:root:outbound_links:title:keywords:h2                7.928e+14  1.219e+08    6503467   <2e-16 ***
+inbound_links:root:outbound_links:title:keywords:h3                2.492e+16  1.481e+09   16824761   <2e-16 ***
+inbound_links:root:outbound_links:title:keywords:h4                       NA         NA         NA       NA    
+inbound_links:root:outbound_links:title:keywords:h5                       NA         NA         NA       NA    
+inbound_links:root:outbound_links:title:keywords:h6                       NA         NA         NA       NA    
+inbound_links:root:outbound_links:title:keywords:p                -7.260e+15  1.606e+08  -45217935   <2e-16 ***
+inbound_links:root:outbound_links:title:keywords:span             -1.887e+15  2.751e+07  -68598191   <2e-16 ***
+inbound_links:root:outbound_links:description:keywords:div        -1.294e+16  6.497e+08  -19918874   <2e-16 ***
+inbound_links:root:outbound_links:description:keywords:h1          1.758e+16  4.688e+08   37496091   <2e-16 ***
+inbound_links:root:outbound_links:description:keywords:h2          1.532e+15  3.279e+08    4672289   <2e-16 ***
+inbound_links:root:outbound_links:description:keywords:h3          6.418e+16  5.945e+09   10795895   <2e-16 ***
+inbound_links:root:outbound_links:description:keywords:h4                 NA         NA         NA       NA    
+inbound_links:root:outbound_links:description:keywords:h5                 NA         NA         NA       NA    
+inbound_links:root:outbound_links:description:keywords:h6                 NA         NA         NA       NA    
+inbound_links:root:outbound_links:description:keywords:p          -1.754e+15  4.539e+08   -3865030   <2e-16 ***
+inbound_links:root:outbound_links:description:keywords:span       -8.047e+15  7.283e+07 -110485392   <2e-16 ***
+inbound_links:root:title:description:keywords:div                  1.740e+18  7.681e+10   22648058   <2e-16 ***
+inbound_links:root:title:description:keywords:h1                   2.373e+17  4.360e+10    5443070   <2e-16 ***
+inbound_links:root:title:description:keywords:h2                   9.113e+17  4.411e+10   20659800   <2e-16 ***
+inbound_links:root:title:description:keywords:h3                   4.646e+18  4.738e+11    9804149   <2e-16 ***
+inbound_links:root:title:description:keywords:h4                          NA         NA         NA       NA    
+inbound_links:root:title:description:keywords:h5                          NA         NA         NA       NA    
+inbound_links:root:title:description:keywords:h6                          NA         NA         NA       NA    
+inbound_links:root:title:description:keywords:p                    3.902e+16  1.970e+10    1980738   <2e-16 ***
+inbound_links:root:title:description:keywords:span                -3.981e+17  1.343e+10  -29630340   <2e-16 ***
+inbound_links:outbound_links:title:description:keywords:div        3.024e+16  8.147e+08   37114757   <2e-16 ***
+inbound_links:outbound_links:title:description:keywords:h1         1.695e+16  3.870e+08   43806908   <2e-16 ***
+inbound_links:outbound_links:title:description:keywords:h2         4.758e+15  2.163e+08   21991113   <2e-16 ***
+inbound_links:outbound_links:title:description:keywords:h3        -1.910e+16  7.817e+09   -2443153   <2e-16 ***
+inbound_links:outbound_links:title:description:keywords:h4                NA         NA         NA       NA    
+inbound_links:outbound_links:title:description:keywords:h5                NA         NA         NA       NA    
+inbound_links:outbound_links:title:description:keywords:h6                NA         NA         NA       NA    
+inbound_links:outbound_links:title:description:keywords:p         -2.748e+15  4.280e+08   -6420463   <2e-16 ***
+inbound_links:outbound_links:title:description:keywords:span      -4.606e+15  6.004e+07  -76715334   <2e-16 ***
+inbound_links:root:outbound_links:title:description:keywords:div  -1.943e+16  2.773e+09   -7009195   <2e-16 ***
+inbound_links:root:outbound_links:title:description:keywords:h1   -6.961e+16  1.653e+09  -42124034   <2e-16 ***
+inbound_links:root:outbound_links:title:description:keywords:h2   -3.543e+16  7.835e+08  -45213448   <2e-16 ***
+inbound_links:root:outbound_links:title:description:keywords:h3   -9.726e+16  2.071e+10   -4695426   <2e-16 ***
+inbound_links:root:outbound_links:title:description:keywords:h4           NA         NA         NA       NA    
+inbound_links:root:outbound_links:title:description:keywords:h5           NA         NA         NA       NA    
+inbound_links:root:outbound_links:title:description:keywords:h6           NA         NA         NA       NA    
+inbound_links:root:outbound_links:title:description:keywords:p     2.473e+16  1.417e+09   17459007   <2e-16 ***
+inbound_links:root:outbound_links:title:description:keywords:span  2.130e+16  2.566e+08   83019337   <2e-16 ***
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+(Dispersion parameter for binomial family taken to be 1)
+
+    Null deviance:  389.7  on 4458  degrees of freedom
+Residual deviance: 2383.2  on 4188  degrees of freedom
+AIC: 2920.9
+
+Number of Fisher Scoring iterations: 25
+
+> predpr<- predict(lm.fit, type=c("index"))
+Error in match.arg(type) : 
+  'arg' should be one of “link”, “response”, “terms”
+> predpr<- predict(lm.fit, type=c("response"))
+> library(pROC)
+Error in library(pROC) : there is no package called ‘pROC’
+> install.packages("pROC")
+Warning in install.packages("pROC") :
+  'lib = "C:/Program Files/R/R-3.3.1/library"' is not writable
+Error in install.packages("pROC") : unable to install packages
+> install.packages("pROC")
+Warning in install.packages("pROC") :
+  'lib = "C:/Program Files/R/R-3.3.1/library"' is not writable
+--- Please select a CRAN mirror for use in this session ---
+also installing the dependencies ‘plyr’, ‘Rcpp’
+
+trying URL 'https://cran.cnr.berkeley.edu/bin/windows/contrib/3.3/plyr_1.8.4.zip'
+Content type 'application/zip' length 1188525 bytes (1.1 MB)
+downloaded 1.1 MB
+
+trying URL 'https://cran.cnr.berkeley.edu/bin/windows/contrib/3.3/Rcpp_0.12.10.zip'
+Content type 'application/zip' length 3316416 bytes (3.2 MB)
+downloaded 3.2 MB
+
+trying URL 'https://cran.cnr.berkeley.edu/bin/windows/contrib/3.3/pROC_1.9.1.zip'
+Content type 'application/zip' length 877935 bytes (857 KB)
+downloaded 857 KB
+
+package ‘plyr’ successfully unpacked and MD5 sums checked
+package ‘Rcpp’ successfully unpacked and MD5 sums checked
+package ‘pROC’ successfully unpacked and MD5 sums checked
+
+The downloaded binary packages are in
+        C:\Users\Guillermo\AppData\Local\Temp\Rtmp44YDcd\downloaded_packages
+> library(pROC)
+Type 'citation("pROC")' for a citation.
+
+Attaching package: ‘pROC’
+
+The following objects are masked from ‘package:stats’:
+
+    cov, smooth, var
+
+Warning message:
+package ‘pROC’ was built under R version 3.3.3 
+> roccurve<- roc(index~predpr)
+Warning message:
+In roc.default(response, m[[predictors]], ...) :
+  'response' has more than two levels. Consider setting 'levels' explicitly or using 'multiclass.roc' instead
+> plot(roccurve)
+> auc(roccurve)
+Area under the curve: 0.4242
